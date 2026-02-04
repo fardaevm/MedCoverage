@@ -1,0 +1,169 @@
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  margin: 0;
+  background: #0b1220;
+  color: #e8eefc;
+}
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 16px 60px;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.sub {
+  opacity: 0.75;
+  font-size: 13px;
+}
+
+.panel {
+  margin-top: 18px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 120px 120px;
+  gap: 10px;
+}
+
+@media (max-width: 720px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+input, select, button {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.25);
+  color: #e8eefc;
+  font-size: 14px;
+  outline: none;
+}
+
+input::placeholder {
+  color: rgba(232,238,252,.55);
+}
+
+button {
+  cursor: pointer;
+  background: #4c7dff;
+  border: 1px solid rgba(255,255,255,.14);
+  font-weight: 700;
+}
+
+button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+.meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.pill {
+  font-size: 12px;
+  opacity: .85;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.10);
+}
+
+.error {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255,75,75,.12);
+  border: 1px solid rgba(255,75,75,.25);
+  color: #ffb3b3;
+  display: none;
+}
+
+.results {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 720px) {
+  .results {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.code {
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+.score {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+               "Liberation Mono", "Courier New";
+  font-size: 12px;
+  opacity: .8;
+}
+
+.title {
+  margin: 10px 0 0;
+  line-height: 1.35;
+}
+
+.small {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  font-size: 12px;
+  opacity: .85;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.22);
+  border: 1px solid rgba(255,255,255,.10);
+}
+
+.footerHint {
+  margin-top: 14px;
+  opacity: .70;
+  font-size: 12px;
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Cost Estimator: Matching test</title>
+
+  <!-- EXACT SAME CSS, now external -->
+  <link rel="stylesheet" href="/home/css/styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>Medical Cost Estimator: matching test</h1>
+      <!-- <div class="sub">Calls <code>/match</code> on FastAPI</div> -->
+    </div>
+
+    <div class="panel">
+      <div class="row">
+        <input id="query" type="text" placeholder='Example: "MRI brain with contrast"' />
+        <select id="topk">
+          <option value="5">Top K: 5</option>
+          <option value="10" selected>Top K: 10</option>
+          <option value="20">Top K: 20</option>
+        </select>
+        <button id="btn">Search</button>
+      </div>
+
+      <div class="meta">
+        <span class="pill" id="statusPill">Ready</span>
+        <span class="pill">API: /match</span>
+      </div>
+
+      <div class="error" id="errorBox"></div>
+      <div class="footerHint">Press Enter to search</div>
+    </div>
+
+    <div class="results" id="results"></div>
+  </div>
+
+  <script src="/home/js/app.js"></script>
+</body>
+</html>
