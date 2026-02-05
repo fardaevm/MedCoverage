@@ -22,12 +22,14 @@ class Matcher:
         out = []
         for faiss_id, score in zip(ids[0].tolist(), scores[0].tolist()):
             row = self.meta.iloc[int(faiss_id)]
-            out.append({
-                "faiss_id": int(faiss_id),
-                "score": float(score),
-                "code": row.get("code"),
-                "title": row.get("title"),
-                "search_text": row.get("search_text"),
-                "category": row.get("category"),
-            })
+            candidate = {
+            "faiss_id": int(faiss_id),
+            "score": float(score),
+            "code": row.get("code"),
+            "title": str(row.get("title")).strip('"').rstrip('.'),
+            "category": row.get("category"),
+            "description": str(row.get("description")).strip('"'),
+            }
+            print("CANDIDATE:", candidate)  
+            out.append(candidate)
         return out
