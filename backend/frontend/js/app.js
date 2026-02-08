@@ -245,6 +245,12 @@ function createCandidateCard(candidate) {
       <span class="tag">${candidate.category ?? "Unknown"}</span>
     </div>
 
+    <div class="price ${candidate.basic_rate == null ? "unavailable" : ""}">
+      ${candidate.basic_rate != null
+        ? "Medi-Cal Rate: $" + Number(candidate.basic_rate).toFixed(2)
+        : "Rate not available"}
+    </div>
+
     <button class="toggleDescr" type="button">Show description</button>
 
     <div class="description" style="display:none;">

@@ -3,12 +3,14 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from pathlib import Path
 from .matcher import Matcher
+from .pricing import PricingLookup
 
 
 app = FastAPI(title="Medical Cost Estimator API")
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-matcher = Matcher(PROJECT_ROOT)
+pricing_lookup = PricingLookup(PROJECT_ROOT)
+matcher = Matcher(PROJECT_ROOT, pricing_lookup)
 
 
 FRONTEND_DIR = PROJECT_ROOT / "backend" / "frontend"

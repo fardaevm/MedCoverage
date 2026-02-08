@@ -211,6 +211,25 @@ button:disabled {
 }
 
 
+.price {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+               "Liberation Mono", "Courier New";
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 8px;
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: #4cc9f0;
+  background-color: rgba(76, 201, 240, 0.1);
+}
+
+.price.unavailable {
+  font-weight: 400;
+  color: rgba(232, 238, 252, 0.45);
+  background-color: transparent;
+}
+
 .description {
   margin-top: 8px;
   font-size: 13px;
