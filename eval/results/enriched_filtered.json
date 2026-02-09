@@ -1,0 +1,529 @@
+{
+  "config": {
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
+    "top_k": 10,
+    "n_queries": 25,
+    "label": "baseline"
+  },
+  "summary": {
+    "hit@5": 0.72,
+    "hit@10": 0.96,
+    "mrr": 0.5537142857142857,
+    "recall@10": 0.8666666666666667
+  },
+  "results": [
+    {
+      "query": "mammogram",
+      "verbosity": "direct",
+      "expected": [
+        "77065",
+        "77066",
+        "77067"
+      ],
+      "returned_top5": [
+        "77046",
+        "77048",
+        "77049",
+        "77047",
+        "77067"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 0.2,
+      "recall@k": 1.0,
+      "first_hit_rank": 5
+    },
+    {
+      "query": "breast MRI",
+      "verbosity": "direct",
+      "expected": [
+        "77046",
+        "77047"
+      ],
+      "returned_top5": [
+        "77046",
+        "77047",
+        "77049",
+        "77048",
+        "77066"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 1.0,
+      "recall@k": 1.0,
+      "first_hit_rank": 1
+    },
+    {
+      "query": "breast ultrasound",
+      "verbosity": "direct",
+      "expected": [
+        "76641",
+        "76642"
+      ],
+      "returned_top5": [
+        "76642",
+        "77047",
+        "76641",
+        "77046",
+        "77049"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 1.0,
+      "recall@k": 1.0,
+      "first_hit_rank": 1
+    },
+    {
+      "query": "breast biopsy",
+      "verbosity": "direct",
+      "expected": [
+        "19081",
+        "19082",
+        "19083",
+        "19084"
+      ],
+      "returned_top5": [
+        "19086",
+        "19082",
+        "19101",
+        "19081",
+        "19085"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 0.5,
+      "recall@k": 1.0,
+      "first_hit_rank": 2
+    },
+    {
+      "query": "3D mammogram",
+      "verbosity": "direct",
+      "expected": [
+        "77063"
+      ],
+      "returned_top5": [
+        "77048",
+        "77049",
+        "77046",
+        "77067",
+        "77063"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 0.2,
+      "recall@k": 1.0,
+      "first_hit_rank": 5
+    },
+    {
+      "query": "screening mammogram",
+      "verbosity": "direct",
+      "expected": [
+        "77065",
+        "77066",
+        "77067"
+      ],
+      "returned_top5": [
+        "77067",
+        "77048",
+        "77046",
+        "77049",
+        "77047"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 1.0,
+      "recall@k": 1.0,
+      "first_hit_rank": 1
+    },
+    {
+      "query": "diagnostic mammogram",
+      "verbosity": "direct",
+      "expected": [
+        "77065",
+        "77066"
+      ],
+      "returned_top5": [
+        "77046",
+        "77048",
+        "77047",
+        "77049",
+        "77067"
+      ],
+      "hit@5": false,
+      "hit@10": true,
+      "mrr": 0.14285714285714285,
+      "recall@k": 1.0,
+      "first_hit_rank": 7
+    },
+    {
+      "query": "is a mammogram covered",
+      "verbosity": "short",
+      "expected": [
+        "77065",
+        "77066",
+        "77067"
+      ],
+      "returned_top5": [
+        "77046",
+        "77047",
+        "77049",
+        "77048",
+        "77061"
+      ],
+      "hit@5": false,
+      "hit@10": true,
+      "mrr": 0.16666666666666666,
+      "recall@k": 0.6666666666666666,
+      "first_hit_rank": 6
+    },
+    {
+      "query": "what does medi-cal pay for a breast MRI",
+      "verbosity": "short",
+      "expected": [
+        "77046",
+        "77047"
+      ],
+      "returned_top5": [
+        "77066",
+        "S8080",
+        "77049",
+        "77065",
+        "77048"
+      ],
+      "hit@5": false,
+      "hit@10": true,
+      "mrr": 0.16666666666666666,
+      "recall@k": 1.0,
+      "first_hit_rank": 6
+    },
+    {
+      "query": "is a breast biopsy covered by medi-cal",
+      "verbosity": "short",
+      "expected": [
+        "19081",
+        "19082",
+        "19083",
+        "19084"
+      ],
+      "returned_top5": [
+        "19086",
+        "19082",
+        "19081",
+        "19085",
+        "19084"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 0.5,
+      "recall@k": 1.0,
+      "first_hit_rank": 2
+    },
+    {
+      "query": "does medi-cal cover breast ultrasound",
+      "verbosity": "short",
+      "expected": [
+        "76641",
+        "76642"
+      ],
+      "returned_top5": [
+        "76642",
+        "76983",
+        "19286",
+        "19083",
+        "77047"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 1.0,
+      "recall@k": 0.5,
+      "first_hit_rank": 1
+    },
+    {
+      "query": "is a 3D mammogram covered",
+      "verbosity": "short",
+      "expected": [
+        "77063"
+      ],
+      "returned_top5": [
+        "77049",
+        "77048",
+        "77046",
+        "77047",
+        "77067"
+      ],
+      "hit@5": false,
+      "hit@10": true,
+      "mrr": 0.16666666666666666,
+      "recall@k": 1.0,
+      "first_hit_rank": 6
+    },
+    {
+      "query": "what does medi-cal pay for a mammogram with contrast",
+      "verbosity": "short",
+      "expected": [
+        "77048",
+        "77049"
+      ],
+      "returned_top5": [
+        "77046",
+        "77047",
+        "70544",
+        "70480",
+        "C8905"
+      ],
+      "hit@5": false,
+      "hit@10": true,
+      "mrr": 0.1,
+      "recall@k": 0.5,
+      "first_hit_rank": 10
+    },
+    {
+      "query": "how much does medi-cal cover for a screening mammogram",
+      "verbosity": "short",
+      "expected": [
+        "77065",
+        "77066",
+        "77067"
+      ],
+      "returned_top5": [
+        "77067",
+        "77046",
+        "77065",
+        "A9580",
+        "77066"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 1.0,
+      "recall@k": 1.0,
+      "first_hit_rank": 1
+    },
+    {
+      "query": "I need a mammogram, my last one was 3 years ago, is it covered?",
+      "verbosity": "conversational",
+      "expected": [
+        "77065",
+        "77066",
+        "77067"
+      ],
+      "returned_top5": [
+        "77046",
+        "77047",
+        "77048",
+        "77049",
+        "19282"
+      ],
+      "hit@5": false,
+      "hit@10": true,
+      "mrr": 0.16666666666666666,
+      "recall@k": 0.3333333333333333,
+      "first_hit_rank": 6
+    },
+    {
+      "query": "my doctor wants me to get a breast MRI, does medi-cal cover that?",
+      "verbosity": "conversational",
+      "expected": [
+        "77046",
+        "77047"
+      ],
+      "returned_top5": [
+        "77046",
+        "19085",
+        "19086",
+        "77047",
+        "77048"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 1.0,
+      "recall@k": 1.0,
+      "first_hit_rank": 1
+    },
+    {
+      "query": "I was told I need a biopsy on my breast, is that covered by medi-cal?",
+      "verbosity": "conversational",
+      "expected": [
+        "19081",
+        "19082",
+        "19083",
+        "19084"
+      ],
+      "returned_top5": [
+        "19086",
+        "19082",
+        "19084",
+        "19081",
+        "19085"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 0.5,
+      "recall@k": 1.0,
+      "first_hit_rank": 2
+    },
+    {
+      "query": "I need to get a follow up mammogram after some abnormal results, is it covered?",
+      "verbosity": "conversational",
+      "expected": [
+        "77065",
+        "77066"
+      ],
+      "returned_top5": [
+        "19282",
+        "19086",
+        "77046",
+        "19085",
+        "19082"
+      ],
+      "hit@5": false,
+      "hit@10": false,
+      "mrr": 0.0,
+      "recall@k": 0.0,
+      "first_hit_rank": null
+    },
+    {
+      "query": "my doctor recommended a breast ultrasound to check something, will medi-cal pay for it?",
+      "verbosity": "conversational",
+      "expected": [
+        "76641",
+        "76642"
+      ],
+      "returned_top5": [
+        "76642",
+        "76983",
+        "19084",
+        "19083",
+        "76982"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 1.0,
+      "recall@k": 1.0,
+      "first_hit_rank": 1
+    },
+    {
+      "query": "I'm 45 and haven't had a mammogram in a while, does medi-cal cover annual screening?",
+      "verbosity": "conversational",
+      "expected": [
+        "77065",
+        "77066",
+        "77067"
+      ],
+      "returned_top5": [
+        "77067",
+        "S0613",
+        "77046",
+        "S8080",
+        "77047"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 1.0,
+      "recall@k": 1.0,
+      "first_hit_rank": 1
+    },
+    {
+      "query": "I got referred for a 3D mammogram, is that something medi-cal pays for?",
+      "verbosity": "conversational",
+      "expected": [
+        "77063"
+      ],
+      "returned_top5": [
+        "76376",
+        "77048",
+        "77067",
+        "77049",
+        "77063"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 0.2,
+      "recall@k": 1.0,
+      "first_hit_rank": 5
+    },
+    {
+      "query": "I have a family history of breast cancer and my doctor said I should get a breast MRI every year, I have medi-cal, is that covered?",
+      "verbosity": "verbose",
+      "expected": [
+        "77046",
+        "77047"
+      ],
+      "returned_top5": [
+        "19086",
+        "19085",
+        "77046",
+        "77048",
+        "77066"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 0.3333333333333333,
+      "recall@k": 1.0,
+      "first_hit_rank": 3
+    },
+    {
+      "query": "I just turned 40 and I know I'm supposed to start getting mammograms, I'm on medi-cal and want to know if they cover it and how much they pay",
+      "verbosity": "verbose",
+      "expected": [
+        "77065",
+        "77066",
+        "77067"
+      ],
+      "returned_top5": [
+        "77046",
+        "77067",
+        "92015",
+        "77090",
+        "77047"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 0.5,
+      "recall@k": 0.6666666666666666,
+      "first_hit_rank": 2
+    },
+    {
+      "query": "my last mammogram showed something and now they want me to do an ultrasound guided biopsy, will medi-cal cover the biopsy?",
+      "verbosity": "verbose",
+      "expected": [
+        "19083",
+        "19084"
+      ],
+      "returned_top5": [
+        "19084",
+        "19083",
+        "19086",
+        "19082",
+        "19085"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 1.0,
+      "recall@k": 1.0,
+      "first_hit_rank": 1
+    },
+    {
+      "query": "I need to get a mammogram done and also maybe a breast ultrasound, I want to know what medi-cal will pay for both of those",
+      "verbosity": "verbose",
+      "expected": [
+        "76641",
+        "76642",
+        "77065",
+        "77066",
+        "77067"
+      ],
+      "returned_top5": [
+        "76642",
+        "77046",
+        "76641",
+        "77067",
+        "77048"
+      ],
+      "hit@5": true,
+      "hit@10": true,
+      "mrr": 1.0,
+      "recall@k": 1.0,
+      "first_hit_rank": 1
+    }
+  ]
+}
