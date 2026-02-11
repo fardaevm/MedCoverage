@@ -123,14 +123,26 @@ button:disabled {
   padding: 14px;
   display: flex;
   flex-direction: column;
-  max-height: 300px; /* optional */
-  overflow: hidden; /* hide overflowing text by default */
+  max-height: 300px; 
+  overflow: hidden; 
+}
+
+.card.descOpen {
+  max-height: none !important;
+  overflow: visible !important;
 }
 
 .card .description {
-  overflow: auto; /* allow scrolling when expanded */
-  max-height: 150px; /* optional */
+  overflow: auto; 
+  max-height: 150px; 
 }
+
+.card.descOpen .description {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+
 .cardTop {
   display: flex;
   justify-content: space-between;
@@ -144,14 +156,14 @@ button:disabled {
   letter-spacing: .2px;
 }
 
-.score {
+/* .score {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
                "Liberation Mono", "Courier New";
   font-size: 12px;
   opacity: .8;
   text-align: right;
   min-width: 50px;
-}
+} */
 
 .title {
   margin: 2px 0 ;
@@ -184,14 +196,14 @@ button:disabled {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
                "Liberation Mono", "Courier New";
   font-size: 12px;
-  opacity: 0.85;                /* slightly more visible than current .8 */
-  color: #2a9d8f;               /* teal-ish color to pop against dark bg */
+  opacity: 0.85;               
+  color: #2a9d8f;              
   font-weight: 600;
   margin-top: 6px;
   display: inline-block;
   padding: 2px 6px;
   border-radius: 6px;
-  background-color: rgba(42, 157, 143, 0.1);  /* subtle light teal pill */
+  background-color: rgba(42, 157, 143, 0.1);  
 }
 
 
@@ -230,12 +242,8 @@ button:disabled {
   background-color: transparent;
 }
 
-.description {
-  margin-top: 8px;
-  font-size: 13px;
-  line-height: 1.4;
-  color: rgba(232,238,252,0.85);
-}
+.description[hidden] { display: none !important; }
+.description { display: block; margin-top: 8px; font-size: 13px; line-height: 1.4; color: rgba(232,238,252,0.85); }
 
 .toggleDescr {
   margin-top: 6px;
@@ -248,9 +256,7 @@ button:disabled {
   cursor: pointer;
 }
 
-.toggleDescr:hover {
-  background: rgba(76,125,255,0.3);
-}
+.toggleDescr:hover { background: rgba(76,125,255,0.3); }
 
 /* .selectBtn {
   position: absolute;
@@ -275,6 +281,7 @@ button:disabled {
 /* =========================================
    Selected card (full-width, centered)
    ========================================= */
+
 
 #results .card {
   transition: transform 180ms ease, opacity 180ms ease;

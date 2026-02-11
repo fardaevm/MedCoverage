@@ -19,9 +19,8 @@
       <div class="row">
         <input id="query" type="text" placeholder='Example: "MRI brain with contrast"' />
         <select id="topk">
-          <option value="5">Top K: 5</option>
-          <option value="10" selected>Top K: 10</option>
-          <option value="20">Top K: 20</option>
+          <option value="2">Top-k: 2</option>
+          <option value="5" selected>Top-k: 5</option>
         </select>
         <button id="btn">Search</button>
       </div>
@@ -38,6 +37,6 @@
     <div class="results" id="results"></div>
   </div>
 
-  <script src="/home/js/app.js"></script>
+  <script type="module" src="/home/js/app.js"></script>
 </body>
 </html>

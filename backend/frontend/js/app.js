@@ -1,3 +1,6 @@
+// frontend/js/app.js
+import { fetchEligibilityQuestions, insertInlineDetails } from "/home/js/eligibility.js";
+
 const queryEl = document.getElementById("query");
 const topkEl = document.getElementById("topk");
 const btnEl = document.getElementById("btn");
@@ -5,6 +8,8 @@ const resultsEl = document.getElementById("results");
 const errorBox = document.getElementById("errorBox");
 
 let selectedCode = null;
+
+let eligibilityAbort = null;
 
 /* -----------------------------
    Helpers
@@ -95,115 +100,15 @@ function collapseSelection() {
   });
 }
 
-function insertInlineDetails(cardEl) {
-  removeInlineDetails(cardEl);
-  removeInlineOutcome(cardEl);
-
-  const details = document.createElement("div");
-  details.className = "cardDetails";
-
-  details.innerHTML = `
-    <div class="detailsHeader">
-      <button type="button" class="changeSelectionBtn">Change selection</button>
-    </div>
-
-    <div class="detailsBody">
-      <div class="detailsSub">Do any of these apply to you?</div>
-
-      <div class="detailsText">
-        <label class="checkRow">
-          <input type="checkbox" id="hasInsurance" name="q" value="insurance" />
-          <span>
-            You've already used two outpatient therapy services (acupuncture, chirpractic, speech therapy) this calendar month
-          </span>
-
-        </label>
-
-        <label class="checkRow">
-          <input type="checkbox" id="appt2w" name="q" value="appt_2w" />
-          <span>You don't have an appointment within 2 weeks</span>
-        </label>
-
-        <label class="checkRow">
-          <input type="checkbox" id="neitherApply" name="q" value="neither" />
-          <span>Neither apply</span>
-        </label>
-      </div>
-
-      <button class="primaryBtn" id="continueBtn" type="button">Continue</button>
-    </div>
-  `;
-
-  // Insert below description
-  const descr = cardEl.querySelector(".description");
-  if (descr) descr.insertAdjacentElement("afterend", details);
-  else cardEl.appendChild(details);
-
-  // Wire Change selection
-  const changeBtn = details.querySelector(".changeSelectionBtn");
-  changeBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    collapseSelection();
-  });
-
-  // Mutual exclusivity: "Neither apply" vs others
-  const cbInsurance = details.querySelector("#hasInsurance");
-  const cbNew = details.querySelector("#newPatient");
-  const cbAppt = details.querySelector("#appt2w");
-  const cbNeither = details.querySelector("#neitherApply");
-
-  const otherCbs = [cbInsurance, cbNew, cbAppt].filter(Boolean);
-
-  function clearOutcomeOnChange() {
-    removeInlineOutcome(cardEl);
-  }
-
-  if (cbNeither) {
-    cbNeither.addEventListener("change", () => {
-      clearOutcomeOnChange();
-      if (cbNeither.checked) {
-        otherCbs.forEach(cb => (cb.checked = false));
-      }
-    });
-  }
-
-  otherCbs.forEach(cb => {
-    cb.addEventListener("change", () => {
-      clearOutcomeOnChange();
-      if (cb.checked && cbNeither) cbNeither.checked = false;
-    });
-  });
-
-  // Continue logic:
-  // - neither checked => Covered
-  // - any other checked => Not covered
-  // - nothing checked => prompt
-  const continueBtn = details.querySelector("#continueBtn");
-  continueBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-
-    const neither = cbNeither?.checked === true;
-    const anyOtherChecked = otherCbs.some(cb => cb.checked);
-
-    if (neither) {
-      showCoveredOutcome(cardEl, "Covered");
-      return;
-    }
-
-    if (anyOtherChecked) {
-      showNotCoveredOutcome(cardEl, "Not covered");
-      return;
-    }
-
-    showNotCoveredOutcome(cardEl, "Please select an option to continue.");
-  });
-}
-
 /* -----------------------------
    Selection logic
 ------------------------------ */
-function selectCard(cardEl, candidate) {
+async function selectCard(cardEl, candidate) {
   selectedCode = candidate.code ?? candidate.id ?? candidate.title ?? "selected";
+
+  // cancel any in-flight request from prior selection
+  if (eligibilityAbort) eligibilityAbort.abort();
+  eligibilityAbort = new AbortController();
 
   const cards = resultsEl.querySelectorAll(".card");
   cards.forEach(card => {
@@ -218,8 +123,56 @@ function selectCard(cardEl, candidate) {
     }
   });
 
-  insertInlineDetails(cardEl);
-  cardEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  removeInlineDetails(cardEl);
+  removeInlineOutcome(cardEl);
+
+  const loading = document.createElement("div");
+  loading.className = "cardDetails";
+  loading.innerHTML = `
+    <div class="detailsHeader">
+      <button type="button" class="changeSelectionBtn">Change selection</button>
+    </div>
+    <div class="detailsBody">
+      <div class="detailsSub">Loading eligibility questions...</div>
+    </div>
+  `;
+
+  const descr = cardEl.querySelector(".description");
+  if (descr) descr.insertAdjacentElement("afterend", loading);
+  else cardEl.appendChild(loading);
+
+  loading.querySelector(".changeSelectionBtn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (eligibilityAbort) eligibilityAbort.abort();
+    eligibilityAbort = null;
+    collapseSelection();
+  });
+
+  try {
+    const userText = queryEl.value.trim();
+    const top_k = parseInt(topkEl.value, 10) || 10;
+
+    // IMPORTANT: pass signal to fetchEligibilityQuestions
+    const payload = await fetchEligibilityQuestions(candidate, userText, top_k, eligibilityAbort.signal);
+
+    // if user already changed selection, ignore late response
+    if (!cardEl.classList.contains("selected")) return;
+
+    insertInlineDetails(cardEl, payload, {
+      candidate,
+      queryEl,
+      topkEl,
+      removeInlineDetails,
+      removeInlineOutcome,
+      showCoveredOutcome,
+      showNotCoveredOutcome,
+      collapseSelection
+    });
+  } catch (err) {
+    if (err?.name === "AbortError") return; // user changed selection -> stop silently
+    showError(err?.message || String(err));
+    removeInlineDetails(cardEl);
+  }
 }
 
 /* -----------------------------
@@ -228,17 +181,31 @@ function selectCard(cardEl, candidate) {
 function createCandidateCard(candidate) {
   const scoreClass = getScoreClass(candidate.score);
 
+  const rerank =
+  typeof candidate.rerank_score === "number"
+    ? candidate.rerank_score.toFixed(3)
+    : null;
+
+  const desc =
+    typeof candidate.description === "string" &&
+    candidate.description.trim() &&
+    !["none","nan","null","undefined"].includes(candidate.description.trim().toLowerCase())
+      ? candidate.description
+      : "No description available.";
+
   const card = document.createElement("div");
   card.className = "card";
   card.dataset.code = candidate.code ?? "";
   card.dataset.title = candidate.title ?? "";
 
+
   card.innerHTML = `
     <div class="cardTop">
       <div class="title">${candidate.title ?? "No title"}</div>
-      <div class="score ${scoreClass}">
+      ${rerank ? `<div class="score high">Rerank: ${rerank}</div>` : ``}
+      <!--<div class="score ${scoreClass}">
         Score: ${typeof candidate.score === "number" ? candidate.score.toFixed(3) : "N/A"}
-      </div>
+      </div>-->
     </div>
 
     <div class="small">
@@ -253,20 +220,29 @@ function createCandidateCard(candidate) {
 
     <button class="toggleDescr" type="button">Show description</button>
 
-    <div class="description" style="display:none;">
-      ${candidate.description ?? "No description available."}
+    <div class="description" hidden>
+      <div>${desc}</div>
+      <div style="margin-top:10px;opacity:.75;font-size:12px">
+        CPT/HCPCS: <span style="font-weight:800">${candidate.code ?? "—"}</span>
+      </div>
     </div>
   `;
 
   // Toggle description visibility (prevent select)
   const toggleBtn = card.querySelector(".toggleDescr");
   const descr = card.querySelector(".description");
+
   toggleBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    const hidden = descr.style.display === "none";
-    descr.style.display = hidden ? "block" : "none";
-    toggleBtn.textContent = hidden ? "Hide description" : "Show description";
+    const willShow = descr.hasAttribute("hidden");
+    if (willShow) descr.removeAttribute("hidden");
+    else descr.setAttribute("hidden", "");
+
+    card.classList.toggle("descOpen", willShow);
+    toggleBtn.textContent = willShow ? "Hide description" : "Show description";
+    toggleBtn.setAttribute("aria-expanded", String(willShow));
   });
+
 
   // Select on card click (except button clicks)
   card.addEventListener("click", (e) => {
@@ -276,6 +252,7 @@ function createCandidateCard(candidate) {
     if (e.target.closest(".changeSelectionBtn")) return;
     if (e.target.closest(".primaryBtn")) return;
 
+    // Async selection (fetches questions)
     selectCard(card, candidate);
   });
 

@@ -57,7 +57,7 @@ def main() -> None:
     faiss.write_index(index, str(index_path))
 
     # Keep only what you need at inference time
-    meta_cols = [c for c in ["search_text", "description","code", "title", "type", "category"] if c in df.columns]
+    meta_cols = [c for c in ["search_text", "description", "code", "title", "type", "category"] if c in df.columns]
     meta = df[meta_cols].copy()
     meta.insert(0, "faiss_id", np.arange(len(meta), dtype=np.int64))
 
