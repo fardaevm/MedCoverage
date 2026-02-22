@@ -537,3 +537,31 @@ button:disabled {
   border: 1px solid rgba(80, 255, 160, 0.25);
   background: rgba(80, 255, 160, 0.08);
 }
+
+/* =========================================
+   DEV: question label badges
+   ========================================= */
+.labelBadge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  margin-left: auto;
+  flex-shrink: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.labelBadge.standalone {
+  color: #50ffa0;
+  background: rgba(80, 255, 160, 0.10);
+  border: 1px solid rgba(80, 255, 160, 0.22);
+}
+
+.labelBadge.conditional {
+  color: rgba(232, 238, 252, 0.35);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}

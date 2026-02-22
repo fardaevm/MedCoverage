@@ -1,5 +1,24 @@
 .env
 .pyc
 
+# macOS
 .DS_Store
-**/.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Poetry
+*.lock
+
+# Data
+backend/data/
+data/
+
+# LanceDB
+*.lance
+*_transactions/
+*_versions/
+
+# Cache
+*.json

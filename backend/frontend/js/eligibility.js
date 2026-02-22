@@ -1,7 +1,7 @@
 // frontend/js/eligibility.js
 
 
-export async function fetchEligibilityQuestions(candidate, userText, top_k = 10) {
+export async function fetchEligibilityQuestions(candidate, userText, top_k = 10, signal = null) {
   const res = await fetch("/eligibility/questions", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -9,20 +9,26 @@ export async function fetchEligibilityQuestions(candidate, userText, top_k = 10)
       user_text: userText || null,
       selected: candidate,
       top_k
-    })
+    }),
+    ...(signal ? { signal } : {})
   });
   if (!res.ok) throw new Error(await res.text());
   return await res.json();
 }
 
 export async function fetchEligibilityDecision(candidate, userText, questions, answers, none_apply, top_k = 10) {
+  // Normalize: ensure questions are {text, label} objects (handles string fallback)
+  const normalizedQuestions = (Array.isArray(questions) ? questions : []).map(q =>
+    typeof q === "string" ? { text: q, label: 1 } : q
+  );
+
   const res = await fetch("/eligibility/decision", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       user_text: userText || null,
       selected: candidate,
-      questions: Array.isArray(questions) ? questions : [],
+      questions: normalizedQuestions,
       answers: Array.isArray(answers) ? answers : [],
       none_apply: !!none_apply,
       top_k
@@ -52,20 +58,23 @@ export function parseQuestionsText(questionsText) {
 
 export function renderQuestionsCheckboxes(questions) {
   const safeQs = Array.isArray(questions) ? questions : [];
-  const rows = safeQs.map((q, idx) => `
+  const rows = safeQs.map((q, idx) => {
+    const text = typeof q === "string" ? q : (q.text || String(q));
+    return `
     <label class="checkRow">
       <input type="checkbox" data-qindex="${idx}" />
-      <span>${q}</span>
+      <span>${text}</span>
     </label>
-  `).join("");
+  `;
+  }).join("");
 
   return `
-    <div class="detailsSub">Do any of these apply to you?</div>
+    <div class="detailsSub">Which of these describes you? Check all that apply.</div>
     <div class="detailsText">
-      ${rows || `<div class="small">No questions found.</div>`}
+      ${rows || `<div class="small">No pathways found.</div>`}
       <label class="checkRow">
         <input type="checkbox" id="neitherApply" />
-        <span>None apply</span>
+        <span>None of these apply to me</span>
       </label>
     </div>
   `;

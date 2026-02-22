@@ -8,7 +8,7 @@ def invoke_ai(system_message: str, user_message: str) -> str:
     Replace this if you want to use a different AI model.
     """
 
-    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])  
+    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     response = client.chat.completions.create(
         model="gpt-5-mini",
         messages=[

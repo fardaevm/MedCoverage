@@ -4,6 +4,7 @@ load_dotenv()
 from pathlib import Path
 from typing import List, Optional
 import json
+import re
 
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
@@ -49,6 +50,28 @@ def create_pipeline() -> RAGPipeline:
 rag_pipeline = create_pipeline()
 
 # -------------------------
+# Question cache (file-backed so it survives uvicorn --reload)
+# -------------------------
+_CACHE_FILE = Path(PROJECT_ROOT / "backend" / "data" / ".questions_cache.json")
+
+def _load_cache() -> dict:
+    try:
+        if _CACHE_FILE.exists():
+            return json.loads(_CACHE_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        pass
+    return {}
+
+def _save_cache(cache: dict) -> None:
+    try:
+        _CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        _CACHE_FILE.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
+    except Exception:
+        pass
+
+_questions_cache: dict = _load_cache()
+
+# -------------------------
 # API Models
 # -------------------------
 class MatchRequest(BaseModel):
@@ -74,10 +97,15 @@ class EligibilityRequest(BaseModel):
     top_k: int = 10
 
 
+class QuestionItem(BaseModel):
+    text: str
+    label: int = 1  # 0 = standalone (alone decides coverage), 1 = conditional (needs combination)
+
+
 class EligibilityDecisionRequest(BaseModel):
     user_text: Optional[str] = None
     selected: SelectedProcedure
-    questions: List[str] = Field(default_factory=list)
+    questions: List[QuestionItem] = Field(default_factory=list)
     answers: List[bool] = Field(default_factory=list)
     none_apply: bool = False
     top_k: int = 10
@@ -105,9 +133,37 @@ def match(req: MatchRequest):
 @app.post("/eligibility/questions")
 def eligibility_questions(req: EligibilityRequest):
     selected = req.selected
+    cache_key = selected.code
+
+    if cache_key in _questions_cache:
+        cached = _questions_cache[cache_key]
+        return {
+            "selected": selected.model_dump(),
+            "query_used": cached["query_used"],
+            "questions_text": cached["questions_text"],
+            "title": cached["title"],
+            "questions": cached["questions"],
+        }
+
     query_used = _build_eligibility_query(selected, req.user_text)
     questions_text = rag_pipeline.process_query(query_used)
-    return {"selected": selected.model_dump(), "query_used": query_used, "questions_text": questions_text}
+    parsed = _parse_questions_text(questions_text)
+
+    _questions_cache[cache_key] = {
+        "query_used": query_used,
+        "questions_text": questions_text,
+        "title": parsed["title"],
+        "questions": parsed["questions"],
+    }
+    _save_cache(_questions_cache)
+
+    return {
+        "selected": selected.model_dump(),
+        "query_used": query_used,
+        "questions_text": questions_text,
+        "title": parsed["title"],
+        "questions": parsed["questions"],
+    }
 
 
 @app.post("/eligibility/decision")
@@ -118,13 +174,24 @@ def eligibility_decision(req: EligibilityDecisionRequest):
         Procedure code: {selected.code}
         Description: {selected.description}
         """
+
+    question_texts = [q.text for q in req.questions]
+    question_labels = [q.label for q in req.questions]
+
+    # Pre-check: any standalone (label=0) question answered YES → deterministically covered
+    label0_covered = any(
+        label == 0 and answer
+        for label, answer in zip(question_labels, req.answers)
+    )
+
     context = rag_pipeline.retrieve_context(query_used, top_k=req.top_k)
     rg = rag_pipeline.response_generator
 
     raw = rg.generate_decision(
         query=query_used,
         context=context,
-        questions=req.questions,
+        questions=question_texts,
+        labels=question_labels,
         answers=req.answers,
         none_apply=req.none_apply,
     )
@@ -143,12 +210,20 @@ def eligibility_decision(req: EligibilityDecisionRequest):
     except Exception:
         pass
 
+    # Override: a standalone (label=0) question answered YES guarantees coverage unconditionally
+    if label0_covered:
+        decision = "covered"
+
     confidence = rule_confidence(
-    questions=req.questions,
-    answers=req.answers,
-    none_apply=req.none_apply,
-    llm_decision=decision,
+        questions=question_texts,
+        answers=req.answers,
+        none_apply=req.none_apply,
+        llm_decision=decision,
     )
+
+    # Boost confidence for deterministic label=0 coverage
+    if label0_covered and decision == "covered":
+        confidence = max(confidence, 0.90)
 
     return {
         "selected": selected.model_dump(),
@@ -191,21 +266,100 @@ def rag_index():
     return {"status": "ok", "indexed": len(paths)}
 
 
+def _extract_question_text(content: str) -> str:
+    """Extract plain-text question from various LLM output formats.
+
+    Handles:
+      - Full JSON object:     {"label": 1, "text": "question?"}
+      - Quoted text field:    "text": "question?"
+      - Unquoted text field:  "text": question?
+      - Plain text fallback:  question text
+    """
+    stripped = content.strip()
+    # Try full JSON object
+    try:
+        obj = json.loads(stripped)
+        if isinstance(obj, dict) and "text" in obj:
+            return str(obj["text"]).strip()
+    except Exception:
+        pass
+    # Try "text": "..." pattern
+    m = re.search(r'"text"\s*:\s*"([^"]+)"', stripped)
+    if m:
+        return m.group(1).strip()
+    # Try "text": value (unquoted)
+    m = re.search(r'"text"\s*:\s*(.+?)(?:,\s*"|\s*\}|$)', stripped)
+    if m:
+        return m.group(1).strip().strip('"')
+    return stripped
+
+
+def _parse_questions_text(raw: str) -> dict:
+    """Parse LLM output into {title, questions: [{text, label}]}.
+
+    Handles new Pathways: format (all label=0) and old Questions: JSON format as fallback.
+    """
+    lines = [l.strip() for l in raw.split("\n") if l.strip()]
+
+    title = "Coverage pathways"
+    for line in lines:
+        if line.lower().startswith("title:"):
+            title = line.split(":", 1)[1].strip()
+            break
+
+    # Try new Pathways: format first
+    questions: List[dict] = []
+    in_pathways = False
+    for line in lines:
+        low = line.lower().rstrip(":")
+        if low == "pathways":
+            in_pathways = True
+            continue
+        if low in {"questions", "title"}:
+            in_pathways = False
+            continue
+        if in_pathways and line.startswith("- "):
+            text = line[2:].strip()
+            if text:
+                questions.append({"text": text, "label": 0})
+
+    if questions:
+        return {"title": title, "questions": questions}
+
+    # Fallback: old Questions: JSON format {"label": X, "text": "..."}
+    for line in lines:
+        if not line.startswith("- "):
+            continue
+        content = line[2:].strip()
+        if content.lower().rstrip(":") in {"questions", "title"}:
+            continue
+        try:
+            obj = json.loads(content)
+            if isinstance(obj, dict):
+                text = str(obj.get("text", content)).strip()
+                label = int(obj.get("label", 1))
+                if text:
+                    questions.append({"text": text, "label": label})
+                continue
+        except Exception:
+            pass
+        m = re.search(r'"label"\s*:\s*(\d+)', content)
+        label = int(m.group(1)) if m else 1
+        text = _extract_question_text(content)
+        if text:
+            questions.append({"text": text, "label": label})
+
+    return {"title": title, "questions": questions}
+
+
 def _build_eligibility_query(selected: SelectedProcedure, user_text: str | None) -> str:
     parts = [
-        "You are generating eligibility questions for a specific medical procedure.",
         f"Procedure title: {selected.title}",
         f"Procedure code: {selected.code}",
     ]
     if selected.description:
-        parts.append(f"Procedure description: {selected.description}")
+        parts.append(f"Description: {selected.description}")
     if user_text:
-        parts.append(f"Patient request (free text): {user_text}")
-    parts += [
-        "Use ONLY the policy context to form questions.",
-        "Ask about clinical facts that affect coverage (symptoms, timing, frequency, age/sex if relevant, prior procedure dates, screening vs diagnostic, etc.).",
-        "Do NOT ask admin workflow questions (prior auth, referrals, doctor requests).",
-        "If the patient request implies a different category than the code (e.g., symptoms => diagnostic vs screening), ask 1-2 clarifying questions.",
-    ]
+        parts.append(f"Patient note: {user_text}")
     return "\n".join(parts)
     

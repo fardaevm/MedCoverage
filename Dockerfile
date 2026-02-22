@@ -53,5 +53,7 @@ COPY . .
 
 # If your FastAPI app is at: src/app/main.py with `app = FastAPI()`
 # this will work because we tell uvicorn the app dir is "src"
-CMD ["python", "-m", "uvicorn", "backend.src.main:app", "--app-dir", "src", "--host", "0.0.0.0", "--port", "8000"]
+WORKDIR /app/backend
+ENV PYTHONPATH=/app/backend
+CMD ["python", "-m", "uvicorn", "src.main:app", "--app-dir", "src", "--host", "0.0.0.0", "--port", "8000"]
 
