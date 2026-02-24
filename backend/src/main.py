@@ -5,8 +5,10 @@ from pathlib import Path
 from typing import List, Optional
 import json
 import re
+import os
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response, Request
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -17,11 +19,22 @@ from src.rag_pipeline import RAGPipeline
 from src.rag import Datastore, Indexer, Retriever, ResponseGenerator
 from src.eligibility_confidence import rule_confidence
 
+from src.cache import RedisJSONCache
 
 app = FastAPI(title="Medical Cost Estimator API")
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
+# Disable browser caching for /home/* in dev
+if os.getenv("DISABLE_STATIC_CACHE", "").strip() in {"1", "true", "yes"}:
+    @app.middleware("http")
+    async def _no_cache_static(request: Request, call_next):
+        resp = await call_next(request)
+        if request.url.path.startswith("/home/"):
+            resp.headers["Cache-Control"] = "no-store, max-age=0"
+            resp.headers["Pragma"] = "no-cache"
+            resp.headers["Expires"] = "0"
+        return resp
 # -------------------------
 # Frontend
 # -------------------------
@@ -49,28 +62,8 @@ def create_pipeline() -> RAGPipeline:
 
 rag_pipeline = create_pipeline()
 
-# -------------------------
-# Question cache (file-backed so it survives uvicorn --reload)
-# -------------------------
-_CACHE_FILE = Path(PROJECT_ROOT / "backend" / "data" / ".questions_cache.json")
-
-def _load_cache() -> dict:
-    try:
-        if _CACHE_FILE.exists():
-            return json.loads(_CACHE_FILE.read_text(encoding="utf-8"))
-    except Exception:
-        pass
-    return {}
-
-def _save_cache(cache: dict) -> None:
-    try:
-        _CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
-        _CACHE_FILE.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
-    except Exception:
-        pass
-
-_questions_cache: dict = _load_cache()
-
+# cache
+questions_cache = RedisJSONCache()
 # -------------------------
 # API Models
 # -------------------------
@@ -120,9 +113,22 @@ class IndexRequest(BaseModel):
 # -------------------------
 # Routes
 # -------------------------
+@app.get("/")
+def landing():
+    landing_path = FRONTEND_DIR / "landing.html"
+    if landing_path.exists():
+        return FileResponse(str(landing_path))
+    return FileResponse(str(FRONTEND_DIR / "index.html"))
+
+
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {
+        "status": "ok",
+        "redis_enabled": questions_cache.enabled(),
+        "redis_url": getattr(questions_cache, "url", None),
+        "redis_error": getattr(questions_cache, "last_error", None),
+    }
 
 
 @app.post("/match")
@@ -133,36 +139,38 @@ def match(req: MatchRequest):
 @app.post("/eligibility/questions")
 def eligibility_questions(req: EligibilityRequest):
     selected = req.selected
-    cache_key = selected.code
-
-    if cache_key in _questions_cache:
-        cached = _questions_cache[cache_key]
-        return {
-            "selected": selected.model_dump(),
-            "query_used": cached["query_used"],
-            "questions_text": cached["questions_text"],
-            "title": cached["title"],
-            "questions": cached["questions"],
-        }
 
     query_used = _build_eligibility_query(selected, req.user_text)
+
+    cache_key = questions_cache.make_key(
+        f"questions: {selected.code}",
+        query_used,
+    )
+
+    cached = questions_cache.get(cache_key)
+
+    if cached:
+        return {
+            "selected": selected.model_dump(),
+            **cached,
+        }
+
+    
     questions_text = rag_pipeline.process_query(query_used)
     parsed = _parse_questions_text(questions_text)
 
-    _questions_cache[cache_key] = {
+    payload = {
         "query_used": query_used,
-        "questions_text": questions_text,
+        "question_text": questions_text,
         "title": parsed["title"],
         "questions": parsed["questions"],
     }
-    _save_cache(_questions_cache)
+
+    questions_cache.set(cache_key, payload)
 
     return {
         "selected": selected.model_dump(),
-        "query_used": query_used,
-        "questions_text": questions_text,
-        "title": parsed["title"],
-        "questions": parsed["questions"],
+        **payload,
     }
 
 

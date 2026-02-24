@@ -1,24 +1,14 @@
 .env
-.pyc
 
-# macOS
-.DS_Store
-
-# Python
-__pycache__/
+# mac/python
+**/.DS_Store
+**/__pycache__/
 *.pyc
 
-# Poetry
-*.lock
-
-# Data
+# vector db / embeddings artifacts (local only)
 backend/data/
-data/
+backend/data/**
 
-# LanceDB
-*.lance
-*_transactions/
-*_versions/
-
-# Cache
-*.json
+# (optional) also ignore common lancedb folders anywhere
+**/*.lance/
+**/sample-lancedb/

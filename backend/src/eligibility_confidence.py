@@ -1,6 +1,9 @@
 # backend/src/eligibility_confidence.py
+
 def _clamp(x: float, lo: float = 0.0, hi: float = 1.0) -> float:
+    """Clamp x into [lo, hi] to keep confidence in a valid range."""
     return lo if x < lo else hi if x > hi else x
+
 
 def rule_confidence(
     *,
@@ -9,30 +12,57 @@ def rule_confidence(
     none_apply: bool,
     llm_decision: str | None = None,
 ) -> float:
+    """
+    Confidence heuristic for STANDALONE pathways (OR logic).
+
+    Assumptions:
+      - Each question/pathway is independently sufficient for coverage.
+      - Any YES => at least one coverage pathway is satisfied.
+      - none_apply=True means the patient explicitly says NO to all pathways.
+
+    Inputs:
+      - questions: list of pathway texts (standalone)
+      - answers: parallel list of booleans (True = checked/YES)
+      - none_apply: patient checked "None of these apply to me"
+      - llm_decision: optional final decision ("covered" | "not_covered" | "uncertain")
+
+    Output:
+      - confidence in [0, 1]
+    """
     n_q = len(questions or [])
     n_a = min(len(answers or []), n_q)
-    yes = sum(1 for i in range(n_a) if answers[i] is True)
 
+    # If we have no pathways at all, we are not grounded -> keep confidence low.
     if n_q == 0:
-        ans_strength = 0.10
-    elif none_apply:
-        ans_strength = 0.80 if n_a >= n_q else 0.65
+        base = 0.15
+        if llm_decision == "covered":
+            base = 0.35  # slightly higher but still cautious without pathways
+        return _clamp(base)
+
+    # Completeness reflects how much of the questionnaire was actually answered.
+    # - 1.0 means we have answers for every pathway
+    # - lower values mean missing info, so reduce confidence.
+    completeness = _clamp(n_a / n_q)
+
+    # If the user explicitly says "none apply", treat that as a strong exclusion signal.
+    # The more complete the answers, the higher the confidence for not-covered.
+    if none_apply:
+        conf = 0.55 + 0.35 * completeness  # 0.55..0.90
     else:
-        # more YES triggers => stronger rule application signal (for exclusion-style questions)
-        ans_strength = 0.55 + 0.45 * _clamp(yes / n_q)
+        # Count YES answers among those we actually received.
+        yes = sum(1 for i in range(n_a) if answers[i] is True)
 
-    completeness = 0.35 + 0.65 * _clamp(n_a / max(1, n_q))
+        # Standalone pathways => any YES implies a coverage condition is met.
+        if yes > 0:
+            conf = 0.75 + 0.20 * completeness  # 0.75..0.95
+        else:
+            # No YES selected, and user did not say "none apply".
+            # This could mean "not covered" OR simply missing/unclear info.
+            conf = 0.35 + 0.30 * completeness  # 0.35..0.65
 
-    contradiction = 0.35 if (none_apply and yes > 0) else 0.0
-
-    conf = _clamp(
-        0.20
-        + 0.55 * ans_strength
-        + 0.25 * completeness
-        - contradiction
-    )
-
+    # If the LLM itself says "uncertain", cap confidence to reflect ambiguity
+    # (even if the raw heuristic would be higher).
     if llm_decision == "uncertain":
-        conf = min(conf, 0.55)
+        conf = min(conf, 0.60)
 
-    return conf
+    return _clamp(conf)
