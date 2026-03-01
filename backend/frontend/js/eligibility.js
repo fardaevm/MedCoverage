@@ -1,8 +1,5 @@
-// frontend/js/eligibility.js
-
-
-export async function fetchEligibilityQuestions(candidate, userText, top_k = 10, signal = null) {
-  const res = await fetch("/eligibility/questions", {
+export async function startEligibility(candidate, userText, top_k = 10, signal = null) {
+  const res = await fetch("/eligibility/start", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -16,68 +13,34 @@ export async function fetchEligibilityQuestions(candidate, userText, top_k = 10,
   return await res.json();
 }
 
-export async function fetchEligibilityDecision(candidate, userText, questions, answers, none_apply, top_k = 10) {
-  // Normalize: ensure questions are {text, label} objects (handles string fallback)
-  const normalizedQuestions = (Array.isArray(questions) ? questions : []).map(q =>
-    typeof q === "string" ? { text: q, label: 1 } : q
-  );
+export async function fetchEligibilityQuestions(candidate, userText, top_k = 10, signal = null) {
+  return await startEligibility(candidate, userText, top_k, signal);
+}
 
-  const res = await fetch("/eligibility/decision", {
+export async function nextEligibility(candidate, userText, pathways, qa_so_far, top_k = 10, signal = null) {
+  const res = await fetch("/eligibility/next", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       user_text: userText || null,
       selected: candidate,
-      questions: normalizedQuestions,
-      answers: Array.isArray(answers) ? answers : [],
-      none_apply: !!none_apply,
+      pathways: Array.isArray(pathways) ? pathways : [],
+      qa_so_far: Array.isArray(qa_so_far) ? qa_so_far : [],
       top_k
-    })
+    }),
+    ...(signal ? { signal } : {})
   });
   if (!res.ok) throw new Error(await res.text());
   return await res.json();
 }
 
-export function parseQuestionsText(questionsText) {
-  const lines = String(questionsText || "")
-    .split("\n")
-    .map(s => s.trim())
-    .filter(Boolean);
-
-  let title = "";
-  const titleLine = lines.find(l => l.toLowerCase().startsWith("title:"));
-  if (titleLine) title = titleLine.split(":", 2)[1].trim();
-
-  const questions = lines
-    .filter(l => l.startsWith("- "))
-    .map(l => l.slice(2).trim())
-    .filter(Boolean);
-
-  return { title, questions };
-}
-
-export function renderQuestionsCheckboxes(questions) {
-  const safeQs = Array.isArray(questions) ? questions : [];
-  const rows = safeQs.map((q, idx) => {
-    const text = typeof q === "string" ? q : (q.text || String(q));
-    return `
-    <label class="checkRow">
-      <input type="checkbox" data-qindex="${idx}" />
-      <span>${text}</span>
-    </label>
-  `;
-  }).join("");
-
-  return `
-    <div class="detailsSub">Which of these describes you? Check all that apply.</div>
-    <div class="detailsText">
-      ${rows || `<div class="small">No pathways found.</div>`}
-      <label class="checkRow">
-        <input type="checkbox" id="neitherApply" />
-        <span>None of these apply to me</span>
-      </label>
-    </div>
-  `;
+function escapeHtml(s) {
+  return String(s || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 export function insertInlineDetails(cardEl, payload, deps) {
@@ -90,31 +53,42 @@ export function insertInlineDetails(cardEl, payload, deps) {
     showCoveredOutcome,
     showNotCoveredOutcome,
     collapseSelection,
+    onDecision
   } = deps;
 
-  removeInlineDetails(cardEl);
+  cardEl.querySelector(".cardDetails")?.remove();
   removeInlineOutcome(cardEl);
 
-  let title = payload?.title || "";
-  let questions = payload?.questions;
-
-  if (!Array.isArray(questions)) {
-    const parsed = parseQuestionsText(payload?.questions_text || "");
-    if (!title) title = parsed.title || "Eligibility questions";
-    questions = parsed.questions;
-  }
-  if (!title) title = "Eligibility questions";
+  const pathways = Array.isArray(payload?.pathways) ? payload.pathways : [];
+  const firstQ = (payload?.question || "").trim();
+  const noPathways = payload?.no_pathways === true || (!firstQ && pathways.every((p) => !(p || "").trim()));
+  const noPathwaysReason = (payload?.no_pathways_reason || "We couldn't find coverage pathways for this procedure in our policy.").trim();
 
   const details = document.createElement("div");
   details.className = "cardDetails";
+
+  const pathwaysHtml = pathways
+    .map((p, i) => `<li>${i + 1}. ${escapeHtml(p || "")}</li>`)
+    .join("");
+
   details.innerHTML = `
-    <div class="detailsHeader">
-      <div class="detailsTitle">${title}</div>
-      <button type="button" class="changeSelectionBtn">Change selection</button>
+    <div class="flowHeader">
+      <a href="#" class="changeLink" role="button">Change</a>
     </div>
-    <div class="detailsBody">
-      ${renderQuestionsCheckboxes(questions)}
-      <button class="primaryBtn" id="continueBtn" type="button">Continue</button>
+    <div class="flowBody">
+      <div class="pathwaysLabel">PATHWAYS</div>
+      <ul class="pathwaysList">${pathwaysHtml || "<li>—</li>"}</ul>
+      <div class="questionBlock" id="questionBlock">
+        <div class="answerHistory" id="answerHistory"></div>
+        <div class="currentQuestion" id="currentQuestion">
+          <p class="currentQuestionText" id="currentQuestionText">${firstQ ? escapeHtml(firstQ) : "No question generated."}</p>
+        </div>
+        <div class="ynRow" id="ynRow" ${firstQ ? "" : "hidden"}>
+          <button class="ynBtn yes" type="button" data-ans="yes">Yes</button>
+          <button class="ynBtn no" type="button" data-ans="no">No</button>
+        </div>
+        <div class="thinkingState" id="chatFoot" hidden></div>
+      </div>
     </div>
   `;
 
@@ -122,88 +96,161 @@ export function insertInlineDetails(cardEl, payload, deps) {
   if (descr) descr.insertAdjacentElement("afterend", details);
   else cardEl.appendChild(details);
 
-  details.querySelector(".changeSelectionBtn").addEventListener("click", (e) => {
+  if (noPathways) {
+    showNotCoveredOutcome(cardEl, noPathwaysReason);
+    onDecision?.(candidate, "not_covered", noPathwaysReason);
+    const ynRowEl = details.querySelector("#ynRow");
+    const currentQEl = details.querySelector("#currentQuestionText");
+    if (ynRowEl) ynRowEl.hidden = true;
+    if (currentQEl) currentQEl.textContent = noPathwaysReason;
+    details.querySelector(".changeLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      collapseSelection();
+    });
+    return;
+  }
+
+  details.querySelector(".changeLink").addEventListener("click", (e) => {
+    e.preventDefault();
     e.stopPropagation();
     collapseSelection();
   });
 
-  const cbNeither = details.querySelector("#neitherApply");
-  const otherCbs = Array.from(details.querySelectorAll('input[type="checkbox"]')).filter(
-    cb => cb !== cbNeither
-  );
+  const answerHistoryEl = details.querySelector("#answerHistory");
+  const currentQuestionTextEl = details.querySelector("#currentQuestionText");
+  const ynRow = details.querySelector("#ynRow");
+  const foot = details.querySelector("#chatFoot");
 
-  const clearOutcomeOnChange = () => removeInlineOutcome(cardEl);
+  const NEXT_LOADING_PHRASES = [
+    "Loading",
+    "Processing",
+    "Checking",
+    "Getting next question",
+    "One moment",
+    "Thinking",
+    "Working on it",
+    "Almost there"
+  ];
 
-  if (cbNeither) {
-    cbNeither.addEventListener("change", () => {
-      clearOutcomeOnChange();
-      if (cbNeither.checked) otherCbs.forEach(cb => (cb.checked = false));
-    });
+  function startThinking() {
+    foot.hidden = false;
+    foot.classList.remove("thinkingSingleDot");
+    foot.classList.add("thinkingState");
+    foot.innerHTML = `
+      <span class="thinkingPhrase">${NEXT_LOADING_PHRASES[0]}</span>
+      <span class="thinkingDots" aria-hidden="true">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </span>
+    `;
+    let i = 0;
+    const phraseEl = foot.querySelector(".thinkingPhrase");
+    const interval = setInterval(() => {
+      i = (i + 1) % NEXT_LOADING_PHRASES.length;
+      if (phraseEl) phraseEl.textContent = NEXT_LOADING_PHRASES[i];
+    }, 1800);
+    return () => clearInterval(interval);
   }
 
-  otherCbs.forEach(cb => {
-    cb.addEventListener("change", () => {
-      clearOutcomeOnChange();
-      if (cb.checked && cbNeither) cbNeither.checked = false;
-    });
-  });
+  function stopThinking() {
+    foot.hidden = true;
+    foot.innerHTML = "";
+    foot.classList.remove("thinkingState", "thinkingSingleDot");
+  }
 
-  const continueBtn = details.querySelector("#continueBtn");
-  continueBtn.style.cursor = "pointer";
-  const CONTINUE_TEXT = continueBtn.textContent;
-
-  continueBtn.addEventListener("click", async (e) => {
-    e.stopPropagation();
-    removeInlineOutcome(cardEl);
-
-    const neither = cbNeither?.checked === true;
-    const anyOtherChecked = otherCbs.some(cb => cb.checked);
-
-    if (!neither && !anyOtherChecked) {
-      showNotCoveredOutcome(cardEl, "Please select an option to continue.");
+  function renderAnswerHistory(qa) {
+    if (!qa.length) {
+      answerHistoryEl.innerHTML = "";
       return;
     }
+    answerHistoryEl.innerHTML = qa
+      .map(
+        ({ q: qText, a }) => `
+        <div class="answerHistoryRow">
+          <span class="answerHistoryDot ${a ? "yes" : "no"}"></span>
+          <span class="answerHistoryQ">${escapeHtml(qText)}</span>
+          <span class="answerHistoryA ${a ? "yes" : "no"}">${a ? "Yes" : "No"}</span>
+        </div>
+      `
+      )
+      .join("");
+  }
 
-    continueBtn.textContent = "Evaluating…";
-    continueBtn.disabled = true;
+  function setCurrentQuestion(text) {
+    currentQuestionTextEl.textContent = text || "No question generated.";
+    if (text) {
+      ynRow.hidden = false;
+      ynRow.querySelectorAll("button").forEach((b) => (b.disabled = false));
+    } else {
+      ynRow.hidden = true;
+    }
+  }
+
+  let qa = [];
+  let currentQ = firstQ;
+
+  async function step(answerBool) {
+    if (!currentQ) return;
+
+    qa.push({ q: currentQ, a: !!answerBool });
+    renderAnswerHistory(qa);
+    setCurrentQuestion("");
+
+    ynRow.querySelectorAll("button").forEach((b) => (b.disabled = true));
+    const stopThinkingFn = startThinking();
 
     try {
-      const userText = queryEl.value.trim();
-      const top_k = parseInt(topkEl.value, 10) || 10;
+      const userText = queryEl && queryEl.value ? queryEl.value.trim() : "";
+      const top_k = parseInt(topkEl && topkEl.value ? topkEl.value : "5", 10) || 10;
 
-      const answers = (Array.isArray(questions) ? questions : []).map((_, idx) => {
-        const cb = details.querySelector(`input[data-qindex="${idx}"]`);
-        return cb ? cb.checked === true : false;
-      });
-
-      const resp = await fetchEligibilityDecision(
-        candidate,
-        userText,
-        questions,
-        answers,
-        neither,
-        top_k
-      );
+      const resp = await nextEligibility(candidate, userText, pathways, qa, top_k);
+      stopThinkingFn();
+      stopThinking();
 
       const decision = resp?.decision;
-      const conf = typeof resp?.confidence === "number" ? resp.confidence : null;
       const reason = (resp?.reason || "").trim();
-      const label = conf == null ? "" : ` (confidence ${(conf * 100).toFixed(0)}%)`;
 
-      if (decision === "covered")
-        showCoveredOutcome(cardEl, (reason || "Covered") + label);
-      else if (decision === "not_covered")
-        showNotCoveredOutcome(cardEl, (reason || "Not covered") + label);
-      else
-        showNotCoveredOutcome(cardEl, (reason || "Uncertain — needs more info") + label);
+      if (decision === "covered") {
+        const msg = reason || "Based on your answers, this procedure is covered under your plan.";
+        showCoveredOutcome(cardEl, msg);
+        onDecision?.(candidate, "covered", msg);
+        ynRow.hidden = true;
+        return;
+      }
+
+      if (decision === "not_covered") {
+        const msg = reason || "Based on your answers, this procedure does not appear to be covered.";
+        showNotCoveredOutcome(cardEl, msg);
+        onDecision?.(candidate, "not_covered", msg);
+        ynRow.hidden = true;
+        return;
+      }
+
+      const nextQ = (resp?.next_question || "").trim();
+      if (!nextQ) {
+        const msg = reason || "We need more information to determine coverage.";
+        showNotCoveredOutcome(cardEl, msg);
+        onDecision?.(candidate, "not_covered", msg);
+        ynRow.hidden = true;
+        return;
+      }
+
+      currentQ = nextQ;
+      setCurrentQuestion(nextQ);
     } catch (err) {
-      showNotCoveredOutcome(
-        cardEl,
-        `Could not evaluate coverage: ${err?.message || String(err)}`
-      );
-    } finally {
-      continueBtn.disabled = false;
-      continueBtn.textContent = CONTINUE_TEXT;
+      stopThinkingFn();
+      stopThinking();
+      const msg = `Could not continue: ${err?.message || String(err)}`;
+      showNotCoveredOutcome(cardEl, msg);
+      onDecision?.(candidate, "not_covered", msg);
+      ynRow.hidden = true;
     }
+  }
+
+  ynRow.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-ans]");
+    if (!btn) return;
+    e.stopPropagation();
+    step(btn.dataset.ans === "yes");
   });
 }

@@ -1,36 +1,47 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Medical Cost Estimator: Matching test</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medi-Cal Coverage | MedCoverage</title>
+    <meta name="description" content="Search for your procedure and answer a few questions to see if Medi-Cal is likely to cover it." />
 
-  <!-- EXACT SAME CSS, now external -->
-  <link rel="stylesheet" href="/home/css/styles.css?v=1" />
-</head>
-<body>
-  <div class="wrap">
-    <div class="header">
-      <h1>Medi-cal Coverage</h1>
-    </div>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 
-    <div class="panel">
-      <div class="row">
-        <input id="query" type="text" placeholder='Example: "MRI brain with contrast"' />
-        <select id="topk">
-          <option value="2">Top-k: 2</option>
-          <option value="5" selected>Top-k: 5</option>
-        </select>
-        <button id="btn">Search</button>
+    <link rel="stylesheet" href="/home/css/styles.css?v=3" />
+  </head>
+  <body>
+    <div class="appLayout" id="appLayout">
+      <div class="sidebarWrap">
+        <button type="button" class="sidebarToggle" id="sidebarToggle" aria-label="Close history panel" title="Close history"></button>
+        <aside class="sidebar" aria-label="Search history">
+          <div class="sidebarHeader">
+            <h2 class="sidebarTitle">History</h2>
+            <button type="button" class="historyEditBtn" id="historyEditBtn" aria-label="Edit history">Edit</button>
+          </div>
+          <ul class="historyList" id="historyList" aria-live="polite"></ul>
+        </aside>
       </div>
+      <main class="main">
+        <div class="wrap">
+          <header class="header">
+            <h1>Medi-Cal Coverage</h1>
+          </header>
 
-      <div class="error" id="errorBox"></div>
-      <div class="footerHint">Press Enter to search</div>
+          <form id="searchForm" class="searchRow" autocomplete="off" aria-label="Search for a procedure">
+            <label class="srOnly" for="query">Procedure name or code</label>
+            <input id="query" type="text" placeholder="Search procedures..." />
+            <button id="btn" type="submit">Search</button>
+          </form>
+          <div class="error" id="errorBox" role="alert" hidden></div>
+
+          <div class="results" id="results" aria-live="polite"></div>
+        </div>
+      </main>
     </div>
 
-    <div class="results" id="results"></div>
-  </div>
-
-  <script type="module" src="/home/js/app.js?v=1"></script>
-</body>
+    <script type="module" src="/home/js/app.js?v=3"></script>
+  </body>
 </html>

@@ -38,7 +38,7 @@ class RAGPipeline:
         response = self.response_generator.generate_response(query, search_results)
         return response
     
-    def retrieve_context(self, query: str, top_k: int = 10) -> List[str]:
+    def retrieve_context(self, query: str, top_k: int = 6) -> List[str]:
         return self.retriever.search(query, top_k=top_k)
 
     # def evaluate(

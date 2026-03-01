@@ -1,0 +1,1631 @@
+{
+  "_meta": {
+    "source_pdf": "evwoman.pdf",
+    "build_timestamp": "2026-02-28T05:47:56.659033Z",
+    "count": 99
+  },
+  "76641": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "76642": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "76942": {
+    "title": "Ultrasound guidance for needle placement",
+    "pathways": [
+      "I need ultrasound guidance for needle placement (biopsy, aspiration, injection, or localization) with imaging supervision/interpretation.",
+      "I have a fine needle aspiration that is being performed with ultrasound guidance.",
+      "I have a percutaneous breast biopsy or placement of a breast localization device performed with ultrasound guidance."
+    ],
+    "pathway_questions": [
+      [
+        "Do you need ultrasound guidance for needle placement for biopsy, aspiration, injection, or localization?"
+      ],
+      [
+        "Is this a fine needle aspiration being performed with ultrasound guidance for you?"
+      ],
+      [
+        "Is this a percutaneous breast biopsy or placement of a breast localization device performed with ultrasound guidance for you?"
+      ]
+    ]
+  },
+  "77046": {
+    "title": "Breast MRI (unilateral, without contrast)",
+    "pathways": [
+      "I am high risk (BRCA mutation, first‑degree BRCA carrier relative, or lifetime risk ≥20% per BRCAPRO).",
+      "I have an abnormal mammogram or area of concern needing further evaluation."
+    ],
+    "pathway_questions": [
+      [
+        "Do you have a BRCA gene mutation?",
+        "Do you have a first-degree relative who is a BRCA carrier?",
+        "Do you have a lifetime breast cancer risk ≥20% per BRCAPRO or another accepted risk model?"
+      ],
+      [
+        "Do you have an abnormal mammogram or area of concern that requires further evaluation?"
+      ]
+    ]
+  },
+  "77047": {
+    "title": "Bilateral breast MRI without contrast — billing/diagnosis pathways",
+    "pathways": [
+      "I am requesting coverage for a bilateral breast MRI without contrast and billing the professional (interpretation) component.",
+      "I am requesting coverage for a bilateral breast MRI without contrast and billing the technical (imaging) component.",
+      "I am requesting coverage for a bilateral breast MRI without contrast and am using an ICD-10 diagnosis listed in the policy tables."
+    ],
+    "pathway_questions": [
+      [
+        "Is this a bilateral breast MRI performed without contrast?",
+        "Is this claim for the professional (interpretation) component?"
+      ],
+      [
+        "Is this a bilateral breast MRI performed without contrast?",
+        "Is this claim for the technical (imaging) component?"
+      ],
+      [
+        "Is this a bilateral breast MRI performed without contrast?",
+        "Is the ICD-10 diagnosis code taken from the policy's tables 2a or 2b?"
+      ]
+    ]
+  },
+  "77048": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "77049": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "77063": {
+    "title": "Screening digital breast tomosynthesis (bilateral)",
+    "pathways": [
+      "I am a female aged 40 or older, at average risk, and it has been at least 365 days since my last screening.",
+      "I have a BRCA mutation, a first‑degree relative who is a BRCA carrier, or a lifetime breast cancer risk ≥20% and this is done with a breast MRI.",
+      "I have an approved Treatment Authorization Request (TAR) authorizing this screening despite age or gender restrictions."
+    ],
+    "pathway_questions": [
+      [
+        "Are you female?",
+        "Are you 40 years old or older?",
+        "Are you at average risk for breast cancer?",
+        "Has it been at least 365 days since your last screening digital breast tomosynthesis?"
+      ],
+      [
+        "Do you have a BRCA gene mutation?",
+        "Do you have a first-degree relative who is a BRCA carrier?",
+        "Do you have a lifetime breast cancer risk ≥20% per an accepted risk model?",
+        "Is the tomosynthesis being performed in conjunction with a breast MRI for you?",
+        "Has it been at least 365 days since your last screening digital breast tomosynthesis?"
+      ],
+      [
+        "Do you have an approved Treatment Authorization Request (TAR) authorizing this screening?",
+        "Has it been at least 365 days since your last screening digital breast tomosynthesis?"
+      ]
+    ]
+  },
+  "77065": {
+    "title": "Unilateral diagnostic breast mammography (with CAD) eligibility",
+    "pathways": [
+      "I have distinct breast signs or symptoms that indicate a diagnostic mammogram.",
+      "I have a history of breast cancer.",
+      "I am asymptomatic but my physician, based on my history and other significant factors, has determined a diagnostic mammogram is appropriate.",
+      "I have exceeded the two-screenings-per-year limit but my provider obtained a TAR override allowing the claim."
+    ],
+    "pathway_questions": [
+      [
+        "Do you have distinct breast signs or symptoms for which a mammogram is indicated?"
+      ],
+      [
+        "Do you have a history of breast cancer?"
+      ],
+      [
+        "Are you asymptomatic, and has your physician judged based on your history and other factors that a diagnostic mammogram is appropriate?"
+      ],
+      [
+        "Have you already had more than two diagnostic or screening mammograms this year?",
+        "Did your provider obtain a TAR override to submit the claim?"
+      ]
+    ]
+  },
+  "77066": {
+    "title": "Bilateral diagnostic mammogram with computer-aided detection",
+    "pathways": [
+      "I have distinct breast signs or symptoms indicating a diagnostic mammogram.",
+      "I have a history of breast cancer.",
+      "I am asymptomatic but, based on my history and other significant factors, my physician judges a diagnostic mammogram is indicated and appropriate.",
+      "I meet a clinical indication and my provider submitted a TAR override for additional diagnostic mammography this year."
+    ],
+    "pathway_questions": [
+      [
+        "Do you have distinct breast signs or symptoms that indicate a diagnostic mammogram?",
+        "Have you had two or fewer diagnostic mammograms this year?",
+        "Is this not billed on the same day as another diagnostic mammogram for you?"
+      ],
+      [
+        "Do you have a history of breast cancer?",
+        "Have you had two or fewer diagnostic mammograms this year?",
+        "Is this not billed on the same day as another diagnostic mammogram for you?"
+      ],
+      [
+        "Are you asymptomatic, and has your physician judged based on your history and other factors that a diagnostic mammogram is appropriate?",
+        "Have you had two or fewer diagnostic mammograms this year?",
+        "Is this not billed on the same day as another diagnostic mammogram for you?"
+      ],
+      [
+        "Do you meet a clinical indication (distinct symptoms, history of breast cancer, or physician judgment)?",
+        "Have you had more than two diagnostic mammograms this year?",
+        "Has your provider submitted a TAR override for this claim?",
+        "Is this not billed on the same day as another diagnostic mammogram for you?"
+      ]
+    ]
+  },
+  "77067": {
+    "title": "Screening mammography (two-view bilateral) coverage",
+    "pathways": [
+      "I am age 40 or older and at average risk for breast cancer.",
+      "I am any age with a BRCA mutation, a first‑degree relative who is a BRCA carrier, or lifetime breast cancer risk ≥20% and having a breast MRI.",
+      "I need a screening mammogram within 365 days of my last one but have an approved TAR to override the frequency limit."
+    ],
+    "pathway_questions": [
+      [
+        "Are you at least 40 years old?",
+        "Are you at average risk for breast cancer?",
+        "Has it been at least 365 days since your last screening mammogram billed as this service?"
+      ],
+      [
+        "Do you have a BRCA gene mutation?",
+        "Do you have a first-degree relative who is a BRCA carrier?",
+        "Do you have a lifetime breast cancer risk ≥20% per an accepted risk model?",
+        "Is the mammogram being performed in conjunction with a breast MRI?",
+        "Has it been at least 365 days since your last screening mammogram billed as this service?"
+      ],
+      [
+        "Has it been less than 365 days since your last screening mammogram billed as this service?",
+        "Do you have an approved TAR that overrides the screening frequency limit?"
+      ]
+    ]
+  },
+  "10004": {
+    "title": "Additional fine needle aspiration without imaging",
+    "pathways": [
+      "I am having an additional fine needle aspiration performed for another lesion in addition to a primary FNA without imaging."
+    ],
+    "pathway_questions": [
+      [
+        "Is this aspiration being performed for a lesion in addition to the initial/primary lesion?",
+        "Is the aspiration being performed without imaging guidance?"
+      ]
+    ]
+  },
+  "10005": {
+    "title": "Ultrasound-guided fine needle aspiration biopsy (first lesion)",
+    "pathways": [
+      "I am having an ultrasound-guided fine needle aspiration biopsy for the first lesion.",
+      "I am having a fine needle aspiration biopsy without imaging guidance.",
+      "I am having a fine needle aspiration biopsy of the breast."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure performed under ultrasound guidance?",
+        "Is this the first lesion being biopsied?"
+      ],
+      [
+        "Is the fine needle aspiration performed without imaging guidance?"
+      ],
+      [
+        "Is the biopsy being performed on breast tissue?"
+      ]
+    ]
+  },
+  "10006": {
+    "title": "Fine needle aspiration biopsy — additional lesion with ultrasound guidance",
+    "pathways": [
+      "I am having an FNA biopsy of an additional lesion performed with ultrasound guidance alongside a first ultrasound‑guided FNA.",
+      "I am having an FNA biopsy of an additional breast lesion performed with ultrasound guidance alongside a first ultrasound‑guided FNA."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure a fine needle aspiration (FNA) biopsy?",
+        "Is ultrasound guidance being used for this procedure?",
+        "Is this lesion additional to a previously biopsied lesion (not the first)?",
+        "Was a first lesion FNA performed with ultrasound guidance during the same encounter or course of treatment?"
+      ],
+      [
+        "Is the procedure a fine needle aspiration (FNA) biopsy of a breast lesion?",
+        "Is ultrasound guidance being used for this procedure?",
+        "Is this breast lesion additional to a previously biopsied breast lesion (not the first)?",
+        "Was a first breast lesion FNA performed with ultrasound guidance during the same encounter or course of treatment?"
+      ]
+    ]
+  },
+  "10007": {
+    "title": "Fine needle aspiration biopsy (fluoroscopic guidance)",
+    "pathways": [
+      "I need an FNA under fluoroscopic guidance for the first lesion.",
+      "I need an FNA under fluoroscopic guidance for each additional lesion.",
+      "I need an FNA including ultrasound guidance for the first lesion."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure a fine needle aspiration biopsy (FNA)?",
+        "Is fluoroscopic guidance being used?",
+        "Is this the first lesion being biopsied?"
+      ],
+      [
+        "Is the procedure a fine needle aspiration biopsy (FNA)?",
+        "Is fluoroscopic guidance being used?",
+        "Is this an additional lesion beyond the first?"
+      ],
+      [
+        "Is the procedure a fine needle aspiration biopsy (FNA)?",
+        "Is ultrasound guidance being used?",
+        "Is this the first lesion being biopsied?"
+      ]
+    ]
+  },
+  "10008": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "10011": {
+    "title": "MRI-guided fine needle aspiration biopsy (first lesion) - approved",
+    "pathways": [
+      "I need an MRI-guided fine needle aspiration biopsy for the first lesion.",
+      "I need MRI-guided fine needle aspiration for an additional lesion (use the additional-lesion code instead).",
+      "I need a fine needle aspiration biopsy but not under MRI guidance (use the appropriate non-MRI code)."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure a fine needle aspiration biopsy?",
+        "Is it performed under MRI guidance?",
+        "Is this the first lesion being biopsied?"
+      ],
+      [
+        "Is the procedure a fine needle aspiration biopsy?",
+        "Is it performed under MRI guidance?",
+        "Is this an additional lesion beyond the first?"
+      ],
+      [
+        "Is the procedure a fine needle aspiration biopsy?",
+        "Is it not performed under MRI guidance?"
+      ]
+    ]
+  },
+  "10012": {
+    "title": "MRI-guided fine needle aspiration for an additional lesion",
+    "pathways": [
+      "I am having an MRI-guided fine needle aspiration performed for an additional lesion in addition to a separately performed MRI-guided FNA of the first lesion"
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure an MRI-guided fine needle aspiration performed for an additional lesion in addition to a separately performed MRI-guided FNA of the first lesion?"
+      ]
+    ]
+  },
+  "10021": {
+    "title": "Fine needle aspiration (first lesion, no imaging)",
+    "pathways": [
+      "I am having a diagnostic fine needle aspiration of a cyst or mass for the first lesion, performed without imaging guidance."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure a fine needle aspiration (diagnostic sampling of cells, tissue, or fluid from a cyst or mass)?",
+        "Is this the first lesion being biopsied?",
+        "Is the procedure performed without imaging guidance?"
+      ]
+    ]
+  },
+  "15600": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "19000": {
+    "title": "Puncture aspiration (needle drainage) of breast cyst",
+    "pathways": [
+      "I have a breast cyst that requires needle aspiration/drainage.",
+      "I have additional distinct breast cysts that require aspiration beyond the first."
+    ],
+    "pathway_questions": [
+      [
+        "Is there a breast cyst present that requires drainage by needle aspiration?"
+      ],
+      [
+        "Are there one or more additional distinct breast cysts requiring aspiration beyond the first?"
+      ]
+    ]
+  },
+  "19001": {
+    "title": "Aspiration of an additional breast cyst",
+    "pathways": [
+      "I am having aspiration of an additional breast cyst during the same encounter as the first cyst aspiration.",
+      "I am having aspiration of an additional breast cyst during the same encounter and image guidance is used (imaging reported separately)."
+    ],
+    "pathway_questions": [
+      [
+        "Is this aspiration for a cyst beyond the first cyst?",
+        "Was the first cyst aspiration also performed in the same encounter?"
+      ],
+      [
+        "Is this aspiration for a cyst beyond the first cyst?",
+        "Was the first cyst aspiration also performed in the same encounter?",
+        "Is imaging guidance used during the procedure?"
+      ]
+    ]
+  },
+  "19081": {
+    "title": "Percutaneous breast biopsy with localization (first lesion)",
+    "pathways": [
+      "I need a stereotactic-guided percutaneous breast biopsy with placement of a localization device and imaging of the biopsy specimen for the first lesion.",
+      "I need an ultrasound-guided percutaneous breast biopsy with placement of a localization device and imaging of the biopsy specimen for the first lesion.",
+      "I need an MRI-guided percutaneous breast biopsy with placement of a localization device and imaging of the biopsy specimen for the first lesion."
+    ],
+    "pathway_questions": [
+      [
+        "Is the biopsy stereotactic-guided and performed percutaneously?",
+        "Is this the first lesion being biopsied?",
+        "Will a localization device be placed and the biopsy specimen imaged?"
+      ],
+      [
+        "Is the biopsy ultrasound-guided and performed percutaneously?",
+        "Is this the first lesion being biopsied?",
+        "Will a localization device be placed and the biopsy specimen imaged?"
+      ],
+      [
+        "Is the biopsy MRI-guided and performed percutaneously?",
+        "Is this the first lesion being biopsied?",
+        "Will a localization device be placed and the biopsy specimen imaged?"
+      ]
+    ]
+  },
+  "19082": {
+    "title": "Percutaneous stereotactic breast biopsy — additional lesion",
+    "pathways": [
+      "I need a percutaneous stereotactic-guided breast biopsy of an additional lesion after the first lesion was separately reported.",
+      "I only need image-guided placement of a localization device without an image-guided biopsy (19082 should not be used).",
+      "I need a percutaneous biopsy of an additional lesion but guidance is ultrasound (use the ultrasound-specific additional-lesion code).",
+      "I need a percutaneous biopsy of an additional lesion but guidance is MRI (use the MRI-specific additional-lesion code)."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure a percutaneous breast biopsy?",
+        "Is stereotactic guidance being used?",
+        "Is this for an additional lesion after a first separately reportable lesion?",
+        "Is imaging of the biopsy specimen performed?"
+      ],
+      [
+        "Is the service limited to image-guided placement of a localization device without performing an image-guided biopsy?"
+      ],
+      [
+        "Is the procedure a percutaneous breast biopsy for an additional lesion?",
+        "Is ultrasound guidance being used?"
+      ],
+      [
+        "Is the procedure a percutaneous breast biopsy for an additional lesion?",
+        "Is MRI guidance being used?"
+      ]
+    ]
+  },
+  "19083": {
+    "title": "Ultrasound-guided percutaneous breast biopsy (first lesion)",
+    "pathways": [
+      "I need a percutaneous breast biopsy under ultrasound guidance for the first lesion; localization device placement and specimen imaging may be performed.",
+      "I need ultrasound-guided percutaneous biopsy for an additional lesion; bill as an additional-lesion service in conjunction with the first-lesion service.",
+      "I am requesting image-guidance placement of a localization device without an image-guided biopsy — this code should not be used."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure a percutaneous breast biopsy performed under ultrasound guidance?",
+        "Is this biopsy for the first lesion?"
+      ],
+      [
+        "Is the biopsy for an additional lesion beyond the first?",
+        "Is the biopsy performed under ultrasound guidance?",
+        "Will this additional-lesion service be billed in conjunction with the first-lesion service?"
+      ],
+      [
+        "Is the service only image-guidance placement of a localization device without performing an image-guided biopsy?"
+      ]
+    ]
+  },
+  "19084": {
+    "title": "Ultrasound‑guided percutaneous breast biopsy for an additional lesion",
+    "pathways": [
+      "I need an ultrasound-guided percutaneous breast biopsy for an additional lesion after the first separately reported lesion.",
+      "I need an ultrasound-guided percutaneous breast biopsy for an additional lesion and the provider will place a localization device at the same time."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure an ultrasound-guided percutaneous biopsy of a breast lesion that is an additional lesion after the first separately reported lesion?",
+        "Was the first lesion biopsy separately reported (performed and reported as the first lesion)?",
+        "Is this not being billed as image-guidance placement of a localization device alone (without biopsy)?"
+      ],
+      [
+        "Is the procedure an ultrasound-guided percutaneous biopsy of a breast lesion that is an additional lesion after the first separately reported lesion?",
+        "Will a localization device be placed at the same time as the biopsy?",
+        "Is this not being billed as image-guidance placement of a localization device alone (without biopsy)?"
+      ]
+    ]
+  },
+  "19085": {
+    "title": "MRI-guided percutaneous breast biopsy (first lesion)",
+    "pathways": [
+      "I am having an MRI-guided percutaneous breast biopsy for the first lesion, possibly with placement of a localization device and imaging of the specimen.",
+      "I have an additional lesion being biopsied; this MRI-guided first-lesion procedure does not apply to additional lesions.",
+      "I am having a breast biopsy using ultrasound or stereotactic guidance instead of MRI; use the guidance-specific biopsy procedure."
+    ],
+    "pathway_questions": [
+      [
+        "Is the biopsy performed percutaneously under MRI guidance?",
+        "Is this the first lesion being biopsied?",
+        "Is the service not billed together with a separate service that only places a localization device without performing a biopsy?"
+      ],
+      [
+        "Is this biopsy for an additional lesion rather than the first lesion?"
+      ],
+      [
+        "Is the biopsy performed under ultrasound or stereotactic guidance instead of MRI?"
+      ]
+    ]
+  },
+  "19086": {
+    "title": "MRI-guided percutaneous breast biopsy — additional lesion",
+    "pathways": [
+      "I need a percutaneous breast biopsy under MRI guidance for an additional lesion after the first separately reportable lesion, and a localization device may be placed.",
+      "I am having only image-guided placement of a breast localization device without an image-guided biopsy (codes for biopsy should not be used)."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure a percutaneous biopsy of breast tissue performed under MRI guidance?",
+        "Is the biopsy being performed for an additional lesion after the first separately reportable lesion?",
+        "Is tissue being sampled (a biopsy) rather than only placing a localization device?"
+      ],
+      [
+        "Is no image-guided biopsy being performed?",
+        "Is the service limited to image-guided placement of a localization device without biopsy?"
+      ]
+    ]
+  },
+  "19100": {
+    "title": "Breast core needle biopsy without imaging guidance",
+    "pathways": [
+      "I am having a percutaneous core needle biopsy of a breast lesion performed without imaging guidance.",
+      "I am having a fine needle aspiration of the breast rather than a core needle biopsy.",
+      "I am having a percutaneous breast biopsy that includes placement of a localization device and imaging of the biopsy specimen."
+    ],
+    "pathway_questions": [
+      [
+        "Is the planned procedure a percutaneous (needle) core biopsy of the breast?",
+        "Will the biopsy be performed without imaging guidance?",
+        "Is the technique a core needle biopsy rather than a fine needle aspiration?"
+      ],
+      [
+        "Is the planned procedure a fine needle aspiration of the breast?"
+      ],
+      [
+        "Does the planned procedure include placement of a localization device and imaging of the biopsy specimen?",
+        "Is the procedure percutaneous?"
+      ]
+    ]
+  },
+  "19101": {
+    "title": "Open incisional breast biopsy",
+    "pathways": [
+      "I need an open incisional breast biopsy and it is listed as an approved procedure."
+    ],
+    "pathway_questions": [
+      [
+        "Is an open incisional breast biopsy being requested?"
+      ]
+    ]
+  },
+  "19120": {
+    "title": "Open excision of breast lesion",
+    "pathways": [
+      "I need open excision of one or more benign breast lesions (cyst, fibroadenoma, aberrant tissue, duct, nipple/areolar).",
+      "I need open excision of one or more malignant breast tumors."
+    ],
+    "pathway_questions": [
+      [
+        "I have one or more breast lesions of type cyst, fibroadenoma, aberrant breast tissue, duct lesion, or nipple/areolar lesion.",
+        "The planned procedure is open excision (not percutaneous needle biopsy).",
+        "The lesion was not identified by preoperative placement of a radiological marker."
+      ],
+      [
+        "I have one or more malignant breast tumors requiring excision.",
+        "The planned procedure is open excision (not percutaneous needle biopsy).",
+        "The lesion was not identified by preoperative placement of a radiological marker."
+      ]
+    ]
+  },
+  "19125": {
+    "title": "Excision of a single breast lesion localized by preoperative radiological marker",
+    "pathways": [
+      "I need an open excision of a single breast lesion that was identified preoperatively by placement of a radiological marker.",
+      "I need an open excision after percutaneous placement of a breast localization device for the first lesion."
+    ],
+    "pathway_questions": [
+      [
+        "Was the lesion identified preoperatively by placement of a radiological marker?",
+        "Is only a single lesion being excised?",
+        "Is the excision being performed as an open surgical procedure (not a percutaneous needle biopsy)?"
+      ],
+      [
+        "Was a percutaneous breast localization device placed for this lesion?",
+        "Is this the first lesion localized?",
+        "Is the excision being performed as an open surgical procedure?"
+      ]
+    ]
+  },
+  "19126": {
+    "title": "Excision of additional radiologically localized breast lesion",
+    "pathways": [
+      "I am having excision of an additional breast lesion identified preoperatively by a radiologic marker after excision of the initial lesion from the same breast.",
+      "I have multiple additional breast lesions, each separately identified by a preoperative radiologic marker, and each is being excised after the initial lesion."
+    ],
+    "pathway_questions": [
+      [
+        "Was the lesion identified preoperatively by a radiological marker?",
+        "Is this an additional lesion being excised after the initial lesion from the same breast was excised?",
+        "Is this procedure being performed in conjunction with excision of the initial lesion?"
+      ],
+      [
+        "Are there multiple additional lesions, each separately identified by a preoperative radiological marker?",
+        "Are these additional lesions being excised after the initial lesion from the same breast was excised?",
+        "Are each of these procedures being performed in conjunction with excision of the initial lesion?"
+      ]
+    ]
+  },
+  "19281": {
+    "title": "Breast localization device placement (first lesion)",
+    "pathways": [
+      "I need percutaneous placement of a breast localization device using mammographic guidance for the first lesion and it is not part of a biopsy that already included localization and specimen imaging.",
+      "I need percutaneous placement of a breast localization device using stereotactic or ultrasound guidance for the first lesion and it is not part of a biopsy that already included localization and specimen imaging."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure percutaneous placement of a breast localization device?",
+        "Is mammographic guidance being used?",
+        "Is this the first lesion to be localized?",
+        "Is this NOT being performed with a breast biopsy procedure that already includes image guidance, localization, and specimen imaging?"
+      ],
+      [
+        "Is the procedure percutaneous placement of a breast localization device?",
+        "Is guidance stereotactic or ultrasound?",
+        "Is this the first lesion to be localized?",
+        "Is this NOT being performed with a breast biopsy procedure that already includes image guidance, localization, and specimen imaging?"
+      ]
+    ]
+  },
+  "19282": {
+    "title": "Percutaneous breast localization placement for an additional lesion (mammographic guidance)",
+    "pathways": [
+      "I am having percutaneous placement of a breast localization device under mammographic guidance for an additional lesion during the same session as the first-lesion localization.",
+      "I am receiving this add-on localization placement only as an additional-lesion service and it will be billed together with the first-lesion localization (not billed alone).",
+      "I am not eligible if this is billed with a breast biopsy that already included image guidance, placement of a localization device, and specimen imaging."
+    ],
+    "pathway_questions": [
+      [
+        "Is the placement percutaneous?",
+        "Is mammographic guidance used?",
+        "Is this placement for an additional (not the first) lesion?",
+        "Is the first-lesion localization being placed in the same session?"
+      ],
+      [
+        "Is this intended as an additional-lesion (add-on) localization rather than the first localization?",
+        "Will it be billed together with the first-lesion localization (not billed alone)?"
+      ],
+      [
+        "Was this billed together with a breast biopsy procedure that already included image guidance, localization device placement, and specimen imaging?"
+      ]
+    ]
+  },
+  "19283": {
+    "title": "Percutaneous stereotactic placement of a breast localization device for the first lesion",
+    "pathways": [
+      "I need percutaneous placement of a breast localization device using stereotactic guidance for the first lesion.",
+      "I have multiple lesions and will have this first-lesion localization with separate additional-lesion localizations billed for each other lesion.",
+      "This procedure is not being done as part of an image‑guided biopsy that already includes placement of a localization device and specimen imaging."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure a percutaneous placement of a breast localization device?",
+        "Is stereotactic guidance being used?",
+        "Is this the first lesion being localized?",
+        "Is this not being performed as part of an image‑guided breast biopsy that already includes localization and specimen imaging?"
+      ],
+      [
+        "Are there multiple breast lesions requiring localization?",
+        "Will each additional lesion be addressed with separate additional-lesion localization procedures?",
+        "Is stereotactic guidance being used for localization?"
+      ],
+      [
+        "Is this procedure NOT being performed as part of an image‑guided biopsy that already includes placement of a localization device and imaging of the specimen?"
+      ]
+    ]
+  },
+  "19284": {
+    "title": "Stereotactic percutaneous localization for an additional breast lesion",
+    "pathways": [
+      "I am having stereotactic percutaneous placement of a localization device for an additional breast lesion during the same session as localization of the first lesion.",
+      "I need localization for an additional lesion but the guidance method is mammographic or ultrasound, so the stereotactic add-on does not apply."
+    ],
+    "pathway_questions": [
+      [
+        "Is the localization device being placed percutaneously using stereotactic guidance?",
+        "Is this placement for an additional lesion separate from the first lesion?",
+        "Is the device being placed in the same session when another localization device was placed for the first lesion?",
+        "Is this NOT being performed together with a breast biopsy procedure that already includes image guidance and localization?"
+      ],
+      [
+        "Is the guidance method mammographic or ultrasound instead of stereotactic?"
+      ]
+    ]
+  },
+  "19285": {
+    "title": "Ultrasound-guided percutaneous breast localization (first lesion)",
+    "pathways": [
+      "I need percutaneous placement of a breast localization device for the first lesion using ultrasound guidance.",
+      "I have multiple lesions; this procedure code applies only to the first lesion and additional lesions need separate localization services.",
+      "I am not having a concurrent breast biopsy that already includes image guidance and localization."
+    ],
+    "pathway_questions": [
+      [
+        "Is this a percutaneous placement of a breast localization device?",
+        "Is this the first lesion to be localized?",
+        "Will ultrasound guidance be used?"
+      ],
+      [
+        "Are there multiple lesions to be localized?",
+        "Is this service being billed for the first lesion?"
+      ],
+      [
+        "Is there no concurrent breast biopsy procedure that includes image guidance and placement of a localization device?"
+      ]
+    ]
+  },
+  "19286": {
+    "title": "Additional ultrasound-guided breast localization device placement",
+    "pathways": [
+      "I am placing an additional breast localization device with ultrasound at the same session as the initial lesion placement and billing the initial ultrasound placement.",
+      "I am placing an additional ultrasound-guided localization device and I am not also performing an image-guided biopsy that includes device placement and specimen imaging."
+    ],
+    "pathway_questions": [
+      [
+        "Is this placement for an additional lesion?",
+        "Is ultrasound guidance being used?",
+        "Is the localization device placed during the same session as the initial lesion's placement?",
+        "Is the initial lesion's ultrasound localization placement also performed/billed?"
+      ],
+      [
+        "Is this placement for an additional lesion?",
+        "Is ultrasound guidance being used?",
+        "Am I NOT performing a concurrent image-guided biopsy that includes device placement and specimen imaging?"
+      ]
+    ]
+  },
+  "19287": {
+    "title": "MRI-guided percutaneous breast localization — first lesion",
+    "pathways": [
+      "I need MRI-guided percutaneous placement of a breast localization device for the first lesion and I'm not billing a biopsy code that includes placement.",
+      "I am performing localization for an additional lesion (use the additional-lesion code instead).",
+      "I am billing this together with a breast biopsy code that already includes image guidance, placement, and specimen imaging (not allowed)."
+    ],
+    "pathway_questions": [
+      [
+        "Is the localization MRI-guided?",
+        "Is the placement percutaneous?",
+        "Is this the first lesion?",
+        "Are you NOT billing a breast biopsy code that includes image guidance, placement, and specimen imaging?"
+      ],
+      [
+        "Is this localization for an additional lesion?"
+      ],
+      [
+        "Are you billing this together with a breast biopsy code that includes image guidance, placement, and specimen imaging?"
+      ]
+    ]
+  },
+  "19288": {
+    "title": "MR‑guided breast localization — additional lesion",
+    "pathways": [
+      "I need MR-guided placement of an additional breast localization device at the same session as the first lesion placement.",
+      "I am performing a percutaneous breast biopsy that includes image guidance, placement of a localization device, and imaging of the biopsy specimen (this code should not be used)."
+    ],
+    "pathway_questions": [
+      [
+        "Is magnetic resonance guidance being used for localization?",
+        "Is this localization for a lesion additional to the first lesion?",
+        "Is the additional localization being placed at the same session as the initial lesion localization?"
+      ],
+      [
+        "Is the procedure a percutaneous breast biopsy that includes image guidance, placement of a localization device, and imaging of the biopsy specimen?"
+      ]
+    ]
+  },
+  "19300": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "57452": {
+    "title": "Colposcopy of the cervix (examination of cervix/upper vagina)",
+    "pathways": [
+      "I am having a colposcopy alone (no biopsy or endocervical curettage and no separate office visit/consult billed).",
+      "I am having colposcopy with endometrial sampling to evaluate adenocarcinoma in situ (AIS).",
+      "I am having colposcopy with endometrial sampling for an AGC subcategory other than AGC–atypical endometrial cells.",
+      "I am having colposcopy with endometrial sampling for AGC–atypical endometrial cells in a woman over 35 or a younger woman with risk factors."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure a colposcopy with no biopsy or endocervical curettage performed?",
+        "Is no separate office visit or consult being billed with the colposcopy?"
+      ],
+      [
+        "Is endometrial sampling being performed together with the colposcopy?",
+        "Is the clinical indication adenocarcinoma in situ (AIS)?"
+      ],
+      [
+        "Is endometrial sampling being performed together with the colposcopy?",
+        "Is the clinical indication an AGC subcategory other than AGC–atypical endometrial cells?"
+      ],
+      [
+        "Is endometrial sampling being performed together with the colposcopy?",
+        "Is the clinical indication AGC–atypical endometrial cells?",
+        "Is the patient over age 35 or a younger patient with risk factors for endometrial neoplasia (for example obesity or unexplained/anovulatory bleeding)?"
+      ]
+    ]
+  },
+  "57454": {
+    "title": "Colposcopy with cervical biopsy and endocervical sampling (billing rules)",
+    "pathways": [
+      "I am performing colposcopy with cervical biopsy(s) and endocervical sampling and not billing any office visit or consult.",
+      "I am performing this procedure and not billing a separate colposcopy-only service at the same encounter."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure a colposcopy with cervical biopsy(s) and endocervical sampling?",
+        "Am I not billing any office visits or consults for this encounter?"
+      ],
+      [
+        "Is the procedure a colposcopy with cervical biopsy(s) and endocervical sampling?",
+        "Am I not billing a separate colposcopy-only service at the same encounter?"
+      ]
+    ]
+  },
+  "57455": {
+    "title": "Colposcopy of the cervix with biopsy — billing eligibility",
+    "pathways": [
+      "I had a colposcopy with biopsy billed without any office visit or consult.",
+      "I had a colposcopy with biopsy billed together with an office visit or consult (not allowed).",
+      "I billed a colposcopy including the upper/adjacent vagina together with a colposcopy with biopsy (not allowed)."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure a colposcopy of the cervix with biopsy?",
+        "Is there no office visit or consult billed in conjunction?"
+      ],
+      [
+        "Is the procedure a colposcopy of the cervix with biopsy?",
+        "Is an office visit or consult billed in conjunction?"
+      ],
+      [
+        "Was a colposcopy including the upper/adjacent vagina billed?",
+        "Was a colposcopy with biopsy billed in conjunction?"
+      ]
+    ]
+  },
+  "57456": {
+    "title": "Colposcopy with endocervical curettage",
+    "pathways": [
+      "I am scheduled for colposcopy with endocervical curettage for an approved diagnosis and it is billed alone (no office visit or consult).",
+      "I am scheduled for colposcopy with endocervical curettage and it is not billed together with a separate colposcopy-only service."
+    ],
+    "pathway_questions": [
+      [
+        "Is the diagnosis code for the exam listed in the approved ICD-10 table (table 1c)?",
+        "Is the procedure billed without any office visit or consult?"
+      ],
+      [
+        "Is the procedure billed without a separate colposcopy-only service?"
+      ]
+    ]
+  },
+  "57500": {
+    "title": "Excision/biopsy of cervix — coverage criteria",
+    "pathways": [
+      "I am having the procedure to evaluate leukoplakia or another suspicious visible cervical lesion.",
+      "I have an abnormal Pap and colposcopy is not readily available."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure being performed to evaluate leukoplakia or another suspicious visible cervical lesion?",
+        "Is this not billed in conjunction with a colposcopy?"
+      ],
+      [
+        "Is the procedure being performed to evaluate an abnormal Pap test?",
+        "Is colposcopy not readily available?",
+        "Is this not billed in conjunction with a colposcopy?"
+      ]
+    ]
+  },
+  "57505": {
+    "title": "Endocervical curettage (ECC) reimbursement",
+    "pathways": [
+      "I have atypical glandular cells or atypical endometrial cells and ECC is billed with endometrial sampling as the initial workup.",
+      "ECC is billed together with a colposcopy procedure — this combination is not allowed.",
+      "ECC is billed without accompanying endometrial sampling — not reimbursable for this indication."
+    ],
+    "pathway_questions": [
+      [
+        "Do I have atypical glandular cells (AGC) or atypical endometrial cells?",
+        "Is ECC billed together with endometrial sampling?",
+        "Is this billed as the initial workup?",
+        "Is ECC NOT billed together with any colposcopy procedure?"
+      ],
+      [
+        "Is ECC billed together with a colposcopy procedure (colposcopy with or without biopsy/endocervical curettage)?"
+      ],
+      [
+        "Is ECC billed without accompanying endometrial sampling?"
+      ]
+    ]
+  },
+  "58100": {
+    "title": "Endometrial sampling (biopsy) coverage",
+    "pathways": [
+      "I am having endometrial sampling as the initial workup for AGC/atypical endometrial cells.",
+      "I have abnormal uterine/cervical cytology coded as R87.619 supporting endometrial sampling.",
+      "I have adenocarcinoma in situ or an AGC subcategory (not AGC/atypical endometrial cells) and sampling will be performed with colposcopy in an eligible woman (separate coverage rules apply)."
+    ],
+    "pathway_questions": [
+      [
+        "Is this the initial diagnostic workup for atypical glandular cells or atypical endometrial cells?"
+      ],
+      [
+        "Is the diagnosis code R87.619 documented for this encounter?"
+      ],
+      [
+        "Is the indication AIS or an AGC subcategory other than AGC/atypical endometrial cells?",
+        "Is the patient either older than 35 or a younger patient with risk factors for endometrial neoplasia (for example obesity or unexplained/anovulatory bleeding)?",
+        "Will the endometrial sampling be performed with colposcopy?"
+      ]
+    ]
+  },
+  "58110": {
+    "title": "Endometrial sampling with colposcopy — coverage for AIS and AGC",
+    "pathways": [
+      "I have adenocarcinoma in situ (AIS) and meet the age/risk criteria for endometrial evaluation.",
+      "I have atypical glandular cells (AGC) (not AGC/atypical endometrial cells) and meet the age/risk criteria for endometrial evaluation."
+    ],
+    "pathway_questions": [
+      [
+        "Is the clinical indication adenocarcinoma in situ (AIS)?",
+        "Are you older than 35, or younger with risk factors for endometrial neoplasia (e.g., obesity, unexplained or anovulatory bleeding)?",
+        "Will the endometrial biopsy be performed at the same session as colposcopy and used in conjunction with colposcopy?"
+      ],
+      [
+        "Is the clinical indication an AGC subcategory other than AGC/atypical endometrial cells?",
+        "Are you older than 35, or younger with risk factors for endometrial neoplasia (e.g., obesity, unexplained or anovulatory bleeding)?",
+        "Will the endometrial biopsy be performed at the same session as colposcopy and used in conjunction with colposcopy?"
+      ]
+    ]
+  },
+  "76098": {
+    "title": "Radiographic imaging of a surgical specimen to confirm excision",
+    "pathways": [
+      "I am having radiological imaging of a surgical specimen during my procedure to confirm the entire lesion was removed and reported to the surgeon."
+    ],
+    "pathway_questions": [
+      [
+        "Was a surgical specimen removed during the procedure?",
+        "Is radiological imaging performed on the specimen immediately after removal to confirm excision?",
+        "Does the radiologist report findings to the surgeon before the surgeon completes the procedure?"
+      ]
+    ]
+  },
+  "81025": {
+    "title": "Urine pregnancy test — allowed only with specified procedures",
+    "pathways": [
+      "I am having the urine pregnancy test billed together with one or more of the specified associated procedures."
+    ],
+    "pathway_questions": [
+      [
+        "Is the urine pregnancy test being billed with one or more of the specified associated procedures?"
+      ]
+    ]
+  },
+  "87624": {
+    "title": "HPV high-risk nucleic acid screening",
+    "pathways": [
+      "I am having an HPV screening test.",
+      "I am a high‑risk patient over age 65 and am being screened for HPV."
+    ],
+    "pathway_questions": [
+      [
+        "Is the test being performed for routine screening for HPV?"
+      ],
+      [
+        "Is the patient older than 65?",
+        "Is the patient considered high‑risk for HPV or cervical cancer?"
+      ]
+    ]
+  },
+  "87625": {
+    "title": "HPV genotyping (types 16 and 18; includes 45)",
+    "pathways": [
+      "I am receiving HPV genotyping as follow-up to a primary HPV screening and I am age 30 or older.",
+      "I am a high-risk patient over age 65 receiving HPV screening."
+    ],
+    "pathway_questions": [
+      [
+        "Is this test ordered as follow-up to a primary HPV screening?",
+        "Are you age 30 or older?"
+      ],
+      [
+        "Is this test being performed for screening?",
+        "Are you high-risk and over age 65?"
+      ]
+    ]
+  },
+  "88141": {
+    "title": "Cervical/vaginal cytology interpretation",
+    "pathways": [
+      "I am receiving a physician interpretation of a cervical or vaginal cytology specimen billed with a corresponding processing/screening procedure."
+    ],
+    "pathway_questions": [
+      [
+        "Is the service a physician interpretation of a cervical or vaginal cytology specimen?",
+        "Was the interpretation billed together with a specimen processing/screening procedure (for example, thin‑layer or manual slide screening)?"
+      ]
+    ]
+  },
+  "88142": {
+    "title": "Cervical or vaginal cytology (thin‑layer prep) with manual screening",
+    "pathways": [
+      "I have a cervical or vaginal cytology specimen collected in preservative fluid needing automated thin‑layer preparation with manual screening under physician supervision.",
+      "My cytology will be reported using any reporting system (for example, Bethesda or non‑Bethesda).",
+      "My clinical diagnosis is listed in the ICD‑10‑CM tables referenced for this procedure (tables 1a or 1b).",
+      "I need physician interpretation of the cytology result in addition to the technical screening."
+    ],
+    "pathway_questions": [
+      [
+        "Is the specimen cervical or vaginal and collected in preservative fluid?",
+        "Is automated thin‑layer preparation performed and manual screening done under physician supervision?"
+      ],
+      [
+        "Will the cytology be reported using any reporting system (e.g., Bethesda or non‑Bethesda)?"
+      ],
+      [
+        "Is the patient's ICD‑10‑CM diagnosis listed in tables 1a or 1b referenced for this procedure?"
+      ],
+      [
+        "Is physician interpretation required in conjunction with the technical screening?"
+      ]
+    ]
+  },
+  "88143": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "88164": {
+    "title": "Cervical or vaginal manual cytopathology screening",
+    "pathways": [
+      "I have a cervical or vaginal cytology specimen and the diagnosis code is listed in tables 1a or 1b.",
+      "The procedure is a manual screening of cervical or vaginal slides performed under a physician's supervision."
+    ],
+    "pathway_questions": [
+      [
+        "Is the specimen a cervical or vaginal cytology specimen?",
+        "Is the ICD-10 diagnosis listed in tables 1a or 1b?"
+      ],
+      [
+        "Is the screening performed manually on slides?",
+        "Is the screening conducted under a physician's supervision?"
+      ]
+    ]
+  },
+  "88172": {
+    "title": "FNA immediate adequacy cytopathology",
+    "pathways": [
+      "I am having an immediate adequacy assessment of a fine-needle aspirate at time of aspiration for the first evaluation episode at this site.",
+      "I am having an additional immediate evaluation episode at the same site (not the first episode)."
+    ],
+    "pathway_questions": [
+      [
+        "Was a fine-needle aspiration performed and specimen obtained?",
+        "Is an immediate cytohistologic adequacy study performed at the time of aspiration?",
+        "Is this the first evaluation episode for this anatomic site?",
+        "Is there an ICD-10-CM diagnosis code supported in table 2b for this service?"
+      ],
+      [
+        "Is this an additional immediate evaluation episode at the same anatomic site (not the first evaluation episode)?"
+      ]
+    ]
+  },
+  "88173": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "88174": {
+    "title": "Automated thin-layer cervical/vaginal cytology screening",
+    "pathways": [
+      "I need automated thin‑layer cervical/vaginal cytology on a specimen in preservative fluid and the ICD-10 diagnosis is in tables 1a/1b.",
+      "I need automated thin‑layer cervical/vaginal cytology on a specimen in preservative fluid and a physician interpretation is reported in conjunction."
+    ],
+    "pathway_questions": [
+      [
+        "Is the specimen cervical or vaginal?",
+        "Was the specimen collected in preservative fluid?",
+        "Was automated thin layer preparation used?",
+        "Was screening performed by an automated system under physician supervision?",
+        "Is the ICD-10 diagnosis listed in tables 1a or 1b?"
+      ],
+      [
+        "Is the specimen cervical or vaginal?",
+        "Was the specimen collected in preservative fluid?",
+        "Was automated thin layer preparation used?",
+        "Was screening performed by an automated system under physician supervision?",
+        "Is the ICD-10 diagnosis listed in tables 1a or 1b?",
+        "Is a physician interpretation reported in conjunction with the technical service?"
+      ]
+    ]
+  },
+  "88175": {
+    "title": "Cervical/vaginal cytopathology with automated thin-layer prep and manual rescreening",
+    "pathways": [
+      "I have a cervical or vaginal specimen collected in preservative fluid needing automated thin-layer preparation with automated screening and manual rescreen/review under physician supervision.",
+      "I have a physician interpretation billed in conjunction with the technical cytopathology service for a cervical or vaginal specimen processed as above."
+    ],
+    "pathway_questions": [
+      [
+        "Is the specimen cervical or vaginal?",
+        "Was the specimen collected in preservative fluid?",
+        "Does the test use automated thin-layer preparation with automated screening and manual rescreening or review under physician supervision?",
+        "Is the patient's ICD-10-CM diagnosis included in tables 1a or 1b?"
+      ],
+      [
+        "Is a physician interpretation being billed in conjunction with the technical cytopathology service?",
+        "Does the specimen and processing match automated thin-layer preparation with automated screening and manual rescreening or review under physician supervision?",
+        "Is the patient's ICD-10-CM diagnosis included in tables 1a or 1b?"
+      ]
+    ]
+  },
+  "88177": {
+    "title": "FNA cytopathology — additional immediate adequacy evaluation",
+    "pathways": [
+      "I need an additional immediate adequacy evaluation of a fine needle aspirate at the same site after the first evaluation."
+    ],
+    "pathway_questions": [
+      [
+        "Is this an additional evaluation episode after the first evaluation at the same site?",
+        "Is the test being performed immediately to determine specimen adequacy for diagnosis?",
+        "Is the diagnosis supported by an ICD-10-CM code included in table 2b?"
+      ]
+    ]
+  },
+  "88305": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "88307": {
+    "title": "Level V surgical pathology exam (requires microscopic margin evaluation)",
+    "pathways": [
+      "I need a level V surgical pathology exam because the specimen requires microscopic evaluation of surgical margins.",
+      "The procedure is an approved surgical pathology service and is covered when submitted with an ICD-10-CM diagnosis from tables 1b or 2b."
+    ],
+    "pathway_questions": [
+      [
+        "Is the examination a level V surgical pathology exam?",
+        "Does the specimen require microscopic evaluation of surgical margins?"
+      ],
+      [
+        "Is procedure code 88307 listed in the approved procedures?",
+        "Is an ICD-10-CM diagnosis code from tables 1b or 2b provided with the claim?"
+      ]
+    ]
+  },
+  "88331": {
+    "title": "Intraoperative (frozen) pathology consultation — first tissue block",
+    "pathways": [
+      "I am having an intraoperative pathology consultation during surgery for the first tissue block with frozen section(s) on a single specimen."
+    ],
+    "pathway_questions": [
+      [
+        "Is this an intraoperative (during-surgery) pathology consultation?",
+        "Is this the first tissue block with frozen section(s)?",
+        "Is the service for a single specimen?"
+      ]
+    ]
+  },
+  "88332": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "88341": {
+    "title": "Additional immunohistochemistry stain for surgical pathology",
+    "pathways": [
+      "I have an additional single antibody immunohistochemistry stain performed on the same specimen and billed separately in addition to the primary procedure.",
+      "I have an appropriate ICD-10-CM diagnosis code from the referenced tables that supports the service.",
+      "This procedure is included on the Approved Procedures list for surgical pathology."
+    ],
+    "pathway_questions": [
+      [
+        "Is the service an additional single antibody immunohistochemistry stain performed on the same specimen?",
+        "Is it billed separately in addition to a primary immunohistochemistry procedure?"
+      ],
+      [
+        "Is there an ICD-10-CM diagnosis code from tables 1b, 1c, or 2b that supports this service?"
+      ],
+      [
+        "Is this procedure listed on the Approved Procedures list for surgical pathology?"
+      ]
+    ]
+  },
+  "88342": {
+    "title": "Immunohistochemistry (initial single-antibody) — Surgical Pathology",
+    "pathways": [
+      "I need an initial single-antibody immunohistochemistry stain on a patient specimen for pathologic diagnosis.",
+      "The procedure is supported by an ICD-10-CM diagnosis listed in tables 1b, 1c, or 2b."
+    ],
+    "pathway_questions": [
+      [
+        "Is the requested service an initial single-antibody immunohistochemistry stain on slides from a single patient specimen?",
+        "Will a qualified provider (pathologist) interpret the stained slides to provide a pathologic diagnosis?"
+      ],
+      [
+        "Is there an ICD-10-CM diagnosis code for this patient listed in tables 1b, 1c, or 2b?"
+      ]
+    ]
+  },
+  "88360": {
+    "title": "Manual morphometric tumor immunochemistry (single antibody)",
+    "pathways": [
+      "I need manual morphometric analysis of tumor immunochemistry (one antibody) on a patient specimen for diagnosis.",
+      "I have an applicable ICD-10-CM diagnosis code listed in table 2b that supports this procedure."
+    ],
+    "pathway_questions": [
+      [
+        "Is the specimen tumor tissue requiring immunohistochemical evaluation?",
+        "Is a manual morphometric analysis being performed for a single antibody stain?",
+        "Will a qualified provider (pathologist) evaluate and interpret the stained slides?"
+      ],
+      [
+        "Is there an applicable ICD-10-CM diagnosis code for this case listed in table 2b?"
+      ]
+    ]
+  },
+  "88364": {
+    "title": "Additional single‑probe in situ hybridization (FISH) on same specimen",
+    "pathways": [
+      "I need an additional single‑probe in situ hybridization stain on slides from the same patient specimen and the diagnosis is listed in Tables 1b or 2b."
+    ],
+    "pathway_questions": [
+      [
+        "Is this an additional single‑probe in situ hybridization performed on slides prepared from the same patient specimen after an initial probe stain?",
+        "Is the patient's ICD-10-CM diagnosis code listed in policy Tables 1b or 2b?"
+      ]
+    ]
+  },
+  "88365": {
+    "title": "Initial in situ hybridization single-probe (surgical pathology)",
+    "pathways": [
+      "I am eligible when this is the initial single-probe in situ hybridization stain performed on a single patient specimen.",
+      "I am eligible when the patient's ICD-10-CM diagnosis is listed in Tables 1b or 2b of the policy.",
+      "I am eligible because this procedure is included in the policy's Approved Procedures list."
+    ],
+    "pathway_questions": [
+      [
+        "Is this the initial single-probe in situ hybridization stain for the specimen?",
+        "Is the stain performed on slides prepared from a single patient specimen?"
+      ],
+      [
+        "Is the patient's ICD-10-CM diagnosis listed in Tables 1b or 2b of the policy?"
+      ],
+      [
+        "Is this procedure included in the policy's Approved Procedures CPT Codes Key?"
+      ]
+    ]
+  },
+  "88366": {
+    "title": "In situ hybridization (multiplex) — per specimen",
+    "pathways": [
+      "I need an in situ hybridization multiplex probe stain on a single patient specimen.",
+      "A qualified provider (pathologist) will qualitatively interpret the stained slides to provide a pathologic diagnosis."
+    ],
+    "pathway_questions": [
+      [
+        "Is the procedure an in situ hybridization (multiplex) probe stain performed on slides prepared from a single patient specimen?"
+      ],
+      [
+        "Will a qualified provider (e.g., pathologist) qualitatively interpret the stained slides to provide a pathologic diagnosis?"
+      ]
+    ]
+  },
+  "88367": {
+    "title": "Initial computer-assisted morphometric in situ hybridization (single probe)",
+    "pathways": [
+      "I need an initial single-probe, computer-assisted morphometric in situ hybridization on a patient specimen for diagnostic pathology."
+    ],
+    "pathway_questions": [
+      [
+        "Is this an initial single-probe in situ hybridization performed on slides from a single patient specimen?",
+        "Is morphometric analysis being performed using computer-assisted technology?",
+        "Is the procedure performed to evaluate the stained slides and provide a pathologic diagnosis?",
+        "Is there an appropriate ICD-10-CM diagnosis code listed in the policy's referenced tables?"
+      ]
+    ]
+  },
+  "88368": {
+    "title": "Initial manual in situ hybridization (single‑probe) morphometric analysis",
+    "pathways": [
+      "I need an initial, manual morphometric in situ hybridization single‑probe analysis on a single‑patient specimen for diagnostic evaluation.",
+      "I need an initial, manual morphometric in situ hybridization single‑probe analysis specifically on tumor tissue from a single patient."
+    ],
+    "pathway_questions": [
+      [
+        "Is this an initial (first) single‑probe in situ hybridization morphometric analysis performed manually?",
+        "Is the analysis being performed on slides prepared from a single patient specimen?",
+        "Is the patient's diagnosis listed in the policy's approved diagnosis list (see tables 1b or 2b)?"
+      ],
+      [
+        "Is this an initial (first) single‑probe in situ hybridization morphometric analysis performed manually?",
+        "Is the specimen tumor tissue from a single patient?",
+        "Is the patient's diagnosis listed in the policy's approved diagnosis list (see tables 1b or 2b)?"
+      ]
+    ]
+  },
+  "88369": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "88373": {
+    "title": "Additional in situ hybridization single-probe morphometric analysis (computer-assisted)",
+    "pathways": [
+      "I have an ICD-10-CM diagnosis listed in tables 1b or 2b of the policy."
+    ],
+    "pathway_questions": [
+      [
+        "Is the patient's ICD-10-CM diagnosis included in tables 1b or 2b of this policy?"
+      ]
+    ]
+  },
+  "88374": {
+    "title": "Computer-assisted morphometric in situ hybridization (multiplex) — approved procedure",
+    "pathways": [
+      "I need computer-assisted morphometric in situ hybridization with a multiplex probe on a single specimen and have a supporting ICD-10 diagnosis in the policy tables.",
+      "I need a similar ISH morphometric analysis performed manually or as a single-probe (see other approved procedures) and have a supporting ICD-10 diagnosis in the policy tables."
+    ],
+    "pathway_questions": [
+      [
+        "Is the requested test computer-assisted morphometric in situ hybridization using a multiplex probe?",
+        "Is the test being reported per single patient specimen?",
+        "Is there a supporting ICD-10-CM diagnosis listed in the policy's Tables 1b or 2b?"
+      ],
+      [
+        "Is the requested test manual or a single-probe morphometric in situ hybridization (not computer-assisted multiplex)?",
+        "Is there a supporting ICD-10-CM diagnosis listed in the policy's Tables 1b or 2b?"
+      ]
+    ]
+  },
+  "88377": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "95852": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "99070": {
+    "title": "Supplies or materials provided beyond usual office visit",
+    "pathways": [
+      "I was given supplies or materials by the provider that were beyond what is normally included with my visit.",
+      "I was given miscellaneous drugs or medical supplies by the provider during the encounter.",
+      "The provider documented and listed specific drugs, trays, supplies, or medical devices provided in addition to the visit."
+    ],
+    "pathway_questions": [
+      [
+        "Were supplies or materials provided by the provider beyond what is normally included with the office visit or service?",
+        "Were the items provided not spectacles or eyeglasses?"
+      ],
+      [
+        "Were miscellaneous drugs or medical supplies provided to me during the encounter?",
+        "Were these items provided by the physician or their staff?"
+      ],
+      [
+        "Did the provider document and list the specific drugs, trays, supplies, or medical devices provided?",
+        "Were these items provided in addition to the usual items included with the visit?",
+        "Were the items not spectacles or eyeglasses?"
+      ]
+    ]
+  },
+  "99202": {
+    "title": "New patient office/outpatient visit (straightforward or 15–29 min)",
+    "pathways": [
+      "I am a new patient receiving an office or outpatient evaluation that requires straightforward medical decision making.",
+      "I am a new patient receiving an office or outpatient evaluation and the provider spent 15–29 minutes total on the encounter."
+    ],
+    "pathway_questions": [
+      [
+        "Am I a new patient to this provider?",
+        "Is the encounter an office or other outpatient visit?",
+        "Does the visit require a medically appropriate history and/or examination?",
+        "Does the visit involve straightforward medical decision making?"
+      ],
+      [
+        "Am I a new patient to this provider?",
+        "Is the encounter an office or other outpatient visit?",
+        "Did the provider spend 15–29 minutes total time on the date of the encounter?"
+      ]
+    ]
+  },
+  "99203": {
+    "title": "New patient office/outpatient E&M visit — low complexity",
+    "pathways": [
+      "I am a new patient having an office or outpatient visit with a medically appropriate history/exam and low level medical decision making.",
+      "I am a new patient and the provider used total time for code selection, spending 30–44 minutes on the encounter that date."
+    ],
+    "pathway_questions": [
+      [
+        "Am I a new patient?",
+        "Is this an office or other outpatient visit?",
+        "Does the visit include a medically appropriate history and/or examination?",
+        "Does the visit involve a low level of medical decision making?"
+      ],
+      [
+        "Am I a new patient?",
+        "Is this an office or other outpatient visit?",
+        "Am I using total time on the date of the encounter to select the code?",
+        "Was 30–44 minutes of total time spent on the encounter on that date?"
+      ]
+    ]
+  },
+  "99204": {
+    "title": "New patient office/outpatient visit (moderate decision making, 45+ min) - payment requires both screenings for women",
+    "pathways": [
+      "I am a woman and I received both breast and cervical cancer screenings during the visit.",
+      "I am not a woman (service not paid).",
+      "I am a woman and a breast cancer screening was not performed during the visit (service not paid).",
+      "I am a woman and a cervical cancer screening was not performed during the visit (service not paid)."
+    ],
+    "pathway_questions": [
+      [
+        "Am I female?",
+        "Was a breast cancer screening performed during the visit?",
+        "Was a cervical cancer screening performed during the visit?"
+      ],
+      [
+        "Am I not female?"
+      ],
+      [
+        "Am I female?",
+        "Was a breast cancer screening NOT performed during the visit?"
+      ],
+      [
+        "Am I female?",
+        "Was a cervical cancer screening NOT performed during the visit?"
+      ]
+    ]
+  },
+  "99211": {
+    "title": "Established patient office/outpatient visit (may not need physician)",
+    "pathways": [
+      "I am an established patient presenting for an office or other outpatient visit that does not require the presence of a physician or other qualified health care professional."
+    ],
+    "pathway_questions": [
+      [
+        "Am I an established patient?",
+        "Is this an office or other outpatient visit?",
+        "Does the visit not require the presence of a physician or other qualified health care professional?"
+      ]
+    ]
+  },
+  "99212": {
+    "title": "Established patient office/outpatient E/M visit (straightforward or 10–19 minutes)",
+    "pathways": [
+      "I am an established patient and the visit involves a straightforward level of medical decision making.",
+      "I am an established patient and the provider spent 10–19 minutes of total time on the encounter on the date of service."
+    ],
+    "pathway_questions": [
+      [
+        "Am I an established patient?",
+        "Is the visit an office, clinic, or other outpatient encounter?",
+        "Does the visit involve a straightforward level of medical decision making?",
+        "Is the patient's ICD-10-CM diagnosis listed in the approved tables 1a, 1b, 2a, or 2b?"
+      ],
+      [
+        "Am I an established patient?",
+        "Is the visit an office, clinic, or other outpatient encounter?",
+        "Did the provider spend 10–19 minutes of total time on the date of the encounter?",
+        "Is the patient's ICD-10-CM diagnosis listed in the approved tables 1a, 1b, 2a, or 2b?"
+      ]
+    ]
+  },
+  "99213": {
+    "title": "Established patient office/outpatient E/M visit (low complexity)",
+    "pathways": [
+      "I am an established patient and the visit includes a medically appropriate history/exam with low level medical decision making",
+      "I am an established patient and the provider spent 20-29 minutes of total time on the date of the encounter"
+    ],
+    "pathway_questions": [
+      [
+        "Am I an established patient?",
+        "Does the visit include a medically appropriate history and/or examination?",
+        "Does the visit involve a low level of medical decision making?",
+        "Is the ICD-10 diagnosis code for the visit listed in policy tables 1a, 1b, 2a, or 2b?"
+      ],
+      [
+        "Am I an established patient?",
+        "Did the provider spend 20-29 minutes of total time on the date of the encounter?",
+        "Is the ICD-10 diagnosis code for the visit listed in policy tables 1a, 1b, 2a, or 2b?"
+      ]
+    ]
+  },
+  "99214": {
+    "title": "Established outpatient visit covered only when both breast and cervical screenings are done",
+    "pathways": [
+      "I am a woman and I receive both breast cancer screening and cervical cancer screening during the visit."
+    ],
+    "pathway_questions": [
+      [
+        "Am I a woman?",
+        "Did I receive a breast cancer screening during this visit?",
+        "Did I receive a cervical cancer screening during this visit?"
+      ]
+    ]
+  },
+  "A4217": {
+    "title": "Sterile water/saline 500 mL supply",
+    "pathways": [
+      "I need sterile water/saline 500 mL and my diagnosis is listed in Tables 1b or 2b"
+    ],
+    "pathway_questions": [
+      [
+        "Is the recipient's ICD-10-CM diagnosis listed in Tables 1b or 2b?"
+      ]
+    ]
+  },
+  "G0279": {
+    "title": "Diagnostic digital breast tomosynthesis (unilateral or bilateral)",
+    "pathways": [
+      "I have distinct signs or symptoms for which a diagnostic mammogram is indicated.",
+      "I have a history of breast cancer.",
+      "I am asymptomatic, but history and other significant factors indicate a diagnostic mammogram is appropriate."
+    ],
+    "pathway_questions": [
+      [
+        "Do I have distinct signs or symptoms that indicate a diagnostic mammogram?"
+      ],
+      [
+        "Do I have a history of breast cancer?"
+      ],
+      [
+        "Am I asymptomatic, and do my history and other significant factors indicate a diagnostic mammogram is appropriate?"
+      ]
+    ]
+  },
+  "G2010": {
+    "title": "Remote store-and-forward evaluation for established patients",
+    "pathways": [
+      "I am an established patient submitting recorded images for store-and-forward evaluation with interpretation and follow-up within 24 business hours, not linked to other E/M services"
+    ],
+    "pathway_questions": [
+      [
+        "Are you an established patient?",
+        "Did you submit recorded video and/or images for remote evaluation?",
+        "Did the provider interpret the submission and follow up with you within 24 business hours?",
+        "Did this NOT originate from a related evaluation and management (E/M) service in the previous 7 days?",
+        "Will this NOT lead to an E/M service or procedure within the next 24 hours or the soonest available appointment?"
+      ]
+    ]
+  },
+  "J7030": {
+    "title": "Infusion of normal saline 1000 cc (J7030) — coverage",
+    "pathways": [
+      "I am covered when the infusion is billed with an ICD-10-CM diagnosis listed in tables 1b or 2b."
+    ],
+    "pathway_questions": [
+      [
+        "Is the ICD-10-CM diagnosis for this infusion listed in tables 1b or 2b?"
+      ]
+    ]
+  },
+  "J7040": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "J7050": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "J7120": {
+    "title": "Ringer's lactate infusion (up to 1000 cc)",
+    "pathways": [
+      "I need Ringer's lactate infusion up to 1000 cc and it is listed as an approved HCPCS infusion.",
+      "I need a crystalloid infusion (normal saline or Ringer's lactate) up to 1000 cc billed under an approved infusion HCPCS code."
+    ],
+    "pathway_questions": [
+      [
+        "Is the requested procedure (Ringer's lactate infusion up to 1000 cc) listed in the plan's approved HCPCS procedure list?",
+        "Is there a supporting ICD-10 diagnosis included in the plan's covered diagnosis tables (see tables 1b or 2b)?",
+        "Is the requested infusion volume no more than 1000 cc?"
+      ],
+      [
+        "Is the requested crystalloid solution (normal saline or Ringer's lactate) included among the plan's approved HCPCS infusion procedures?",
+        "Is there a supporting ICD-10 diagnosis included in the plan's covered diagnosis tables (see tables 1b or 2b)?",
+        "Is the requested infusion volume no more than 1000 cc?"
+      ]
+    ]
+  },
+  "Q3014": {
+    "title": "Telehealth originating site facility fee",
+    "pathways": [
+      "I am at the telehealth originating site and the visit is billed for the facility fee with a diagnosis listed in the policy tables."
+    ],
+    "pathway_questions": [
+      [
+        "Was the patient located at the telehealth originating site?",
+        "Is the service billed as the telehealth originating site facility fee?",
+        "Is the patient's diagnosis listed in the policy ICD-10 tables referenced (tables 1a, 1b, 2a, 2b)?"
+      ]
+    ]
+  },
+  "T1013": {
+    "title": "Sign language interpreter services (T1013)",
+    "pathways": [
+      "I am eligible for sign language interpreter services for a covered diagnosis, limited to once per day per provider.",
+      "I am not eligible for oral interpretive services."
+    ],
+    "pathway_questions": [
+      [
+        "Is the requested service sign language interpretation (not oral)?",
+        "Is the recipient's ICD-10 diagnosis listed in tables 1a, 1b, 2a or 2b?",
+        "Is this service being billed no more than once today for this recipient by this provider?"
+      ],
+      [
+        "Is the requested service oral interpretive services?"
+      ]
+    ]
+  },
+  "T1014": {
+    "title": "",
+    "pathways": [],
+    "pathway_questions": []
+  },
+  "T1017": {
+    "title": "EWC targeted case management eligibility",
+    "pathways": [
+      "I am an EWC-enrolled primary care provider with an EWC-enrolled patient whose cycle requires immediate work-up and an additional referral.",
+      "I am a referral provider or the patient's cycle only needs routine or short-term follow-up and is not eligible for EWC case management."
+    ],
+    "pathway_questions": [
+      [
+        "Am I enrolled as a primary care provider in the EWC program?",
+        "Is the patient enrolled in the EWC program?",
+        "Does the patient's screening cycle have findings requiring immediate work-up and an additional referral with coordination of services?",
+        "Was the cycle completed and submitted in DETEC?",
+        "Have I not already billed case management for this patient this calendar year?"
+      ],
+      [
+        "Am I a referral provider (not an EWC primary care provider)?",
+        "Does the patient's cycle require only routine or short-term follow-up (no immediate work-up and referral)?"
+      ]
+    ]
+  }
+}

@@ -6,8 +6,8 @@
 *.pyc
 
 # vector db / embeddings artifacts (local only)
-backend/data/
-backend/data/**
+# backend/data/
+# backend/data/**
 
 # (optional) also ignore common lancedb folders anywhere
 **/*.lance/
