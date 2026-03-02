@@ -158,13 +158,16 @@ class Matcher:
         for fid in top_ids:
             row = self.meta.iloc[fid]
             code = row.get("code")
-            pricing = self.pricing.lookup(code) if code else None
 
             raw_desc = row.get("description")
             desc = None if raw_desc is None else str(raw_desc).strip().strip('"')
 
+            raw_clean = row.get("clean_title")
             raw_title = row.get("title")
-            title = None if raw_title is None else str(raw_title).strip().strip('"').rstrip(".")
+            if raw_clean and str(raw_clean).strip() and not str(raw_clean).startswith("["):
+                title = str(raw_clean).strip()
+            else:
+                title = None if raw_title is None else str(raw_title).strip().strip('"').rstrip(".")
 
             candidates.append({
                 "faiss_id": fid,
@@ -172,7 +175,6 @@ class Matcher:
                 "title": title,
                 "category": row.get("category"),
                 "description": desc,
-                "basic_rate": pricing["basic_rate"] if pricing else None,
             })
 
         return self._rerank(corrected, candidates, top_k)

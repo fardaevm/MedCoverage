@@ -224,11 +224,6 @@ function showFlowLoading(cardEl, collapseSelection) {
   return { clear };
 }
 
-function formatRate(value) {
-  if (value == null || typeof value !== "number") return "—";
-  return `$${value.toFixed(2)}`;
-}
-
 function escapeHtml(s) {
   return String(s ?? "")
     .replaceAll("&", "&amp;")
@@ -238,12 +233,29 @@ function escapeHtml(s) {
     .replaceAll("'", "&#039;");
 }
 
+function matchBadgeHtml(candidate) {
+  const rank = candidate.rank ?? null;
+  const score = candidate.rerank_score ?? null;
+  if (rank == null && score == null) return "";
+
+  let label, cls;
+  if (rank === 1) {
+    label = "Best match"; cls = "matchBadge--best";
+  } else if (rank <= 3) {
+    label = "Good match"; cls = "matchBadge--good";
+  } else {
+    label = "Possible match"; cls = "matchBadge--possible";
+  }
+
+  const pct = score != null ? ` · ${Math.round(score * 100)}%` : "";
+  return `<span class="matchBadge ${cls}" title="Match quality based on relevance ranking">${label}${escapeHtml(pct)}</span>`;
+}
+
 function renderCard(candidate) {
   const title = candidate.title ?? "Procedure";
   const code = candidate.code ?? "";
   const category = candidate.category ?? "";
   const description = candidate.description ?? "";
-  const rate = candidate.basic_rate;
 
   const card = document.createElement("div");
   card.className = "card";
@@ -251,9 +263,11 @@ function renderCard(candidate) {
   card.innerHTML = `
     <div class="cardTop">
       <h2 class="title">${escapeHtml(title)}</h2>
-      <span class="rate">${escapeHtml(formatRate(rate))}</span>
     </div>
-    <div class="category">${escapeHtml(category)}</div>
+    <div class="cardMeta">
+      <span class="category">${escapeHtml(category)}</span>
+      ${matchBadgeHtml(candidate)}
+    </div>
     <div class="description">${escapeHtml(description)}</div>
   `;
   card.addEventListener("click", (e) => {

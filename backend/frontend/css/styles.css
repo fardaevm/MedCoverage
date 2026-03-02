@@ -383,20 +383,45 @@ a:hover {
   line-height: 1.3;
 }
 
-.card .rate {
-  flex-shrink: 0;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-primary);
+.card .cardMeta {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .card .category {
-  margin-top: 6px;
   font-size: 10.5px;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+.matchBadge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.matchBadge--best {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.matchBadge--good {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.matchBadge--possible {
+  background: #f3f4f6;
+  color: #6b7280;
 }
 
 .card .description {

@@ -62,7 +62,6 @@ class SelectedProcedure(BaseModel):
     title: str
     category: Optional[str] = None
     description: Optional[str] = None
-    basic_rate: Optional[float] = None
     rank: Optional[float] = None
     rerank_score: Optional[float] = None
 

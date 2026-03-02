@@ -1,0 +1,721 @@
+code,query,verbosity
+10004,additional biopsy,direct
+10004,will medi-cal cover extra biopsies?,short
+10004,I'm having a fine needle biopsy and I want to know if Medi-Cal covers more than one lesion being tested.,conversational
+10004,"So, I'm scheduled for a fine needle aspiration biopsy, and I'm just wondering if my insurance, Medi-Cal, will cover the cost if they end up needing to sample more than one area. I really don’t want any surprises with the bills, you know?",verbose
+10004,additional biopsy,direct
+10004,does medi-cal cover multiple biopsies?,short
+10004,I need to get a biopsy and I heard they might have to do more than one. Is that covered by Medi-Cal?,conversational
+10004,"I have a couple of lumps that need to be checked out, and I'm going to have a fine needle aspiration biopsy done. I just want to make sure that if they find more than one, Medi-Cal will handle the costs for those extra biopsies too. I’ve heard stories about surprise bills and I really want to avoid that!",verbose
+10005,ultrasound needle biopsy,direct
+10005,is a needle biopsy covered by medi-cal?,short
+10005,I found a lump and my doctor mentioned doing a needle biopsy with ultrasound. Will Medi-Cal cover that?,conversational
+10005,"I have this lump that my doctor wants to check out, and they said something about a needle biopsy using ultrasound guidance. I’m just trying to understand if Medi-Cal will help pay for this procedure because I’m a bit worried about the costs and I want to make sure I’m covered.",verbose
+10005,FNA biopsy,direct
+10005,does medi-cal pay for a fine needle aspiration biopsy?,short
+10005,"My doctor is suggesting a fine needle aspiration biopsy of a mass I have, and they will use ultrasound to guide it. Can I get this covered under Medi-Cal?",conversational
+10005,"I have this lump that’s been bothering me for a while, and my doctor says I need a fine needle aspiration biopsy. They mentioned doing it with ultrasound guidance. I just want to know if Medi-Cal will cover this procedure because I’m really concerned about all the medical expenses piling up and want to make sure I’m not left with a huge bill.",verbose
+10006,FNA biopsy,direct
+10006,Is a fine needle aspiration biopsy covered by Medi-Cal?,short
+10006,I need to know if Medi-Cal will cover a fine needle aspiration biopsy for my cyst. Can you help?,conversational
+10006,"So, I'm trying to figure out if Medi-Cal will pay for a fine needle aspiration biopsy. I have a couple of lumps that my doctor wants to check. I just want to be sure I'm covered before going through with the procedure. Can you tell me what the policy is?",verbose
+10006,biopsy with imaging,direct
+10006,Will Medi-Cal cover a fine needle aspiration biopsy with CT guidance?,short
+10006,I heard that I might need a fine needle aspiration biopsy with CT guidance. Is that something Medi-Cal covers?,conversational
+10006,"I have been advised to get a fine needle aspiration biopsy done with CT guidance, and I'm worried about the costs. Can you check if that’s covered by Medi-Cal? My doctor mentioned it might be necessary for my treatment, and I want to avoid any unexpected bills.",verbose
+10007,biopsy with imaging,direct
+10007,is a needle biopsy covered by medi-cal?,short
+10007,I have a lump that needs to be biopsied. Will Medi-Cal cover this procedure if imaging is used?,conversational
+10007,"I just found out I need a biopsy for a lump I have, and they mentioned they would use imaging for it. I’m trying to figure out if my Medi-Cal plan will cover this kind of procedure, especially since it sounds pretty technical and I’m worried about costs.",verbose
+10007,fine needle aspiration,direct
+10007,will Medi-Cal pay for a fine needle aspiration biopsy?,short
+10007,I heard I need a fine needle aspiration biopsy for a cyst. Do you know if Medi-Cal will cover it?,conversational
+10007,"I have this small cyst and my doctor said I might need a fine needle aspiration biopsy to check it. I’m really anxious about the costs and just want to know if my Medi-Cal insurance will cover it, especially since they mentioned something about imaging being involved.",verbose
+10008,additional needle biopsy,direct
+10008,is an extra needle biopsy covered by medi-cal?,short
+10008,"I had a needle biopsy before, and now I need another one. Will Medi-Cal cover this second biopsy?",conversational
+10008,"I recently had a needle biopsy for a lump, but now my doctor says I need to have another one done on a different spot. I’m really worried about the costs. Can you let me know if Medi-Cal will cover this additional procedure?",verbose
+10008,second needle biopsy,direct
+10008,does medi-cal cover an additional biopsy?,short
+10008,I just found out that I might need another fine needle biopsy on a different mass. I'm a bit confused about my coverage. Can you tell me if that would be covered by Medi-Cal?,conversational
+10008,My doctor mentioned that I might need an additional fine needle aspiration for another cyst. I really need to figure out if Medi-Cal will help with the costs for this second procedure because I'm already stressed about my medical bills. Can you please help me understand my coverage options?,verbose
+10011,MRI needle biopsy,direct
+10011,is an MRI-guided needle biopsy covered by medi-cal?,short
+10011,I'm wondering if Medi-Cal covers an MRI-guided needle biopsy for testing a mass I found.,conversational
+10011,"I have this lump that my doctor wants to check, and they mentioned doing a needle biopsy with MRI guidance. I need to know if Medi-Cal will pay for that procedure or if I will have to cover it out-of-pocket.",verbose
+10011,fine needle aspiration with MRI,direct
+10011,can I get an MRI-guided fine needle aspiration covered by medi-cal?,short
+10011,"I'm really anxious about this lump, and my doctor said they need to do a fine needle aspiration with MRI guidance. Do you know if that's something Medi-Cal would cover?",conversational
+10011,"So, my doctor found something concerning during an exam and suggested doing a fine needle aspiration biopsy with MRI guidance. I just want to figure out if Medi-Cal will help with the costs, because I really can't afford to pay for it myself right now.",verbose
+10012,MRI biopsy,direct
+10012,Is a fine needle aspiration with MRI guidance covered by Medi-Cal?,short
+10012,I'm trying to understand if my fine needle aspiration biopsy that's guided by MRI is paid for by Medi-Cal. Can you help?,conversational
+10012,"So, I heard I might need this biopsy where they use a needle to take tissue samples, and they're going to do it with MRI guidance. I'm really curious if Medi-Cal will cover that procedure, especially since I'm not sure how the whole billing works and what exactly is included in my plan.",verbose
+10012,additional biopsy MRI,direct
+10012,Does Medi-Cal cover an additional fine needle aspiration biopsy with MRI guidance?,short
+10012,I have a couple of cysts and need to get them biopsied with MRI assistance. Is that something Medi-Cal covers?,conversational
+10012,"I have been told that I need to have a biopsy done using MRI guidance, and they mentioned it might involve using a fine needle to collect samples from multiple spots. I'm on Medi-Cal, and I'm really anxious about whether this will be covered. Can you provide some clarity on that?",verbose
+10021,fine needle biopsy,direct
+10021,is a fine needle biopsy covered by medi-cal?,short
+10021,I found a lump and my doctor mentioned a fine needle biopsy. Will Medi-Cal cover this procedure?,conversational
+10021,"So, I've been feeling this weird lump in my arm, and my doctor said I might need a fine needle biopsy to check it out. I'm just wondering if Medi-Cal will help with the costs for this kind of biopsy since I really can't afford it right now.",verbose
+10021,fine needle aspiration,direct
+10021,will medi-cal pay for a fine needle aspiration?,short
+10021,My doctor suggested I get a fine needle aspiration because of a cyst I have. Can you tell me if that's covered by Medi-Cal?,conversational
+10021,"I recently went to the doctor because I noticed a cyst on my neck, and they talked about doing a fine needle aspiration to get some cells from it. I'm a bit worried about the costs, so I really need to know if Medi-Cal will cover this procedure.",verbose
+15600,flap surgery for skin graft,direct
+15600,is flap surgery for skin graft covered by medi-cal?,short
+15600,I need to know if flap surgery for a skin graft is covered by Medi-Cal because I might need it soon.,conversational
+15600,"I’m considering flap surgery for a skin graft and I’m really worried about the costs. Can you tell me if Medi-Cal will cover this procedure? I’ve heard some stories about how confusing the coverage can be, and I just want to make sure I understand my options.",verbose
+15600,skin graft flap surgery,direct
+15600,does medi-cal cover skin graft flap surgery?,short
+15600,"Can you help me figure out if Medi-Cal pays for skin graft flap surgery? I have a skin issue that might require this, and I don't want to get stuck with a huge bill.",conversational
+15600,"I’ve been told I might need skin graft flap surgery, but I’m really unsure about the costs involved. Can you check if Medi-Cal covers this? I’ve been dealing with this issue for a while, and it’s stressing me out trying to figure out my insurance.",verbose
+19000,breast cyst drainage,direct
+19000,is breast cyst fluid drainage covered by medi-cal?,short
+19000,I have a breast cyst that might need draining. Will Medi-Cal cover that procedure?,conversational
+19000,"I'm dealing with a breast cyst that's causing me some discomfort, and I heard that there's a procedure to drain it. I'm really hoping that Medi-Cal will help cover the costs for this type of treatment, but I'm not sure how to find out. Can someone tell me if they cover breast cyst fluid drainage?",verbose
+19000,needle aspiration for breast cyst,direct
+19000,does medi-cal cover needle aspiration for breast cysts?,short
+19000,"I need to get a breast cyst drained with a needle, and I'm wondering if that's something Medi-Cal will pay for. Can anyone help me with this?",conversational
+19000,"There's a cyst in my breast that I've been told might need to be drained with a needle, and it's been bothering me for a while now. I'm trying to figure out if Medi-Cal will cover the costs for this procedure, since I'm worried about the expenses. Can anyone point me in the right direction on whether this procedure is covered?",verbose
+19001,breast cyst aspiration,direct
+19001,is aspiration of breast cysts covered by medi-cal?,short
+19001,I need to know if medi-cal covers the aspiration of extra breast cysts after the first one.,conversational
+19001,"I have multiple breast cysts, and my doctor mentioned that they might need to aspirate more than one. Can you tell me if medi-cal will cover the procedure for aspirating the additional cysts?",verbose
+19001,breast cyst aspiration,direct
+19001,does medi-cal cover aspiration of extra breast cysts?,short
+19001,"I heard that if you have more than one breast cyst, the doctor might do extra aspirations. Is that something that's covered by medi-cal?",conversational
+19001,I'm worried about my breast cysts and my doctor said I might need to aspirate some additional ones after the first. Can you check if medi-cal will pay for that procedure?,verbose
+19081,breast biopsy,direct
+19081,is a breast biopsy with imaging covered by medi-cal?,short
+19081,I need to know if my breast biopsy with imaging guidance is covered by Medi-Cal. Can you help me?,conversational
+19081,"I have a lump in my breast, and my doctor mentioned that I might need to have a breast biopsy with imaging guidance. I want to check if Medi-Cal will cover this procedure, because I really can't afford to pay out of pocket right now. Could you let me know?",verbose
+19081,biopsy with imaging,direct
+19081,is the breast biopsy with localization device covered by medi-cal?,short
+19081,"I've been advised to get a breast biopsy using imaging, but I'm not sure if my Medi-Cal will cover it. Can you clarify?",conversational
+19081,"My doctor suggested I need a biopsy for a breast issue, and they said it would involve imaging guidance. I want to ensure that this is something that Medi-Cal will cover, as I’m a bit worried about the costs involved with medical procedures. Can you provide any information on this?",verbose
+19082,breast biopsy with guidance,direct
+19082,does medi-cal cover an additional breast biopsy?,short
+19082,"I need to know if my additional breast biopsy is covered by Medi-Cal. I had one before, but now I have another lesion to check.",conversational
+19082,"I'm worried about my upcoming procedure. I already had a breast biopsy, and now my doctor wants to do another one with some kind of guidance and may place a localization device. Can you let me know if Medi-Cal will cover this additional biopsy?",verbose
+19082,additional breast biopsy,direct
+19082,is a second breast biopsy covered by medi-cal?,short
+19082,"I had a breast biopsy recently, but now there’s another area my doctor wants to biopsy. Is this covered by Medi-Cal?",conversational
+19082,"I’m really trying to figure out the costs for my medical procedures. I had a biopsy done before, and now my doctor says that I need another one on a different part of my breast, including some sort of guidance. Can you tell me if Medi-Cal covers the additional biopsy and the associated costs?",verbose
+19083,breast biopsy,direct
+19083,is a breast biopsy with ultrasound covered by medi-cal?,short
+19083,I need to know if a breast biopsy done with ultrasound guidance is covered by Medi-Cal. Can you help me?,conversational
+19083,"I'm scheduled for a breast biopsy, and I heard they might use an ultrasound to guide the procedure. Can you tell me if that type of biopsy is covered by Medi-Cal? I really need to understand my options and what costs I might face.",verbose
+19083,ultrasound-guided breast biopsy,direct
+19083,will medi-cal cover breast biopsies done with ultrasound?,short
+19083,"I have to get a breast biopsy with ultrasound guidance soon, and I want to check if Medi-Cal will cover it. I'm a bit worried about the costs involved.",conversational
+19083,"I just found out that I need to have a breast biopsy, and they're talking about using ultrasound to guide it. I'm really anxious about the whole thing and just want to know if Medi-Cal will cover that specific type of biopsy so I can plan ahead.",verbose
+19084,breast biopsy,direct
+19084,is a breast biopsy covered by medi-cal?,short
+19084,I need to know if a breast biopsy for more than one lesion is covered by medi-cal. Can you help me with that?,conversational
+19084,"I recently had a breast biopsy, but now my doctor says I might need another one for some additional lesions. I'm really worried about the costs, so could you tell me if medi-cal will cover this kind of procedure?",verbose
+19084,additional breast biopsy,direct
+19084,will medi-cal cover a second breast biopsy?,short
+19084,I was told I might need another breast biopsy for some extra lumps. Does medi-cal cover that kind of procedure?,conversational
+19084,I've already had one breast biopsy and now my doctor thinks there are more areas we need to check. I'm concerned about the expenses involved. Is there any chance that medi-cal will cover another biopsy for these extra lesions?,verbose
+19085,breast biopsy MRI,direct
+19085,is a breast biopsy with MRI covered by medi-cal?,short
+19085,I need to know if a breast biopsy using MRI guidance is covered by Medi-Cal. Can you help me with that?,conversational
+19085,"So, I'm looking to understand if a breast biopsy that uses MRI to guide the procedure is something that Medi-Cal will pay for. I have a lump that my doctor wants to check, and I heard this might be the way to do it. Can you let me know if that’s covered or if I need to expect any out-of-pocket costs?",verbose
+19085,MRI-guided breast biopsy,direct
+19085,will medi-cal cover a breast biopsy done with MRI?,short
+19085,I was referred for a breast biopsy with MRI guidance and I'm wondering if that's something Medi-Cal would pay for. Does anyone know?,conversational
+19085,"I found out that I might need a breast biopsy using MRI guidance, and I’m really worried about the costs. I want to check if Medi-Cal covers that type of procedure before I go ahead with anything. Can someone provide me with information on whether that’s included in my coverage?",verbose
+19086,breast biopsy MRI,direct
+19086,is a breast biopsy with MRI guidance covered by medi-cal?,short
+19086,I need to know if Medi-Cal will cover a breast biopsy using MRI guidance for another lesion I found.,conversational
+19086,"I've been told I might need a breast biopsy for an extra lesion, and I heard it can be done with MRI guidance. Can you let me know if that's something that Medi-Cal covers? I want to be prepared for the costs involved.",verbose
+19086,breast tissue biopsy MRI,direct
+19086,will Medi-Cal pay for a breast tissue biopsy using MRI for extra lesions?,short
+19086,"I think I might need another breast biopsy, and I heard they can use MRI for that. Can you tell me if Medi-Cal helps with the costs?",conversational
+19086,"So, I've already had a biopsy, but now the doctor says I might need another one for a different spot. They mentioned doing it with MRI guidance. Can I find out if Medi-Cal covers that kind of procedure? I'm just really anxious about the expenses.",verbose
+19100,breast biopsy,direct
+19100,is a breast biopsy covered by medi-cal?,short
+19100,"I need to know if a breast biopsy will be covered by my Medi-Cal plan, can you help?",conversational
+19100,I recently found a lump in my breast and my doctor mentioned I might need to have a biopsy. I'm wondering if Medi-Cal will cover the cost of this procedure since I'm really worried about my health right now.,verbose
+19100,needle core biopsy,direct
+19100,will medi-cal cover a needle core biopsy?,short
+19100,My doctor said I might need a needle core biopsy for a suspicious area in my breast. Is that something Medi-Cal will pay for?,conversational
+19100,I’ve been experiencing some issues with a lump in my breast and my doctor suggested doing a needle core biopsy to get a better look at what’s going on. I’m just trying to figure out if my Medi-Cal insurance will cover that procedure or if I’ll have to pay out of pocket.,verbose
+19101,breast biopsy,direct
+19101,is an open breast biopsy covered by medi-cal?,short
+19101,I need to know if Medi-Cal will cover an open breast biopsy since my doctor wants to test some tissue.,conversational
+19101,I have a concern about a lump in my breast and my doctor mentioned that I might need an open biopsy to figure out what's going on. Can you tell me if Medi-Cal covers this procedure? I really hope it’s included because I need to know what's happening with my health.,verbose
+19101,breast tissue removal,direct
+19101,does medi-cal cover an incisional breast biopsy?,short
+19101,I’ve been told I might need an incisional breast biopsy to check for any problems. Can you help me find out if that's something that Medi-Cal will cover?,conversational
+19101,"I went to the doctor because I found a lump, and they suggested doing an open biopsy to take a sample of the breast tissue for testing. I’m really anxious about this whole situation and want to know if Medi-Cal will cover the costs associated with this procedure, so I can prepare myself financially. Any information would be appreciated!",verbose
+19120,breast lump removal,direct
+19120,is surgery to remove breast lumps covered?,short
+19120,"I have a lump in my breast, will the surgery to remove it be covered by Medi-Cal?",conversational
+19120,I found out I have a suspicious lump in my breast and my doctor mentioned I might need surgery to have it removed. Can anyone tell me if this kind of procedure is covered by Medi-Cal? I really need to know because I’m worried about the costs.,verbose
+19120,excision of breast lesion,direct
+19120,will Medi-Cal cover excision of a breast lump?,short
+19120,"I need to have a breast lump excised, is that procedure included in my Medi-Cal coverage?",conversational
+19120,My doctor says I need to have surgery to remove a lump in my breast. I’m really hoping that Medi-Cal will cover this since I’m not sure how I can pay for it otherwise. Can someone help me understand if this type of surgery is covered?,verbose
+19125,breast lump removal,direct
+19125,is the removal of a breast lump covered by medi-cal?,short
+19125,I'm thinking about getting a lump removed from my breast. Will Medi-Cal cover this procedure?,conversational
+19125,"I found out that I have a lump in my breast, and my doctor said I might need to have it removed. I'm just trying to figure out if Medi-Cal will help pay for that surgery or if I need to plan for some out-of-pocket costs.",verbose
+19125,excision of breast lesion,direct
+19125,does medi-cal cover excision of a breast lesion?,short
+19125,I have a breast lesion that my doctor thinks needs to be removed. Can I get coverage for this surgery with Medi-Cal?,conversational
+19125,"My doctor mentioned that I should have this breast lesion excised. I'm really anxious about the whole process, and I want to know if Medi-Cal will pay for the procedure so I can make the necessary arrangements without worrying about the costs.",verbose
+19126,breast lesion removal,direct
+19126,is surgery to remove another breast lesion covered?,short
+19126,I have an additional breast lesion that needs to be removed. Will Medi-Cal cover the surgery for that?,conversational
+19126,"I already had one breast lesion removed, but now my doctor says I need surgery to take out another one that was marked beforehand. I'm really trying to understand if Medi-Cal will cover this second surgery or not. Can you help?",verbose
+19126,removal of a second breast lesion,direct
+19126,does Medi-Cal cover surgery for removing another breast lesion?,short
+19126,I found out I need to have another breast lesion taken out after my last procedure. Does anyone know if that kind of surgery is covered by Medi-Cal?,conversational
+19126,"So, I had a breast lesion taken out recently, and now my doctor wants to remove another one that was marked before the first surgery. I'm a bit concerned about costs and want to check if Medi-Cal will pay for this extra procedure. Any insight would be appreciated!",verbose
+19281,breast localization device,direct
+19281,is a breast localization procedure covered by medi-cal?,short
+19281,I need to know if the procedure for placing a device to locate a breast lesion is covered by Medi-Cal.,conversational
+19281,"So, I have this issue with a breast lesion and I heard there’s a procedure where they put a device to help locate it. Can you tell me if Medi-Cal covers that kind of procedure?",verbose
+19281,lesion localization,direct
+19281,does medi-cal cover the placement of localization devices for breast lesions?,short
+19281,I'm trying to figure out if the localization procedure for my breast lesion is something that Medi-Cal will cover. Can someone help me with that?,conversational
+19281,"I recently found out that I might need a procedure to place a localization device for a breast lesion. I’m really worried about costs, so can you let me know if this is covered by Medi-Cal?",verbose
+19282,breast localization device,direct
+19282,is breast localization device placement covered by medi-cal?,short
+19282,I need to know if the placement of a breast localization device during imaging is covered by Medi-Cal.,conversational
+19282,"So, I'm trying to understand if the procedure where they place a device for breast localization, like a clip or something, during a mammogram is something that Medi-Cal will cover. Can you help me with that?",verbose
+19282,localization device for breast,direct
+19282,does medi-cal cover breast localization device placement?,short
+19282,Can you tell me if Medi-Cal pays for the placement of a localization device in my breast during imaging?,conversational
+19282,I was told I might need a localization device put in during my breast imaging. I'm wondering if this is something that's covered by Medi-Cal or if I should expect to pay for it myself?,verbose
+19283,breast localization,direct
+19283,is breast lesion localization covered?,short
+19283,I need to know if Medi-Cal will cover the procedure for placing a localization device in my breast.,conversational
+19283,"I've been told I need a localization device for a breast lesion, and I want to check if Medi-Cal will pay for that procedure. Can you help me understand what my options are?",verbose
+19283,lesion clip placement,direct
+19283,is placement of a breast lesion clip covered by Medi-Cal?,short
+19283,Can you tell me if Medi-Cal covers the procedure to place a clip for breast lesion localization? I have a lesion that needs to be marked.,conversational
+19283,"I just found out I have a breast lesion and my doctor said I'll need a clip placed for localization. I'm really worried about costs, so I'm trying to figure out if Medi-Cal covers this kind of procedure. What information do you have on that?",verbose
+19284,breast localization device,direct
+19284,is a breast localization device placement covered by medi-cal?,short
+19284,I need to know if Medi-Cal will cover the placement of a device for breast localization during my procedure.,conversational
+19284,"I'm having a procedure soon where they need to place a device to help localize a breast lesion, and I'm wondering if Medi-Cal pays for that. It's a little confusing because there are so many different parts to the procedure, and I just want to make sure I'm covered.",verbose
+19284,stereotactic guidance for breast device,direct
+19284,are stereotactic guidance and device placement for the breast covered by medi-cal?,short
+19284,Can you tell me if Medi-Cal covers the procedure where they use stereotactic guidance to place a localization device in my breast?,conversational
+19284,"I heard that during my breast surgery, they might use this special guidance to place a localization device, and I'm worried about the costs. Does Medi-Cal cover this kind of procedure? I really hope it does, because I'm not sure I can afford any extra expenses.",verbose
+19285,breast lesion localization,direct
+19285,is breast lesion localization covered by medi-cal?,short
+19285,I heard I might need a localization procedure for a breast lesion. Will Medi-Cal cover that?,conversational
+19285,I'm trying to understand if the procedure where they use an ultrasound to help with breast lesion localization is covered by Medi-Cal. I think they might place a device like a clip or a needle for it. Can you help me figure that out?,verbose
+19285,ultrasound breast localization,direct
+19285,does medi-cal cover ultrasound-guided breast localization?,short
+19285,I have a breast lesion and I was told I might need an ultrasound-guided localization. Will Medi-Cal pay for that procedure?,conversational
+19285,I'm a bit confused about my upcoming procedure. They're saying something about using ultrasound to localize a breast lesion and placing some kind of device. Can you tell me if Medi-Cal covers this? I really need to know before I go ahead with it.,verbose
+19286,breast localization device,direct
+19286,is the placement of breast localization devices covered by medi-cal?,short
+19286,I need to know if Medi-Cal covers the procedure where a device is placed in my breast using ultrasound guidance during my appointment.,conversational
+19286,"So, I'm going to have this procedure done where they place a device in my breast to help find a tumor, and I'm worried about costs. I really want to know if Medi-Cal will cover the ultrasound guidance part of it since I heard it's an extra step. Can you tell me if that's included in my coverage?",verbose
+19286,breast localization device placement,direct
+19286,does medi-cal cover breast localization device placement?,short
+19286,I’m getting a procedure where they use ultrasound to put a localization device in my breast. Can you check if that is covered by Medi-Cal?,conversational
+19286,"I have an appointment coming up for a breast procedure that involves placing a localization device with ultrasound guidance, and I’m really anxious about the costs. I need to find out if Medi-Cal will cover this type of procedure, especially since I have no idea how much these things can cost, and I want to be prepared. Can you help me with that?",verbose
+19287,breast lesion localization,direct
+19287,is breast lesion localization covered by medi-cal?,short
+19287,"I'm supposed to have a procedure for my breast lesion, will Medi-Cal cover the MRI guidance for localization?",conversational
+19287,"I have a breast lesion that needs to be localized, and my doctor mentioned using MRI guidance for this. I'm really worried about costs, so can you tell me if this procedure is covered by Medi-Cal?",verbose
+19287,MRI guidance for breast lesion,direct
+19287,will Medi-Cal pay for MRI guidance for breast lesion localization?,short
+19287,My doctor said I need an MRI to locate a breast lesion. Is that covered by Medi-Cal?,conversational
+19287,"I have a lesion in my breast, and my doctor told me that they would use MRI guidance to place a localization device. I'm trying to figure out if this procedure is something that Medi-Cal will cover because I'm really concerned about the expenses.",verbose
+19288,MRI localization,direct
+19288,Does Medi-Cal cover MRI guidance for breast localization?,short
+19288,I'm wondering if Medi-Cal will pay for the MRI guidance when placing a localization device in my breast. Is that covered?,conversational
+19288,"I recently found out that I might need a localization device placed in my breast, and I heard they use MRI guidance for that. I’m really anxious about the costs involved, so could you let me know if Medi-Cal covers this type of procedure? It would help me a lot to know what to expect.",verbose
+19288,breast MRI device placement,direct
+19288,Is the placement of a localization device with MRI guidance covered by Medi-Cal?,short
+19288,"I need to find out if my health insurance, Medi-Cal, will cover the procedure for placing a localization device using MRI guidance. Can you help?",conversational
+19288,"I’ve been advised that I need a localization device placed in my breast and they will use MRI guidance for this. I have Medi-Cal insurance, but I’m not sure if this specific procedure is covered. Can you check for me? I’d really appreciate it because I’m concerned about the costs.",verbose
+19300,male breast reduction,direct
+19300,does medi-cal cover surgery for enlarged breasts?,short
+19300,I'm thinking about surgery to reduce my enlarged breasts. Will Medi-Cal pay for this procedure?,conversational
+19300,"I have this condition where my breasts are larger than normal, and it's been bothering me for a while. I'm considering surgery to reduce their size. Can you tell me if Medi-Cal covers this type of surgery?",verbose
+19300,gynecomastia surgery,direct
+19300,is surgery for gynecomastia covered by medi-cal?,short
+19300,I've been dealing with gynecomastia and I want to know if I can get surgery covered by Medi-Cal. Can you help with that?,conversational
+19300,"So, I have this issue with enlarged male breasts that's really affecting my confidence. I've heard about surgery to fix it. Can you let me know if Medi-Cal will cover that kind of surgery for me?",verbose
+57452,colposcopy,direct
+57452,is a colposcopy covered by medi-cal?,short
+57452,"I think I need a colposcopy, will Medi-Cal cover that?",conversational
+57452,I went to my doctor for a check-up and they said I might need a colposcopy to look at my cervix. Can you tell me if Medi-Cal will pay for that procedure?,verbose
+57452,cervical exam with microscope,direct
+57452,does Medi-Cal cover a cervical exam with a special microscope?,short
+57452,I heard I might need a cervical exam with a microscope. Is that something Medi-Cal would cover for me?,conversational
+57452,"So, I went for my annual visit and my doctor mentioned something about doing a cervical exam with a microscope. I’m a Medi-Cal member and I’m just wondering if that’s covered by my plan?",verbose
+57454,cervical biopsy,direct
+57454,is a cervical exam with biopsy covered by medi-cal?,short
+57454,I need to know if Medi-Cal will cover a cervical exam where they also take a biopsy. Can you help?,conversational
+57454,"I'm considering getting a cervical exam that includes a biopsy done with a special camera called a colposcope, and I really want to find out if this will be covered by Medi-Cal. I've had some concerns and need this checked, so it would be great to know what my options are.",verbose
+57454,colposcopy with biopsy,direct
+57454,does Medi-Cal cover colposcopy with a biopsy?,short
+57454,Can you tell me if my Medi-Cal plan pays for a colposcopy where they check my cervix and do a biopsy? I’ve been advised to get this done.,conversational
+57454,"I've been referred for a procedure where they examine my cervix with this tool called a colposcope, and they're also going to take a biopsy. I’m really anxious about whether or not Medi-Cal will cover these costs, since I need to have it done soon and want to be prepared.",verbose
+57455,cervical biopsy,direct
+57455,is a cervical exam and biopsy covered?,short
+57455,I'm needing a cervical exam with a biopsy. Will Medi-Cal cover this procedure?,conversational
+57455,"I have concerns about my cervical health, and my doctor said I might need a biopsy along with a special exam. I'm trying to figure out if Medi-Cal will cover both the exam and the biopsy, is that something they do?",verbose
+57455,colposcopy with biopsy,direct
+57455,is a colposcopy with biopsy included in my Medi-Cal coverage?,short
+57455,I was told I might need a colposcopy with a biopsy. Can you let me know if that’s covered by Medi-Cal?,conversational
+57455,I just found out that I might need a colposcopy along with a biopsy to check for something. I want to make sure that my Medi-Cal plan will cover this procedure before scheduling it. Can you help me understand the coverage?,verbose
+57456,cervical exam with tissue sampling,direct
+57456,is a cervical exam and tissue sample covered by medi-cal?,short
+57456,I need to know if Medi-Cal covers a cervical exam where they take a tissue sample from my cervix. Can someone help?,conversational
+57456,"So, I've been told I need to have this cervical exam where they also collect a tissue sample. I want to check if that procedure is covered by Medi-Cal. It's a bit confusing, and I’m worried about the costs, especially since I might have to see the doctor for this. Can anyone clarify if this is included?",verbose
+57456,colposcopy with tissue collection,direct
+57456,is colposcopy with endocervical curettage covered by medi-cal?,short
+57456,I heard I might need a colposcopy and they will take a tissue sample as well. Does Medi-Cal cover that procedure?,conversational
+57456,I was referred for a colposcopy and they mentioned something about collecting a tissue sample from my cervix. Can someone tell me if Medi-Cal will pay for this? I just want to make sure I understand what costs I might have to deal with before I go ahead with it.,verbose
+57500,cervical biopsy,direct
+57500,is a cervical lesion biopsy covered by medi-cal?,short
+57500,I need to remove a lesion on my cervix. Will Medi-Cal cover the biopsy?,conversational
+57500,"I have a cervical lesion that my doctor wants to biopsy, and I'm wondering if Medi-Cal will help pay for that procedure. I’m a bit worried about the costs, especially since I don’t have a lot of money right now. Can you let me know if it’s covered?",verbose
+57500,lesion removal cervix,direct
+57500,does medi-cal cover cervical lesion removal?,short
+57500,My doctor mentioned something about removing a lesion from my cervix. I’d like to know if this procedure is covered by Medi-Cal because I’m concerned about the expenses.,conversational
+57500,"I have some concerns about a lesion on my cervix that needs to be biopsied. It's been on my mind, and I really need to know if Medi-Cal will pay for this. I’m trying to figure out my options without breaking the bank, so any information you can provide would be helpful!",verbose
+57505,endocervical tissue sample,direct
+57505,does medi-cal cover endocervical tissue sample collection?,short
+57505,I need to know if a procedure to collect a sample from my cervix is covered by medi-cal. Is that something I can get help with?,conversational
+57505,"I've been advised to have a sample taken from my cervix, and I'm worried about the costs. Can anyone tell me if medi-cal will cover this specific procedure of collecting tissue samples from the endocervix?",verbose
+57505,cervical tissue collection,direct
+57505,is cervical tissue collection covered by medi-cal?,short
+57505,"I heard I might need a cervical tissue sample, and I want to check if that's covered by medi-cal. Can someone help me with that?",conversational
+57505,"I'm a bit confused about medical coverage. I was told I need a procedure to collect a tissue sample from my cervix, and I'm really hoping medi-cal will help with the costs. Can anyone confirm if this procedure is included in my benefits?",verbose
+58100,uterine biopsy,direct
+58100,is endometrial biopsy covered by medi-cal?,short
+58100,I need to know if Medi-Cal covers a biopsy of the uterine lining. Can you help?,conversational
+58100,"I've been advised to get a tissue sample from my uterus for testing, and I'm wondering if that's something that Medi-Cal will pay for. It's really important for me to know because I want to make sure I can afford the procedure if I need it.",verbose
+58100,endometrial sampling,direct
+58100,does medi-cal cover uterine lining tissue sample collection?,short
+58100,I heard I might need a sample taken from my uterus. Can I get that covered by Medi-Cal? I’m a bit anxious about it.,conversational
+58100,"So, my doctor mentioned I might need to do a biopsy to check the tissue in my uterus. I'm really worried about costs and want to know if Medi-Cal will cover that. It would help me a lot if I knew what to expect financially.",verbose
+58110,endometrial biopsy,direct
+58110,is endometrial biopsy during colposcopy covered by medi-cal?,short
+58110,I’m scheduled for a colposcopy and I heard I might need an endometrial biopsy. Will Medi-Cal cover that?,conversational
+58110,"I have an appointment for a colposcopy soon, and I was told that I might also need an endometrial biopsy done at the same time. Can someone let me know if Medi-Cal will cover the cost for the biopsy as well? I just want to make sure I won’t have any unexpected bills.",verbose
+58110,biopsy with colposcopy,direct
+58110,will Medi-Cal cover an endometrial biopsy during my colposcopy?,short
+58110,"I'm nervous about my upcoming colposcopy, and I heard they might do an endometrial biopsy as part of the procedure. Can anyone tell me if that’s covered by Medi-Cal?",conversational
+58110,"So I have this colposcopy appointment scheduled, and the doctor mentioned possibly doing an endometrial biopsy at the same time. I really want to know if Medi-Cal will cover both procedures together, especially since I'm worried about costs. Can anyone help me with this information?",verbose
+76098,breast biopsy imaging,direct
+76098,is imaging after a breast biopsy covered?,short
+76098,I just had a breast biopsy and my doctor mentioned some kind of imaging. Will Medi-Cal cover that?,conversational
+76098,"I understand that after a breast biopsy, there's a process where they can take an immediate image to check if everything was removed. I'm wondering if Medi-Cal covers this kind of imaging, as it seems really important to make sure nothing is left behind. Can someone help me with this?",verbose
+76098,immediate biopsy imaging,direct
+76098,does Medi-Cal cover imaging during a breast biopsy?,short
+76098,I had a breast biopsy yesterday and the surgeon talked about doing some imaging right after. Is that something Medi-Cal pays for?,conversational
+76098,"So, I just finished a breast biopsy and my doctor told me they might do some imaging right away to make sure everything was taken out. I want to know if Medi-Cal covers this type of imaging because it feels like it would be really crucial to my treatment. Can anyone clarify this for me?",verbose
+76641,breast ultrasound,direct
+76641,is an ultrasound for one breast covered by medi-cal?,short
+76641,I need to know if medi-cal will cover a complete breast ultrasound for just one breast.,conversational
+76641,"I'm trying to find out if medi-cal covers an ultrasound of one breast. I have some concerns and think I might need this procedure, but I want to make sure it's covered before I go ahead with it.",verbose
+76641,breast ultrasound,direct
+76641,does medi-cal cover a complete ultrasound for one breast?,short
+76641,"Can I get a breast ultrasound for just one side, and will medi-cal pay for it?",conversational
+76641,"I was recommended to get a complete ultrasound of one breast because of some issues I've been having. I'm enrolled in medi-cal, so I really need to check if this procedure is going to be covered by my insurance before I set it up.",verbose
+76642,breast ultrasound,direct
+76642,is a focused breast ultrasound covered by medi-cal,short
+76642,I need to have a focused ultrasound done on my breast. Will Medi-Cal cover that?,conversational
+76642,I have some concerns about a lump in my breast and my doctor mentioned that I might need a focused ultrasound to take a closer look. I really hope that Medi-Cal will cover this procedure because I'm worried about the costs involved.,verbose
+76642,ultrasound breast,direct
+76642,will medi-cal pay for a focused breast ultrasound?,short
+76642,My doctor is suggesting a focused ultrasound for a specific area in my breast. Can I find out if this is something that Medi-Cal will cover?,conversational
+76642,"I’ve been having some issues with my breast and my doctor recommended a focused ultrasound to get a better look at what's going on. I’m really anxious about the whole situation, and I need to know if Medi-Cal will cover this procedure so I don’t end up with huge bills.",verbose
+76942,ultrasound for needle placement,direct
+76942,is ultrasound guidance for needle placement covered by medi-cal?,short
+76942,I need to have a needle placed with ultrasound guidance. Will Medi-Cal cover that?,conversational
+76942,"So, I'm going to have a procedure where they use ultrasound to help guide a needle for a biopsy. I was just wondering if Medi-Cal has any coverage for that kind of imaging guidance because I really need to know if it's going to be financially okay for me.",verbose
+76942,needle placement ultrasound,direct
+76942,does medi-cal cover ultrasound guidance for needle procedures?,short
+76942,"I have a procedure coming up where they will use ultrasound to guide a needle, and I'm curious if that's something Medi-Cal pays for. Can anyone help me with that?",conversational
+76942,"I'm trying to figure out if Medi-Cal will cover the ultrasound guidance for when they place a needle, like for a biopsy or something. I just want to make sure I'm not hit with a big bill afterwards, especially since I'm already stressed about the whole procedure.",verbose
+77046,breast MRI,direct
+77046,is a breast MRI without contrast covered by medi-cal?,short
+77046,I need to know if Medi-Cal covers a breast MRI without any contrast. Can I get that done?,conversational
+77046,"So, I'm wondering if I can get a breast MRI without any kind of contrast through Medi-Cal. I've been having some issues, and my doctor suggested this test. Would it be covered?",verbose
+77046,MRI for one breast,direct
+77046,is an MRI for one breast covered by medi-cal?,short
+77046,Can you tell me if Medi-Cal pays for a breast MRI that doesn’t use contrast? My doctor mentioned it might help with my situation.,conversational
+77046,"I was advised to get an MRI for just one breast without contrast, and I'm trying to find out if Medi-Cal covers that. It feels a bit overwhelming, and I just want to make sure I won't have to pay a lot out of pocket if I go through with it.",verbose
+77047,breast MRI,direct
+77047,is a breast MRI without contrast covered by medi-cal?,short
+77047,I'm considering getting a breast MRI without contrast. Will Medi-Cal cover that?,conversational
+77047,"I heard that I might need a breast MRI without any contrast. I've been worried about costs and just want to know if Medi-Cal will pay for that kind of imaging, especially since I've been having some issues. Can someone please help me find out?",verbose
+77047,breast MRI,direct
+77047,does Medi-Cal cover breast MRIs without contrast?,short
+77047,I'm thinking about getting a breast MRI without contrast because my doctor suggested it. Can I use Medi-Cal for that procedure?,conversational
+77047,"So, I'm trying to figure out if I can get a breast MRI done without contrast and if Medi-Cal will cover that. I've been dealing with some health issues, and my doctor thinks it's necessary, but I really need to know if it's covered before I go ahead and schedule it. Can anyone clarify this for me?",verbose
+77048,breast MRI,direct
+77048,is a breast MRI with contrast covered by medi-cal?,short
+77048,I'm wondering if Medi-Cal will cover a breast MRI that uses contrast. I need this for some health concerns I've been having.,conversational
+77048,"I've been advised to get a breast MRI, and I heard there are options with and without contrast. Can you tell me if Medi-Cal covers this procedure? I'm a bit worried about the costs.",verbose
+77048,breast MRI,direct
+77048,does Medi-Cal cover a breast MRI with and without contrast?,short
+77048,"I recently visited my doctor, and they suggested I get a breast MRI with contrast. I'm just trying to figure out if Medi-Cal covers this kind of imaging.",conversational
+77048,A doctor mentioned I might need a breast MRI where they use contrast to get better images. I want to know if Medi-Cal will pay for this procedure because I'm concerned about the expenses involved.,verbose
+77049,breast MRI,direct
+77049,is a breast MRI with contrast covered by medi-cal?,short
+77049,I was told I might need a breast MRI with and without contrast. Can you let me know if that's covered by Medi-Cal?,conversational
+77049,"I'm considering getting a breast MRI that involves both contrast and non-contrast imaging. I really need to know if Medi-Cal will cover this procedure because it's quite important for my health, and I want to make sure I'm not left with a huge bill. Can you help me with that?",verbose
+77049,MRI for breasts,direct
+77049,does medi-cal cover breast MRIs with and without contrast?,short
+77049,My doctor suggested I get a breast MRI that includes both types of imaging. I'm not sure if Medi-Cal will pay for it. Can you check this for me?,conversational
+77049,"I have been experiencing some issues and my doctor recommended a breast MRI that uses both contrast and no contrast. I'm worried about the costs, though, and I need to understand if Medi-Cal will cover this type of test or if I should look for other options. Any information you have would be really helpful!",verbose
+77061,3D mammogram,direct
+77061,Does Medi-Cal cover a 3D mammogram for one breast?,short
+77061,I heard about a 3D mammogram for just one breast. Is that something Medi-Cal will pay for?,conversational
+77061,"I've been reading about different types of mammograms, and I came across this thing called a 3D mammogram specifically for one breast. I want to know if Medi-Cal will cover the cost for this procedure because I'm a bit worried about my health and I want to make sure I can afford any necessary tests.",verbose
+77061,one breast 3D mammogram,direct
+77061,Is a unilateral 3D mammogram covered by Medi-Cal?,short
+77061,I need to get a 3D mammogram for just one breast. Can I get that covered by Medi-Cal?,conversational
+77061,I have been advised to get a mammogram and I hear there's a 3D version for just one breast. I want to know if Medi-Cal will help cover this because I'm not sure if I can manage the costs on my own right now.,verbose
+77062,3D mammogram,direct
+77062,is a 3D mammogram covered by medi-cal?,short
+77062,I need to know if medi-cal will cover a 3D mammogram for both breasts.,conversational
+77062,"So, I've been advised to get a 3D mammogram to check my breast health. I really hope it's covered by medi-cal because I can't afford to pay out of pocket. Can someone tell me if that's the case?",verbose
+77062,bilateral 3D mammogram,direct
+77062,will medi-cal pay for a bilateral 3D mammogram?,short
+77062,I was told I might need a bilateral 3D mammogram. Can I find out if medi-cal covers this procedure?,conversational
+77062,"I just heard about this 3D mammogram thing for both breasts, and I’m worried about the costs. Can you tell me if medi-cal covers it? I have to get this done soon, so any information would really help.",verbose
+77063,3D breast imaging,direct
+77063,is 3D breast imaging covered by medi-cal?,short
+77063,I’m turning 40 soon. Will Medi-Cal cover the 3D breast imaging for my routine checkup?,conversational
+77063,"I heard about this new 3D breast imaging that is supposed to be better than regular mammograms. I'm curious if Medi-Cal pays for it, especially since I'm over 40 now. I want to make sure I'm covered for my annual checkup and don't want any surprises with the costs.",verbose
+77063,digital breast tomosynthesis,direct
+77063,does medi-cal cover digital breast tomosynthesis?,short
+77063,I'm 40 this year and I want to know if Medi-Cal will pay for the digital breast tomosynthesis for my yearly exam.,conversational
+77063,"I’ve been reading about digital breast tomosynthesis and how it’s supposed to be more accurate than regular mammograms. Since I just turned 40, I’m wondering if Medi-Cal will cover this for me during my next routine checkup. I want to make sure I have the best care possible without worrying about costs.",verbose
+77065,mammogram one breast,direct
+77065,is a diagnostic mammogram for one breast covered by medi-cal,short
+77065,I noticed a lump in my breast and I need to get a diagnostic mammogram. Will Medi-Cal cover it?,conversational
+77065,"I've been feeling worried about this lump I've found in my breast, and my doctor wants me to get a diagnostic mammogram for just that one side. I really need to know if Medi-Cal will help with the costs because I can't afford it otherwise. Can you let me know if that's covered?",verbose
+77065,one breast mammogram,direct
+77065,does medi-cal cover a diagnostic mammogram on one side?,short
+77065,"I have a concern about a lump in my breast, so my doctor suggested a mammogram just for that breast. Is this kind of procedure included with my Medi-Cal coverage?",conversational
+77065,I found a lump in my breast and the doctor said I need a mammogram for that breast only. I’m a bit anxious about the costs and I want to make sure that Medi-Cal will cover this kind of diagnostic procedure. Can you help me with that?,verbose
+77066,bilateral diagnostic mammogram,direct
+77066,is a diagnostic mammogram for both breasts covered by medi-cal?,short
+77066,I have a lump and my doctor said I need a diagnostic mammogram for both breasts. Can I get that covered by Medi-Cal?,conversational
+77066,"I was told I might need a diagnostic mammogram for both of my breasts because there's a lump. I'm not sure if Medi-Cal will cover this kind of procedure, especially since it seems important to find out if there's something wrong. Can you help me figure out what my insurance will cover?",verbose
+77066,bilateral mammogram,direct
+77066,does medi-cal cover diagnostic mammograms for both breasts?,short
+77066,I'm concerned because I found a lump in my breast and my doctor mentioned I might need a mammogram for both breasts. Will Medi-Cal help with the costs for that?,conversational
+77066,"So, I recently noticed a lump in my breast, and my doctor advised me to get a diagnostic mammogram for both breasts to check things out. I really hope that Medi-Cal will cover the expenses because I'm quite worried and want to make sure everything is okay. Can you tell me if this procedure is included in my coverage?",verbose
+77067,mammogram,direct
+77067,is a mammogram covered by medi-cal?,short
+77067,I need to know if Medi-Cal will cover a mammogram for screening purposes.,conversational
+77067,"I'm trying to figure out if I can get a mammogram done and if Medi-Cal will pay for it. I heard it's important for checking for breast cancer, but I want to make sure it's covered under my plan before scheduling an appointment.",verbose
+77067,screening mammogram,direct
+77067,does medi-cal cover screening mammograms?,short
+77067,Can you tell me if my Medi-Cal insurance covers screening mammograms? I think it's time for me to get one.,conversational
+77067,"I've been reading about the importance of regular screening mammograms, and I'm concerned about whether my Medi-Cal insurance will cover the cost. I want to prioritize my health, but I also need to know what expenses I might face.",verbose
+81025,pregnancy test,direct
+81025,is a urine pregnancy test covered by medi-cal?,short
+81025,I need to know if Medi-Cal covers a urine pregnancy test for me.,conversational
+81025,"I recently took a urine pregnancy test and I’m wondering if Medi-Cal will cover that cost, especially since I really need to confirm my situation right now.",verbose
+81025,urine test,direct
+81025,does Medi-Cal cover urine pregnancy tests?,short
+81025,Can you tell me if a urine pregnancy test is something that Medi-Cal will pay for? I need to find out as soon as possible.,conversational
+81025,"I’ve been feeling a bit off lately and I think I might be pregnant, so I’m planning to take a urine pregnancy test. I just want to check if Medi-Cal will help cover the costs for that test.",verbose
+87624,HPV test,direct
+87624,is the HPV test covered by medi-cal?,short
+87624,I'm wondering if Medi-Cal covers the HPV test for high-risk types for someone over 30.,conversational
+87624,"I heard that there’s an HPV test that checks for different high-risk types. I’m over 30, and I want to know if Medi-Cal will pay for it or not. Can someone help me with that?",verbose
+87624,HPV test,direct
+87624,does medi-cal cover the HPV test for high-risk strains?,short
+87624,I need to find out if the HPV test for high-risk types is covered by Medi-Cal since I'm 32 years old.,conversational
+87624,"I've been hearing a lot about HPV testing and how important it is, especially for those of us who are over 30. I'm curious if Medi-Cal will cover this test since I want to make sure I'm taking care of my health. Can anyone clarify this for me?",verbose
+87625,HPV test,direct
+87625,is the HPV test covered by medi-cal?,short
+87625,"I had a primary HPV screening done, will the follow-up test be covered by Medi-Cal?",conversational
+87625,"I'm trying to understand if my insurance, Medi-Cal, will pay for the HPV test that checks for types 16, 18, and 45. I had the first screening last month, and I need to know if I can get this follow-up without a big bill.",verbose
+87625,HPV genotyping,direct
+87625,does medi-cal cover HPV genotyping?,short
+87625,I just found out I need an HPV test for specific types after my screening. Can I get that covered under Medi-Cal?,conversational
+87625,"I had my primary HPV screening recently, and my doctor mentioned that I might need a follow-up test for types 16, 18, and 45. Can you tell me if Medi-Cal will cover the cost for that follow-up HPV test?",verbose
+88141,cervical cell analysis,direct
+88141,is cervical cell analysis covered by medi-cal?,short
+88141,"I recently had some tests done for cervical cells, will Medi-Cal cover the analysis?",conversational
+88141,"I'm trying to find out if the interpretation of my cervical cell test by my doctor will be covered by Medi-Cal. I had the test done a while ago, and I really want to ensure that the costs are handled since I’m trying to manage my budget right now.",verbose
+88141,vaginal cell test interpretation,direct
+88141,does medi-cal cover vaginal cell test interpretation?,short
+88141,"I had a vaginal cell test recently, and I’m wondering if the doctor’s interpretation is something that Medi-Cal will pay for or not.",conversational
+88141,"So, I had this vaginal cell analysis done, and now I’m really unclear whether the doctor’s interpretation of those results will be covered by Medi-Cal. I don’t want to get hit with any unexpected bills, especially since I rely on Medi-Cal for my medical needs.",verbose
+88142,cervical cell test,direct
+88142,is the cervical analysis test covered by medi-cal?,short
+88142,I need to know if the cervical cell analysis test is something that Medi-Cal will pay for.,conversational
+88142,"I just went to the doctor and they mentioned that I need a cervical or vaginal cell analysis test. I'm not sure if that kind of test is covered by Medi-Cal, so I want to check if I will have to pay for it myself or if it will be taken care of by the insurance.",verbose
+88142,vaginal cell analysis,direct
+88142,does medi-cal cover vaginal cytopathology tests?,short
+88142,I was told I might need a vaginal cell analysis test. Can anyone tell me if Medi-Cal covers this?,conversational
+88142,"My doctor said I should get a test to analyze some cervical cells, but I'm worried about the costs. I have Medi-Cal, and I really hope this test is covered because I can't afford to pay for it out of pocket. Does anyone know if this type of test is included?",verbose
+88143,cervical cell test,direct
+88143,is the cervical cell analysis covered?,short
+88143,I need to know if the cervical cell analysis test is covered by Medi-Cal. Can you help me?,conversational
+88143,"I recently went to my doctor for a routine check-up and they mentioned a cervical cell analysis test that I might need. I'm trying to figure out if that test is covered by Medi-Cal, because I really want to make sure I can afford it and get the care I need, especially since these tests can sometimes be a bit pricey.",verbose
+88143,vaginal cell analysis,direct
+88143,is vaginal cytopathology covered by Medi-Cal?,short
+88143,I'm wondering if Medi-Cal will cover a vaginal cell test that my doctor suggested. I want to make sure I understand my options.,conversational
+88143,"My doctor mentioned that I might need a vaginal cell analysis test, and I’m a bit concerned about whether my Medi-Cal will cover it. I don't want to face any unexpected bills, so I’m really hoping you can tell me if it's covered. It's been a tough year financially, and every bit helps!",verbose
+88164,cervical cell test,direct
+88164,is a vaginal cell test covered by medi-cal,short
+88164,I'm wondering if medi-cal will cover a manual cervical test that my doctor recommended.,conversational
+88164,"I’ve been told that I need a manual cervical cell test to check for any issues. I’m really concerned about the costs, so can you tell me if medi-cal covers this kind of test?",verbose
+88164,vaginal cell screening,direct
+88164,does medi-cal cover a cervical cell screening?,short
+88164,My doctor mentioned I might need a manual vaginal cell test. I’d like to know if that’s something that will be covered by medi-cal.,conversational
+88164,"I recently had a discussion with my physician about the need for a cervical cell test, and I'm a bit anxious about the expenses involved. Can you confirm whether medi-cal will cover this manual screening procedure?",verbose
+88172,fine needle biopsy test,direct
+88172,is the immediate test for a fine needle biopsy covered by medi-cal?,short
+88172,I just had a fine needle biopsy and I'm wondering if the immediate test for it is covered by Medi-Cal.,conversational
+88172,"I recently went in for a fine needle biopsy, and I'm curious if I would be covered for the immediate test that checks if the sample was good enough for diagnosis. I just want to make sure I won’t end up with unexpected bills.",verbose
+88172,fine needle aspirate test,direct
+88172,does medi-cal cover the immediate test for a fine needle aspirate?,short
+88172,"I had a fine needle aspirate done, and now I need to know if the immediate testing to check the sample is covered by Medi-Cal.",conversational
+88172,"After my fine needle aspirate, I'm really anxious about the results. I want to find out if the immediate testing done to see if the sample was adequate for a diagnosis is covered by Medi-Cal, so I don’t have any surprise expenses later.",verbose
+88173,lab test for biopsy,direct
+88173,is the lab analysis for fine needle biopsy covered by medi-cal?,short
+88173,I had a fine needle biopsy and I need to know if the lab test for the results is covered by medi-cal.,conversational
+88173,So I just had this fine needle biopsy done and I'm really worried about the costs. Can you tell me if the lab test that analyzes the results of that biopsy is going to be paid for by medi-cal?,verbose
+88173,cytopathology test,direct
+88173,does medi-cal cover the interpretation and report for a fine needle biopsy?,short
+88173,"I had a cytopathology test done after my fine needle biopsy, and I want to check if medi-cal covers the lab test for those results.",conversational
+88173,"I'm trying to figure out if the lab test that evaluates my fine needle biopsy results is going to be covered by medi-cal. I had some concerns about the costs after my procedure, and I really need to know what to expect.",verbose
+88174,cervical cell analysis,direct
+88174,is the cervical cell test covered by medi-cal?,short
+88174,I need to know if medi-cal covers the test for cervical cells. My doctor mentioned it during my last visit.,conversational
+88174,"So, I went to my doctor and she said I might need this test for cervical cells. I’m just trying to figure out if Medi-Cal will cover this procedure because I really can’t afford to pay out of pocket right now.",verbose
+88174,vaginal cell test,direct
+88174,does medi-cal cover vaginal cell analysis?,short
+88174,I was told I might need a vaginal cell test. Will Medi-Cal pay for that?,conversational
+88174,I've been having some health concerns and my doctor said I should get a vaginal cell analysis done. I really need to know if Medi-Cal will cover the cost because I'm worried about the expense.,verbose
+88175,cervical cell analysis,direct
+88175,is the cervical cytology test covered by medi-cal?,short
+88175,I need to know if the lab test for cervical cells is covered. Is that something I can get with Medi-Cal?,conversational
+88175,"I was reading about cervical and vaginal tests that involve some kind of automated analysis. I want to see if Medi-Cal will help cover that, especially since I think it might be important for my health. Can you help me figure that out?",verbose
+88175,automated vaginal cell test,direct
+88175,will medi-cal pay for an automated cervical cell analysis?,short
+88175,I'm curious if the test that analyzes cervical cells using an automated system is included in my Medi-Cal coverage. Can you tell me more about that?,conversational
+88175,I've heard about this test for cervical and vaginal cells that involves some automated processes and thorough analysis. I’m really concerned about my health and want to know if this is something that Medi-Cal covers for me. Any information would be appreciated!,verbose
+88177,additional biopsy test,direct
+88177,is the extra fine needle biopsy test covered by medi-cal?,short
+88177,"I had a fine needle biopsy done, and now I need to know if the extra test to check the sample is covered by Medi-Cal.",conversational
+88177,I recently had a fine needle biopsy and my doctor mentioned that there might be an additional test to see if the sample is good enough for diagnosis. I'm wondering if Medi-Cal covers this extra test or if there's some out-of-pocket cost for me.,verbose
+88177,fine needle aspirate follow-up,direct
+88177,will medi-cal pay for the follow-up biopsy evaluation?,short
+88177,"After my initial fine needle biopsy, my doctor said there might be some follow-up tests to check if the sample is okay. Can you tell me if those tests are covered by Medi-Cal?",conversational
+88177,I had a fine needle aspirate done recently and my doctor mentioned that they might need to do some additional evaluations to ensure they have a good sample for diagnosis. I'm trying to figure out if Medi-Cal will cover those extra evaluations or if I'm going to end up paying for it myself.,verbose
+88305,tissue examination,direct
+88305,is tissue sample testing covered by medi-cal?,short
+88305,I had a surgery and they took a tissue sample. Will Medi-Cal cover the examination of that sample?,conversational
+88305,"I recently had some surgery done, and they removed some tissue for testing. I'm trying to figure out if the detailed examination of that tissue sample is something that Medi-Cal will cover, or if I'll have to pay out of pocket for it. Can you help me understand how this works?",verbose
+88305,surgical pathology exam,direct
+88305,will medi-cal pay for a surgical pathology exam?,short
+88305,I had a biopsy done and I'm wondering if the detailed review of that sample will be covered by Medi-Cal?,conversational
+88305,"So, I had some tissue taken out during my surgery for testing, and I need to know if the detailed examination of that sample is covered by Medi-Cal. I'm a bit confused about how all this works, especially since it seems like there are different levels of examinations. Can you clarify if I'm covered?",verbose
+88307,tissue examination,direct
+88307,does medi-cal cover a detailed tissue exam?,short
+88307,I need to know if a detailed examination of my tissue sample is covered by medi-cal.,conversational
+88307,"I recently had surgery and they took a tissue sample for examination. I'm curious if medi-cal will cover the detailed analysis they do on that sample, since I hear they look at it closely and report their findings.",verbose
+88307,surgical pathology exam,direct
+88307,is a surgical pathology exam covered by medi-cal?,short
+88307,I had surgery and they said they would examine the tissue afterward. I want to check if medi-cal covers that kind of surgical pathology exam.,conversational
+88307,"After my surgery, the doctor mentioned that they'll be analyzing the tissue sample they took for any issues. I'm really concerned about costs, so could someone tell me if medi-cal covers this detailed surgical pathology exam? It seems important to my recovery, but I'm worried about the bill.",verbose
+88331,surgical pathology consultation,direct
+88331,does medi-cal cover pathology consultations during surgery?,short
+88331,I need to know if my surgery includes a pathology consultation. Is that covered by Medi-Cal?,conversational
+88331,"I had a surgery recently, and I heard that sometimes there is a need for a pathology consultation during the procedure. Can you tell me if that type of consultation is covered by Medi-Cal, because I really want to make sure I'm not stuck with extra costs?",verbose
+88331,pathology consult during surgery,direct
+88331,is a pathology consultation during surgery included in my medi-cal coverage?,short
+88331,"I just had surgery, and I think they did a pathology consultation while I was on the table. Can you confirm if that is covered by Medi-Cal?",conversational
+88331,"So, I had this surgery last week, and the doctor mentioned something about a pathology consultation while I was under anesthesia. I’m just curious if Medi-Cal would cover that part, because I really don’t want to get unexpected bills later. Can you help me out with that?",verbose
+88332,surgical pathology consult,direct
+88332,is a pathology consultation during surgery covered by medi-cal?,short
+88332,I heard about getting a pathology consult while in surgery. Will medi-cal cover that?,conversational
+88332,I have a surgery coming up and I was told that sometimes they need to do a pathology consultation during the operation. Can you tell me if that kind of service is covered by medi-cal? I really want to make sure I'm not hit with unexpected costs.,verbose
+88332,frozen section consultation,direct
+88332,will medi-cal pay for a frozen section consultation during surgery?,short
+88332,"I'm a bit confused about the frozen section process during surgery. If I end up needing that, will it be covered by medi-cal?",conversational
+88332,"So, I'm scheduled for surgery soon, and the doctor mentioned that they might need to do a frozen section consultation. I really hope it's covered by medi-cal because I can't afford any surprise bills after the surgery. Can you help me figure that out?",verbose
+88341,antibody test on tumor,direct
+88341,is an antibody test on tumor tissue covered by medi-cal?,short
+88341,I need to know if my antibody test on tumor samples is covered by Medi-Cal. Can you help me with that?,conversational
+88341,"I had a test done on my tumor tissue where they looked for specific antibodies. I'm trying to figure out if that test is going to be covered by Medi-Cal since I really need help with my medical bills, so any information you can provide would be great.",verbose
+88341,additional antibody stain test,direct
+88341,does Medi-Cal cover additional antibody tests on tumor tissue?,short
+88341,I had an additional antibody test done on my tumor and I'm wondering if it's something that Medi-Cal will cover. Can anyone check that for me?,conversational
+88341,"I recently had this additional test where they stained my tumor tissue with another antibody to get more information. Since I'm on Medi-Cal, I really hope that it will be covered, but I just need to confirm that it won't be an extra expense for me, you know?",verbose
+88342,antibody test on tumor,direct
+88342,is the antibody test on tumor tissue covered?,short
+88342,I had a tumor biopsy and I'm wondering if the antibody test on the tissue will be covered by Medi-Cal.,conversational
+88342,"I just found out that I might need an antibody test on my tumor tissue. Can someone tell me if Medi-Cal covers that? I mean, I have no idea how much this might cost, and I really hope it's included because I can't afford a lot of out-of-pocket expenses right now.",verbose
+88342,initial antibody stain test,direct
+88342,does Medi-Cal cover initial antibody tests on tumor samples?,short
+88342,I'm trying to get some information about my cancer treatment. Do you know if the initial antibody test on my tumor tissue is covered by Medi-Cal?,conversational
+88342,"I was diagnosed with cancer and my doctor mentioned that I might need an initial antibody test on the tumor tissue. I’m really anxious about the costs, so can anyone tell me if Medi-Cal will help cover this? It feels overwhelming with all the medical bills piling up, and I just need to know what to expect.",verbose
+88360,single antibody test,direct
+88360,is the single antibody test on tumor tissue covered by medi-cal?,short
+88360,I'm trying to find out if the single antibody test on my tumor tissue is covered by Medi-Cal. Can you help?,conversational
+88360,"I recently had some tests done on tumor tissue, and I'm curious if the single antibody test is included in what Medi-Cal covers. I've been dealing with a lot lately, and understanding these costs would really ease my mind.",verbose
+88360,antibody stain test,direct
+88360,does Medi-Cal cover the antibody stain test for cancer?,short
+88360,I need to know if the antibody stain test on my tumor tissue will be paid for by Medi-Cal. It's important for my treatment plan.,conversational
+88360,"After my recent diagnosis, my doctor mentioned I might need an antibody stain test on my tumor tissue. I'm wondering if Medi-Cal will cover that, as medical expenses can be really overwhelming right now.",verbose
+88364,additional tumor testing,direct
+88364,is extra tumor tissue testing covered by medi-cal?,short
+88364,I heard I might need some extra tests on my tumor tissue. Will Medi-Cal cover that?,conversational
+88364,"I was recently diagnosed with cancer, and my doctor mentioned something about needing additional testing on my tumor samples. I'm really worried about costs and want to know if Medi-Cal will help cover these extra tests for me.",verbose
+88364,tumor tissue stain,direct
+88364,does medi-cal cover extra stain tests for tumor tissue?,short
+88364,I have tumor samples that might need more testing. Can you tell me if Medi-Cal will pay for those extra procedures?,conversational
+88364,"My doctor suggested that I might need some additional tests on my tumor tissue to get a better diagnosis, but I'm not sure if my Medi-Cal plan will cover that. Can you help me figure this out?",verbose
+88365,tumor tissue analysis,direct
+88365,is tumor tissue analysis covered by medi-cal?,short
+88365,I need to know if the test to analyze my tumor tissue will be covered by Medi-Cal.,conversational
+88365,I recently had a biopsy done and my doctor mentioned something about a special test for my tumor tissue. Can you tell me if Medi-Cal will cover this kind of analysis?,verbose
+88365,in situ hybridization,direct
+88365,does medi-cal cover in situ hybridization testing?,short
+88365,"I'm looking into a specific test for my cancer, which involves in situ hybridization. Will Medi-Cal cover that?",conversational
+88365,"I heard that there's a special stain test for tumors that helps with diagnosis, called in situ hybridization. I'm worried about costs, so can you let me know if Medi-Cal pays for that kind of test?",verbose
+88366,tumor tissue analysis,direct
+88366,is tumor tissue analysis covered by medi-cal?,short
+88366,I need to know if my tumor tissue analysis will be covered by Medi-Cal. Can you help me?,conversational
+88366,"I've been told I need a special test on my tumor tissue, where they analyze it using a certain staining procedure. I'm wondering if this type of test is covered by Medi-Cal, because I want to make sure I can afford it and get the right diagnosis.",verbose
+88366,in situ hybridization test,direct
+88366,will my in situ hybridization test be covered by medi-cal?,short
+88366,"I'm trying to find out if Medi-Cal covers in situ hybridization for my tumor. It's important for my treatment plan, so any information would be appreciated.",conversational
+88366,"I recently learned that I might need an in situ hybridization test for my tumor analysis. I'm concerned about the costs involved and really need to know if Medi-Cal will cover this test, as it could make a big difference in my treatment options and financial situation.",verbose
+88367,tumor probe test,direct
+88367,is the initial tumor tissue probe test covered by medi-cal?,short
+88367,I need to know if the initial probe test for my tumor tissue is covered by Medi-Cal.,conversational
+88367,"I recently had a biopsy done on a tumor, and the doctor mentioned something about a specific probe test for the tissue. Can someone tell me if Medi-Cal covers this initial probe test for tumor tissue?",verbose
+88367,initial tumor test,direct
+88367,is the initial tumor tissue test covered by medi-cal?,short
+88367,I want to check if the initial test for my tumor sample is covered by Medi-Cal. Can anyone help?,conversational
+88367,"After my recent surgery, the doctor suggested a specific test for the tumor tissue they removed. I'm curious if Medi-Cal will cover this initial test for the tumor. Does anyone have information on this?",verbose
+88368,tumor tissue analysis,direct
+88368,is tumor tissue analysis covered by medi-cal?,short
+88368,I need to know if the testing for tumor tissue analysis is covered by Medi-Cal. Will I have to pay anything out of pocket?,conversational
+88368,"I'm trying to find out if my Medi-Cal insurance will cover the costs for the analysis of tumor tissues, especially since my doctor mentioned some special staining techniques. It's been a bit overwhelming with everything going on, and I want to ensure that I understand what I'm responsible for paying.",verbose
+88368,in situ hybridization test,direct
+88368,does medi-cal cover the in situ hybridization test?,short
+88368,"Can you tell me if my Medi-Cal plan covers the in situ hybridization test for tumor samples? I'm worried about the costs, especially since I've been having all these tests done lately.",conversational
+88368,"I'm looking for information on whether Medi-Cal covers the in situ hybridization test for analyzing tumor tissues. I've heard this test is important for understanding my condition, but I've also got a lot of expenses piling up. Any guidance would be really helpful!",verbose
+88369,additional tumor test,direct
+88369,is the additional test for tumor tissue covered?,short
+88369,I need to know if the extra test for analyzing my tumor tissue will be covered by Medi-Cal. Can you help?,conversational
+88369,"I'm trying to figure out if Medi-Cal will cover the additional testing for my tumor tissue. I already had some tests done, and now my doctor mentioned there might be more analysis needed. It seems like it could help with my treatment, but I'm not sure if it’s covered under my plan.",verbose
+88369,in situ hybridization test,direct
+88369,will my Medi-Cal cover in situ hybridization?,short
+88369,I heard there’s an added test that looks closer at tumor tissue using a hybridization technique. Is it something Medi-Cal pays for?,conversational
+88369,"I recently had a tumor analysis done, and my doctor mentioned that there’s an additional in situ hybridization test that could provide more insights. I’m trying to understand if this extra testing will be covered by Medi-Cal or if I’ll have to pay for it out of pocket. Can you provide some information on that?",verbose
+88373,additional tumor test,direct
+88373,is an extra test for tumor tissue covered by medi-cal?,short
+88373,I'm wondering if Medi-Cal covers this extra test for tumor analysis that my doctor mentioned. Can you help me with that?,conversational
+88373,"I heard that there's an additional test for analyzing tumor tissue that involves some kind of computer technology for better results. I'm not really sure if Medi-Cal covers this specific procedure, and I could use some clarification about how it works and if I can get it done.",verbose
+88373,tumor tissue analysis test,direct
+88373,is the extra analysis for tumor tissue covered by medi-cal?,short
+88373,My doctor said I might need an extra test on my tumor tissue for better analysis. Does Medi-Cal cover that?,conversational
+88373,"I was told there’s an additional test for analyzing my tumor tissue that uses some advanced technology to get more accurate results. I’m really concerned about costs and want to know if Medi-Cal will help cover this kind of testing, as I need to make sure I can afford it.",verbose
+88374,tumor tissue analysis,direct
+88374,is tumor tissue probe analysis covered?,short
+88374,I need to know if the tumor tissue analysis is covered by Medi-Cal. Can someone help?,conversational
+88374,"I’m trying to figure out if the analysis for tumor tissue using some kind of technology is covered under Medi-Cal. I recently had a biopsy done, and I’m unsure if this specific analysis that my doctor mentioned will be paid for. Could you provide me with some information?",verbose
+88374,in situ hybridization probe,direct
+88374,does Medi-Cal cover in situ hybridization for tumors?,short
+88374,"I heard that there’s a special procedure for analyzing tumor tissue using probes, but I’m not sure if that’s covered by Medi-Cal. Can you give me any details?",conversational
+88374,"I need clarification on whether the specific procedure for analyzing tumor tissue with some advanced technology, like in situ hybridization, is covered by Medi-Cal. My doctor thinks it’s necessary for my treatment, but I want to be sure about the costs first before proceeding. Any insights would be really appreciated!",verbose
+88377,tumor tissue analysis,direct
+88377,is tumor tissue analysis covered by medi-cal?,short
+88377,"I'm having some tests done on my tumor tissue, can you tell me if that analysis is covered by Medi-Cal?",conversational
+88377,"I recently had a biopsy done and the doctor mentioned they would be analyzing the tumor tissue with some special staining technique. I'm just wondering if that kind of analysis is something that Medi-Cal will cover for me, because I really can’t afford any extra costs right now.",verbose
+88377,tissue analysis with staining,direct
+88377,will Medi-Cal pay for my tissue analysis with special staining?,short
+88377,My doctor said they need to do some special staining on my tumor tissue. I want to check if Medi-Cal covers that kind of testing.,conversational
+88377,"I’ve heard my doctor talk about doing a special analysis on my tumor tissue and using some stains for better results. I’m really concerned about the costs, can I find out if Medi-Cal covers this kind of procedure? It would really help ease my mind regarding the bills.",verbose
+95852,hand movement test,direct
+95852,is hand range of motion measurement covered?,short
+95852,I need to measure my hand movement; will Medi-Cal pay for that?,conversational
+95852,My doctor mentioned I might need a hand movement range test to see how much I can move my fingers. Will Medi-Cal cover this kind of service?,verbose
+95852,hand movement test,direct
+95852,is hand range of motion measurement covered?,short
+95852,I need to measure my hand movement; will Medi-Cal pay for that?,conversational
+95852,My doctor mentioned I might need a hand movement range test to see how much I can move my fingers. Will Medi-Cal cover this kind of service?,verbose
+99070,extra supplies,direct
+99070,are extra medical supplies covered by medi-cal?,short
+99070,I had some extra supplies used during my visit. Will Medi-Cal cover that?,conversational
+99070,"When I went to the doctor, they used some extra medical supplies that I wasn’t expecting. I want to know if those costs will be covered by Medi-Cal or if I will have to pay for them myself. Can someone help me figure this out?",verbose
+99070,supplies given,direct
+99070,will medi-cal pay for extra supplies used?,short
+99070,"During my last appointment, the doctor mentioned using some additional supplies. How does that work with Medi-Cal? Are those items covered?",conversational
+99070,I went to see my doctor and they used some extra materials and supplies during my visit. I wasn't sure if those would be covered by Medi-Cal. I really need to understand what I might be responsible for paying after my visit. Anyone know the policy on this?,verbose
+99202,new patient visit,direct
+99202,is a new patient office visit covered by medi-cal?,short
+99202,I just moved here and need to see a doctor for the first time. Will my new patient visit be covered by Medi-Cal?,conversational
+99202,"So, I’m a new patient and I want to go for an office visit to talk about some health issues I’ve been having. I’m wondering if Medi-Cal will cover this visit because I really need to see a doctor, and I’m not sure how it all works with insurance. Can you help me figure this out?",verbose
+99202,new patient appointment,direct
+99202,does medi-cal cover visits for new patients?,short
+99202,I’m looking for a new doctor for my health needs and need to know if the first visit is covered by Medi-Cal. I haven’t been to a doctor in a while and want to make sure I can get help without worrying about costs.,conversational
+99202,"I just got Medi-Cal and I need to schedule an appointment with a new doctor because I haven’t seen one in years. I really hope that the first visit will be covered, but I’m a bit confused about how it works. Can you tell me if my first appointment will be included in my coverage?",verbose
+99203,new patient visit,direct
+99203,is an office visit for a new patient covered?,short
+99203,"I’m new to this doctor, will my first appointment get covered by Medi-Cal?",conversational
+99203,"I recently moved and need to see a doctor for the first time. I want to know if my initial visit as a new patient will be covered by Medi-Cal, especially since I have some questions about my health.",verbose
+99203,new patient appointment,direct
+99203,is my first doctor's visit going to be covered by Medi-Cal?,short
+99203,I just got Medi-Cal and I'm seeing a new doctor for the first time. Will the visit be covered?,conversational
+99203,"I'm starting to see a new doctor and I want to make sure that my very first visit, where we will just talk about my health and stuff, is something that Medi-Cal will pay for, since I have a few concerns to discuss.",verbose
+99204,new patient visit,direct
+99204,is my first office visit covered?,short
+99204,"I’m seeing a new doctor for the first time, will that office visit be covered?",conversational
+99204,"I just made an appointment to see a new doctor because I need to get some health issues checked out, is that initial office visit going to be covered by Medi-Cal?",verbose
+99204,new patient office visit,direct
+99204,will my first visit to this doctor be covered?,short
+99204,I’m going to a new doctor for my first appointment and I want to know if that’s covered by Medi-Cal.,conversational
+99204,"I have an appointment next week for my first visit with a new doctor, and I’m a bit worried about costs. Can you tell me if that initial visit will be paid for by Medi-Cal?",verbose
+99211,office visit follow-up,direct
+99211,is a quick follow-up visit covered?,short
+99211,I need to know if my follow-up visit is covered by Medi-Cal. It’s just a quick one.,conversational
+99211,"So, I had a check-up, and now I need to go back for a follow-up visit. I’m just wondering if that kind of appointment is covered by Medi-Cal, especially since it might not even involve a doctor. Can someone help me with that?",verbose
+99211,follow-up office visit,direct
+99211,is a brief visit covered by Medi-Cal?,short
+99211,"I have a follow-up appointment soon, and I'm curious if it's covered by Medi-Cal since it's a quick check-in.",conversational
+99211,"I went to the doctor a little while ago, and now I need to go back for a follow-up that's just a brief visit. I’m trying to find out if Medi-Cal will cover that visit, especially since it might not even require the doctor to be there. Can someone clarify this for me?",verbose
+99212,follow-up visit,direct
+99212,is a follow-up visit covered by medi-cal?,short
+99212,I need to know if a follow-up visit to my doctor is paid for by medi-cal.,conversational
+99212,"I'm trying to find out if my medi-cal plan will cover a follow-up visit with my doctor since it's been a while since my last appointment, and I just want to make sure I won't have to pay anything out of pocket.",verbose
+99212,routine office visit,direct
+99212,does medi-cal cover a routine office visit?,short
+99212,I’m curious if a routine check-up with my doctor is something that medi-cal will pay for.,conversational
+99212,I have a question about my health insurance with medi-cal. Will they cover a routine visit to my doctor? I haven’t been in for a while and want to make sure I can go without worrying about costs.,verbose
+99213,office visit,direct
+99213,is my office visit covered by medi-cal?,short
+99213,I need to see my doctor for a follow-up. Will Medi-Cal pay for that visit?,conversational
+99213,I just want to know if I'm able to go to my doctor's office for a check-up and if Medi-Cal will cover that visit since I've been seeing the same doctor for a while now.,verbose
+99213,follow-up visit,direct
+99213,does medi-cal cover follow-up appointments?,short
+99213,I'm planning to visit my doctor again soon for my ongoing care. Is that going to be covered by Medi-Cal?,conversational
+99213,"I have a routine appointment coming up with my doctor for my regular check-up, and I'm trying to figure out if Medi-Cal will take care of the costs for that office visit since I am already an established patient there.",verbose
+99214,office visit,direct
+99214,is an office visit covered by medi-cal,short
+99214,I need to go for an office visit for my ongoing health issues. Will Medi-Cal cover that?,conversational
+99214,"I've been having some ongoing health problems and I was told I need to schedule an office visit with my doctor. Can you let me know if Medi-Cal will cover that visit, since I really want to make sure I'm not going to be stuck with a big bill?",verbose
+99214,follow-up visit,direct
+99214,is a follow-up visit to my doctor covered by medi-cal?,short
+99214,I'm scheduled for a follow-up appointment with my doctor for some health concerns. Does Medi-Cal cover that type of visit?,conversational
+99214,I have a follow-up appointment coming up with my doctor to discuss some ongoing issues I've been experiencing. I'm really worried about the costs. Can you tell me if that visit will be covered by Medi-Cal? I just want to make sure I'm prepared financially.,verbose

@@ -210,11 +210,26 @@ def search(index, meta, model, query: str, top_k: int = 10):
     return results
 
 
-def evaluate(index, meta, model, top_k: int = 10):
+def build_test_queries_from_csv(csv_path: Path) -> list:
+    """Load a policy eval CSV and convert to TEST_QUERIES format."""
+    df = pd.read_csv(csv_path)
+    queries = []
+    for _, row in df.iterrows():
+        queries.append({
+            "query": row["query"],
+            "expected": [str(row["code"])],
+            "verbosity": row["verbosity"],
+        })
+    return queries
+
+
+def evaluate(index, meta, model, top_k: int = 10, test_queries: list = None):
     """Run all test queries and compute metrics."""
+    if test_queries is None:
+        test_queries = TEST_QUERIES
     results = []
 
-    for test in TEST_QUERIES:
+    for test in test_queries:
         query = test["query"]
         expected = set(normalize_code(c) for c in test["expected"])
         matches = search(index, meta, model, query, top_k)
@@ -316,6 +331,7 @@ def main():
     parser = argparse.ArgumentParser(description="CPT match quality evaluation")
     parser.add_argument("--top_k", type=int, default=10, help="Number of results to retrieve")
     parser.add_argument("--save", type=str, default=None, help="Save results to JSON file")
+    parser.add_argument("--eval-set", type=str, default=None, help="Path to CSV eval set (overrides built-in TEST_QUERIES)")
     args = parser.parse_args()
 
     project_root = Path(__file__).resolve().parents[1]
@@ -323,7 +339,14 @@ def main():
     index, meta, model = load_matcher(project_root)
     print(f"Loaded {index.ntotal} vectors, {len(meta)} metadata rows.\n")
 
-    results = evaluate(index, meta, model, top_k=args.top_k)
+    if args.eval_set:
+        csv_path = project_root / args.eval_set
+        print(f"Using eval set: {csv_path}")
+        test_queries = build_test_queries_from_csv(csv_path)
+    else:
+        test_queries = TEST_QUERIES
+
+    results = evaluate(index, meta, model, top_k=args.top_k, test_queries=test_queries)
     summary = print_report(results, top_k=args.top_k)
 
     if args.save:
