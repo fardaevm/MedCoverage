@@ -15,7 +15,7 @@ TOP_TEXT_COL = "search_text"
 def main() -> None:
     project_root = Path(__file__).resolve().parents[2]
 
-    in_path = project_root / "data" / "processed" / "cpt_hcpcs_clean.parquet"
+    in_path = project_root / "data" / "processed" / "cpt_hcpcs_enriched.parquet"
     out_dir = project_root / "data" / "embeddings"
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -57,7 +57,7 @@ def main() -> None:
     faiss.write_index(index, str(index_path))
 
     # Keep only what you need at inference time
-    meta_cols = [c for c in ["search_text", "description", "code", "title", "type", "category"] if c in df.columns]
+    meta_cols = [c for c in ["search_text", "description", "code", "title", "clean_title", "type", "category"] if c in df.columns]
     meta = df[meta_cols].copy()
     meta.insert(0, "faiss_id", np.arange(len(meta), dtype=np.int64))
 
