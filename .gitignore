@@ -2,8 +2,10 @@
 
 # mac/python
 **/.DS_Store
-<<<<<<< HEAD
+
+# Python cache
 **/__pycache__/
+__pycache__/
 *.pyc
 
 # vector db / embeddings artifacts (local only)
@@ -13,12 +15,6 @@
 # (optional) also ignore common lancedb folders anywhere
 **/*.lance/
 **/sample-lancedb/
-=======
-
-# Python cache
-__pycache__/
-*.pyc
 
 # local source PDFs
 data/raw/*.pdf
->>>>>>> 64e553d (Add mammo question eval + refresh 77067/77063 testset)
