@@ -84,10 +84,11 @@ class Matcher:
         if not self.co or not candidates:
             for i, c in enumerate(candidates[:top_k]):
                 c["rank"] = i + 1
+                c.pop("_search_text", None)
             return candidates[:top_k]
 
         docs = [
-            f"{c.get('title','')}\n{c.get('description','')}\nCode:{c.get('code','')}".strip()
+            (c.get("_search_text") or f"{c.get('title','')}\n{c.get('description','')}\nCode:{c.get('code','')}").strip()
             for c in candidates
         ]
 
@@ -103,6 +104,7 @@ class Matcher:
             c = candidates[r.index]
             c["rank"] = len(out) + 1
             c["rerank_score"] = float(getattr(r, "relevance_score", 0.0))
+            c.pop("_search_text", None)
             out.append(c)
 
         return out
@@ -169,12 +171,16 @@ class Matcher:
             else:
                 title = None if raw_title is None else str(raw_title).strip().strip('"').rstrip(".")
 
+            raw_search = row.get("search_text")
+            search_text = None if raw_search is None else str(raw_search).strip()
+
             candidates.append({
                 "faiss_id": fid,
                 "code": code,
                 "title": title,
                 "category": row.get("category"),
                 "description": desc,
+                "_search_text": search_text,
             })
 
         return self._rerank(corrected, candidates, top_k)
