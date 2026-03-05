@@ -233,12 +233,14 @@ function escapeHtml(s) {
 
 function matchBadgeHtml(candidate) {
   const rank = candidate.rank ?? null;
-  if (rank == null) return "";
+  const score = candidate.rerank_score ?? null;
+  if (rank == null && score == null) return "";
   let label, cls;
   if (rank === 1) { label = "Best match"; cls = "matchBadge--best"; }
   else if (rank <= 3) { label = "Good match"; cls = "matchBadge--good"; }
   else { label = "Possible match"; cls = "matchBadge--possible"; }
-  return `<span class="matchBadge ${cls}">${label}</span>`;
+  const pct = score != null ? ` · ${Math.round(score * 100)}%` : "";
+  return `<span class="matchBadge ${cls}" title="Match quality based on relevance ranking">${label}${escapeHtml(pct)}</span>`;
 }
 
 function renderCard(candidate) {
