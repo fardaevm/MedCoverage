@@ -215,9 +215,7 @@ function showFlowLoading(cardEl, collapseSelection) {
     i = (i + 1) % FLOW_LOADING_PHRASES.length;
     if (phraseEl) phraseEl.textContent = FLOW_LOADING_PHRASES[i];
   }, 1600);
-  const clear = () => {
-    clearInterval(interval);
-  };
+  const clear = () => clearInterval(interval);
   const descr = cardEl.querySelector(".description");
   if (descr) descr.insertAdjacentElement("afterend", wrap);
   else cardEl.appendChild(wrap);
@@ -235,20 +233,12 @@ function escapeHtml(s) {
 
 function matchBadgeHtml(candidate) {
   const rank = candidate.rank ?? null;
-  const score = candidate.rerank_score ?? null;
-  if (rank == null && score == null) return "";
-
+  if (rank == null) return "";
   let label, cls;
-  if (rank === 1) {
-    label = "Best match"; cls = "matchBadge--best";
-  } else if (rank <= 3) {
-    label = "Good match"; cls = "matchBadge--good";
-  } else {
-    label = "Possible match"; cls = "matchBadge--possible";
-  }
-
-  const pct = score != null ? ` · ${Math.round(score * 100)}%` : "";
-  return `<span class="matchBadge ${cls}" title="Match quality based on relevance ranking">${label}${escapeHtml(pct)}</span>`;
+  if (rank === 1) { label = "Best match"; cls = "matchBadge--best"; }
+  else if (rank <= 3) { label = "Good match"; cls = "matchBadge--good"; }
+  else { label = "Possible match"; cls = "matchBadge--possible"; }
+  return `<span class="matchBadge ${cls}">${label}</span>`;
 }
 
 function renderCard(candidate) {
@@ -256,7 +246,6 @@ function renderCard(candidate) {
   const code = candidate.code ?? "";
   const category = candidate.category ?? "";
   const description = candidate.description ?? "";
-
   const card = document.createElement("div");
   card.className = "card";
   card.setAttribute("data-faiss-id", String(candidate.faiss_id ?? ""));
@@ -332,10 +321,7 @@ function collapseSelection() {
 
 function selectCard(cardEl, candidate) {
   if (selectedCardEl === cardEl) return;
-
-  if (selectedCardEl) {
-    collapseSelection();
-  }
+  if (selectedCardEl) collapseSelection();
 
   selectedCardEl = cardEl;
   cardEl.classList.add("selected", "expanded");
@@ -402,12 +388,10 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const q = queryInput.value.trim();
   if (!q) return;
-
   showError("");
   submitBtn.disabled = true;
   resultsContainer.innerHTML = "";
   const loadingEl = showLoading();
-
   try {
     const res = await fetch("/match", {
       method: "POST",

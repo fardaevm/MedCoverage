@@ -52,6 +52,8 @@ PLANNER_SYSTEM_PROMPT = (
 PATHWAYS_AND_QUESTIONS_SYSTEM_PROMPT = (
     "You are an insurance eligibility expert. Read the policy context and identify every"
     " distinct pathway by which this procedure is covered.\n\n"
+    "- Merge pathways that share the same requirements and differ only by qualifying"
+    " condition. The qualifying conditions become questions WITHIN that pathway.\n"
     "For each pathway you must also list the exact YES/NO questions that determine if the patient"
     " qualifies for that pathway. If the patient answers YES to every question for a pathway,"
     " that pathway is satisfied (covered).\n\n"
@@ -61,6 +63,8 @@ PATHWAYS_AND_QUESTIONS_SYSTEM_PROMPT = (
     "- For each pathway, list 2–5 YES/NO questions in order. Each question must be:\n"
     "  - Short, plain English, answerable YES or NO.\n"
     "  - One criterion per question (no \"A, or B, or C\" in one question).\n"
+    "- Write questions in second person directed at the patient (\"Do you...\", \"Are you...\","
+    " \"Have you...\"). Never write questions as clinical statements or in third person.\n"
     "- Do NOT include administrative questions (prior auth, referral, ordering doctor, billing).\n"
     "- Output valid JSON only, no markdown or explanation.\n\n"
     "Return STRICT JSON only:\n"

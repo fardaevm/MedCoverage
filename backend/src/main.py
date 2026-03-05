@@ -5,9 +5,7 @@ load_dotenv()
 from pathlib import Path
 from typing import List, Optional, Dict, Any
 import json
-import re
 import os
-from hashlib import sha1
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
@@ -19,6 +17,7 @@ from src.pricing import PricingLookup
 from src.rag_pipeline import RAGPipeline
 from src.rag import Datastore, Indexer, Retriever, ResponseGenerator
 from src.cache import RedisJSONCache
+from src.eligibility_evaluator import evaluate_answers
 
 app = FastAPI(title="Medical Cost Estimator API")
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -52,6 +51,8 @@ def create_pipeline() -> RAGPipeline:
 rag_pipeline = create_pipeline()
 questions_cache = RedisJSONCache()
 
+# ── Request / Response models ──────────────────────────────────────
+
 class MatchRequest(BaseModel):
     text: str
     top_k: int = 10
@@ -78,8 +79,11 @@ class EligibilityNextRequest(BaseModel):
     user_text: Optional[str] = None
     selected: SelectedProcedure
     pathways: List[str] = Field(default_factory=list)
+    questions_per_pathway: List[List[str]] = Field(default_factory=list)
     qa_so_far: List[QAItem] = Field(default_factory=list)
     top_k: int = 10
+
+# ── Routes ─────────────────────────────────────────────────────────
 
 @app.get("/")
 def landing():
@@ -101,135 +105,105 @@ def health():
 def match(req: MatchRequest):
     return {"input": req.text, "candidates": matcher.search(req.text, req.top_k)}
 
+# ── Eligibility: START (1 LLM call — generates pathways + questions) ──
+
 @app.post("/eligibility/start")
 def eligibility_start(req: EligibilityStartRequest):
     selected = req.selected
     query_used = _build_eligibility_query(selected, req.user_text)
 
-    # cache pathways per (code + query_used)
+    # Cache key per (code + query)
     key_payload = json.dumps({"code": selected.code, "query": query_used}, ensure_ascii=False)
-    cache_key = questions_cache.make_key("tree:start:v2", key_payload)
+    cache_key = questions_cache.make_key("tree:start:v3", key_payload)
     cached = questions_cache.get(cache_key)
     if cached:
         return {"selected": selected.model_dump(), **cached}
 
     context = rag_pipeline.retrieve_context(query_used, top_k=req.top_k)
     rg = rag_pipeline.response_generator
+
+    # Single LLM call: pathways + all questions upfront
     parsed = rg.generate_pathways_and_questions(query=query_used, context=context)
 
-    pathways = (parsed.get("pathways") or [])[:2]
-    if len(pathways) < 2:
-        while len(pathways) < 2:
-            pathways.append("")
-
-    # No meaningful pathways => don't generate questions; stop flow
-    has_pathways = any(str(p or "").strip() for p in pathways)
-    no_pathways_reason = "We couldn't find coverage pathways for this procedure in our policy."
-
+    pathways = parsed.get("pathways") or []
     questions_per_pathway = parsed.get("questions_per_pathway") or []
+
+    # Ensure lengths match
     if len(questions_per_pathway) != len(pathways):
         questions_per_pathway = [[] for _ in pathways]
 
-    q1 = ""
-    if has_pathways:
-        if questions_per_pathway and questions_per_pathway[0]:
-            q1 = questions_per_pathway[0][0]
-        if not q1:
-            q1 = rg.plan_next_question(
-                query=query_used,
-                context=context,
-                pathways=pathways,
-                qa_so_far=[],
-            )
+    # Check if we got meaningful pathways
+    has_pathways = any(str(p or "").strip() for p in pathways)
+    has_questions = any(len(qs) > 0 for qs in questions_per_pathway)
+
+    no_pathways = not has_pathways or not has_questions
+    no_pathways_reason = "We couldn't find coverage pathways for this procedure in our policy."
+
+    # First question from the pre-generated list
+    first_question = ""
+    if not no_pathways:
+        for qs in questions_per_pathway:
+            if qs:
+                first_question = qs[0]
+                break
 
     payload = {
         "query_used": query_used,
         "title": parsed.get("title") or "Coverage pathways",
         "pathways": pathways,
         "questions_per_pathway": questions_per_pathway,
-        "question": q1,
-        "no_pathways": not has_pathways,
+        "question": first_question,
+        "no_pathways": no_pathways,
         "no_pathways_reason": no_pathways_reason,
     }
     questions_cache.set(cache_key, payload)
     return {"selected": selected.model_dump(), **payload}
+
+# ── Eligibility: NEXT (0 LLM calls — deterministic evaluation) ─────
 
 @app.post("/eligibility/next")
 def eligibility_next(req: EligibilityNextRequest):
     selected = req.selected
     query_used = _build_eligibility_query(selected, req.user_text)
 
-    pathways = [str(p or "").strip() for p in (req.pathways or [])][:2]
-    while len(pathways) < 2:
-        pathways.append("")
+    pathways = [str(p or "").strip() for p in (req.pathways or [])]
+    questions_per_pathway = req.questions_per_pathway or []
 
-    # No meaningful pathways => don't ask or decide from tree; return not_covered
+    # No pathways → not covered
     if not any(pathways):
         return {
             "selected": selected.model_dump(),
             "query_used": query_used,
             "decision": "not_covered",
-            "confidence": 0.0,
             "reason": "No coverage pathways found for this procedure.",
-            "missing_info": [],
-            "raw": None,
+            "next_question": None,
+            "completeness": 0.0,
         }
 
     qa_so_far = [{"q": x.q, "a": bool(x.a)} for x in (req.qa_so_far or [])]
-    if len(qa_so_far) > 20:
-        qa_so_far = qa_so_far[:20]
 
-    context = rag_pipeline.retrieve_context(query_used, top_k=req.top_k)
-    rg = rag_pipeline.response_generator
+    # Pure logic — no LLM call
+    result = evaluate_answers(pathways, questions_per_pathway, qa_so_far)
 
-    raw = rg.decide_from_tree(query=query_used, context=context, pathways=pathways, qa_so_far=qa_so_far)
-
-    decision = "uncertain"
-    reason = "Need more information to determine coverage from the policy text."
-    missing_info: List[str] = []
-
-    try:
-        data = json.loads(raw)
-        d = str(data.get("decision", "")).strip()
-        if d in {"covered", "not_covered", "uncertain"}:
-            decision = d
-        reason = str(data.get("reason", reason)).strip()
-        mi = data.get("missing_info", []) or []
-        if isinstance(mi, list):
-            missing_info = [str(x).strip() for x in mi if str(x).strip()]
-    except Exception:
-        pass
-
-    # stop conditions
-    if decision in {"covered", "not_covered"}:
-        return {
-            "selected": selected.model_dump(),
-            "query_used": query_used,
-            "decision": decision,
-            "confidence": _tree_confidence(decision, len(qa_so_far)),
-            "reason": reason,
-            "missing_info": missing_info,
-            "raw": raw,
-        }
-
-    # plan next question
-    next_q = rg.plan_next_question(
-        query=query_used,
-        context=context,
-        pathways=pathways,
-        qa_so_far=qa_so_far,
-    )
+    # If uncertain and no next question from pre-generated list, fallback to LLM planner
+    if result["decision"] == "uncertain" and not result.get("next_question"):
+        context = rag_pipeline.retrieve_context(query_used, top_k=req.top_k)
+        rg = rag_pipeline.response_generator
+        next_q = rg.plan_next_question(
+            query=query_used,
+            context=context,
+            pathways=pathways,
+            qa_so_far=qa_so_far,
+        )
+        result["next_question"] = next_q
 
     return {
         "selected": selected.model_dump(),
         "query_used": query_used,
-        "decision": "uncertain",
-        "confidence": _tree_confidence("uncertain", len(qa_so_far)),
-        "reason": reason,
-        "missing_info": missing_info,
-        "next_question": next_q,
-        "raw": raw,
+        **result,
     }
+
+# ── RAG admin ──────────────────────────────────────────────────────
 
 @app.post("/rag/reset")
 def rag_reset():
@@ -240,7 +214,6 @@ def rag_reset():
 def rag_index():
     if not DEFAULT_SOURCE_PATH.exists():
         raise HTTPException(status_code=400, detail=f"Default source path not found: {DEFAULT_SOURCE_PATH}")
-
     paths: List[str] = [
         str(p)
         for p in DEFAULT_SOURCE_PATH.iterdir()
@@ -248,31 +221,10 @@ def rag_index():
     ]
     if not paths:
         raise HTTPException(status_code=400, detail=f"No PDF documents found in: {DEFAULT_SOURCE_PATH}")
-
     rag_pipeline.add_documents(paths)
     return {"status": "ok", "indexed": len(paths)}
 
-def _parse_pathways(raw: str) -> dict:
-    lines = [l.strip() for l in (raw or "").split("\n") if l.strip()]
-    title = "Coverage pathways"
-    for line in lines:
-        if line.lower().startswith("title:"):
-            title = line.split(":", 1)[1].strip() or title
-            break
-
-    pathways: List[str] = []
-    in_pathways = False
-    for line in lines:
-        low = line.lower().rstrip(":")
-        if low == "pathways":
-            in_pathways = True
-            continue
-        if in_pathways and line.startswith("- "):
-            txt = line[2:].strip()
-            if txt:
-                pathways.append(txt)
-
-    return {"title": title, "pathways": pathways}
+# ── Helpers ────────────────────────────────────────────────────────
 
 def _build_eligibility_query(selected: SelectedProcedure, user_text: str | None) -> str:
     parts = [
@@ -284,11 +236,3 @@ def _build_eligibility_query(selected: SelectedProcedure, user_text: str | None)
     if user_text:
         parts.append(f"Patient note: {user_text}")
     return "\n".join(parts)
-
-def _tree_confidence(decision: str, turns: int) -> float:
-    t = max(0, min(int(turns or 0), 12))
-    if decision == "covered":
-        return min(0.92, 0.78 + 0.02 * t)
-    if decision == "not_covered":
-        return min(0.90, 0.74 + 0.02 * t)
-    return min(0.62, 0.42 + 0.015 * t)

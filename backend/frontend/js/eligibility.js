@@ -2,11 +2,7 @@ export async function startEligibility(candidate, userText, top_k = 10, signal =
   const res = await fetch("/eligibility/start", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      user_text: userText || null,
-      selected: candidate,
-      top_k
-    }),
+    body: JSON.stringify({ user_text: userText || null, selected: candidate, top_k }),
     ...(signal ? { signal } : {})
   });
   if (!res.ok) throw new Error(await res.text());
@@ -17,7 +13,7 @@ export async function fetchEligibilityQuestions(candidate, userText, top_k = 10,
   return await startEligibility(candidate, userText, top_k, signal);
 }
 
-export async function nextEligibility(candidate, userText, pathways, qa_so_far, top_k = 10, signal = null) {
+export async function nextEligibility(candidate, userText, pathways, questionsPerPathway, qa_so_far, top_k = 10, signal = null) {
   const res = await fetch("/eligibility/next", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -25,6 +21,7 @@ export async function nextEligibility(candidate, userText, pathways, qa_so_far, 
       user_text: userText || null,
       selected: candidate,
       pathways: Array.isArray(pathways) ? pathways : [],
+      questions_per_pathway: Array.isArray(questionsPerPathway) ? questionsPerPathway : [],
       qa_so_far: Array.isArray(qa_so_far) ? qa_so_far : [],
       top_k
     }),
@@ -60,6 +57,7 @@ export function insertInlineDetails(cardEl, payload, deps) {
   removeInlineOutcome(cardEl);
 
   const pathways = Array.isArray(payload?.pathways) ? payload.pathways : [];
+  const questionsPerPathway = Array.isArray(payload?.questions_per_pathway) ? payload.questions_per_pathway : [];
   const firstQ = (payload?.question || "").trim();
   const noPathways = payload?.no_pathways === true || (!firstQ && pathways.every((p) => !(p || "").trim()));
   const noPathwaysReason = (payload?.no_pathways_reason || "We couldn't find coverage pathways for this procedure in our policy.").trim();
@@ -96,6 +94,7 @@ export function insertInlineDetails(cardEl, payload, deps) {
   if (descr) descr.insertAdjacentElement("afterend", details);
   else cardEl.appendChild(details);
 
+  // No pathways → immediate not_covered
   if (noPathways) {
     showNotCoveredOutcome(cardEl, noPathwaysReason);
     onDecision?.(candidate, "not_covered", noPathwaysReason);
@@ -123,20 +122,11 @@ export function insertInlineDetails(cardEl, payload, deps) {
   const foot = details.querySelector("#chatFoot");
 
   const NEXT_LOADING_PHRASES = [
-    "Loading",
-    "Processing",
-    "Checking",
-    "Getting next question",
-    "One moment",
-    "Thinking",
-    "Working on it",
-    "Almost there"
+    "Loading", "Processing", "Checking", "One moment"
   ];
 
   function startThinking() {
     foot.hidden = false;
-    foot.classList.remove("thinkingSingleDot");
-    foot.classList.add("thinkingState");
     foot.innerHTML = `
       <span class="thinkingPhrase">${NEXT_LOADING_PHRASES[0]}</span>
       <span class="thinkingDots" aria-hidden="true">
@@ -155,7 +145,6 @@ export function insertInlineDetails(cardEl, payload, deps) {
   function stopThinking() {
     foot.hidden = true;
     foot.innerHTML = "";
-    foot.classList.remove("thinkingState", "thinkingSingleDot");
   }
 
   function renderAnswerHistory(qa) {
@@ -203,7 +192,16 @@ export function insertInlineDetails(cardEl, payload, deps) {
       const userText = queryEl && queryEl.value ? queryEl.value.trim() : "";
       const top_k = parseInt(topkEl && topkEl.value ? topkEl.value : "5", 10) || 10;
 
-      const resp = await nextEligibility(candidate, userText, pathways, qa, top_k);
+      // Send pathways + questions_per_pathway so backend can evaluate deterministically
+      const resp = await nextEligibility(
+        candidate,
+        userText,
+        pathways,
+        questionsPerPathway,
+        qa,
+        top_k
+      );
+
       stopThinkingFn();
       stopThinking();
 
@@ -226,6 +224,7 @@ export function insertInlineDetails(cardEl, payload, deps) {
         return;
       }
 
+      // Uncertain → show next question
       const nextQ = (resp?.next_question || "").trim();
       if (!nextQ) {
         const msg = reason || "We need more information to determine coverage.";
