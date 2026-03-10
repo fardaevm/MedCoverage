@@ -1,0 +1,13 @@
+.git
+.github
+__pycache__
+*.pyc
+.env
+.venv
+venv
+node_modules
+*.egg-info
+.mypy_cache
+.pytest_cache
+infra/
+*.md
