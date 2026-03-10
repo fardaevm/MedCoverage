@@ -1,27 +1,31 @@
 name: Deploy to AWS EC2
-
 on:
   push:
     branches: [main]
-
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
   ECR_REPO: ${{ secrets.ECR_REPO }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-
+      
       - uses: aws-actions/amazon-ecr-login@v2
         id: ecr
+
+      - name: Free up disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          docker system prune -af
 
       - name: Build, tag, push
         env:
@@ -37,7 +41,6 @@ jobs:
           INSTANCE_ID=$(aws ec2 describe-instances \
             --filters "Name=tag:Name,Values=medcoverage-api" "Name=instance-state-name,Values=running" \
             --query 'Reservations[0].Instances[0].InstanceId' --output text)
-
           aws ssm send-command \
             --instance-ids "$INSTANCE_ID" \
             --document-name "AWS-RunShellScript" \
