@@ -2,7 +2,7 @@
 
 # mac/python
 **/.DS_Store
-<<<<<<< HEAD
+
 **/__pycache__/
 __pycache__/
 *.pyc
@@ -21,4 +21,4 @@ __pycache__/
 
 # local source PDFs
 data/raw/*.pdf
->>>>>>> 64e553d (Add mammo question eval + refresh 77067/77063 testset)
+
