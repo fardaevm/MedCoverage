@@ -10,7 +10,7 @@ def invoke_ai(system_message: str, user_message: str) -> str:
 
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     response = client.chat.completions.create(
-        model="gpt-5-mini",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": system_message},
             {"role": "user", "content": user_message},

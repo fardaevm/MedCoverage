@@ -12,7 +12,7 @@ class Retriever(BaseRetriever):
         if api_key:
             self.co = cohere.ClientV2(api_key=api_key)
 
-    def search(self, query: str, top_k: int = 3) -> list[str]:
+    def search(self, query: str, top_k: int = 6) -> list[str]:
         search_results = self.datastore.search(query, top_k=top_k * 3)
         reranked_results = self._rerank(query, search_results, top_k=top_k)
         return reranked_results
