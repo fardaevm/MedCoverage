@@ -1,13 +1,4 @@
-# ============================================================
-# Mammogram-only test set generator (EWC PDF -> rules -> CSV)
-# Scope CPTs: 77067 (screening) + 77063 (DBT add-on)
-#
-# Outputs:
-#   data/sample_data/ewc_mammo_77067_77063_testset_v2.csv
-#
-# Optional:
-#   Runs repo Matcher to check matching behavior (Top-1 acc)
-# ============================================================
+#LEGACY
 
 from __future__ import annotations
 

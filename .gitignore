@@ -22,3 +22,4 @@ __pycache__/
 # local source PDFs
 data/raw/*.pdf
 
+eval/results/*.csv
