@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import random
 import re
 import sys
 from pathlib import Path
@@ -17,10 +16,18 @@ sys.path.insert(0, str(PROJECT_ROOT / "eval"))
 from ewc_code_rules import CODE_RULES, expected_topics_for, category_for
 
 
-IN_PATH = PROJECT_ROOT / "data" / "sample_data" / "eval" / "policy_eval_set.csv"
 OUT_PATH = PROJECT_ROOT / "data" / "sample_data" / "eval" / "ewc_testset_all_codes.csv"
 META_PATH = PROJECT_ROOT / "data" / "processed" / "cpt_hcpcs_enriched.parquet"
 LANCEDB_PATH = PROJECT_ROOT / "backend" / "data" / "sample-lancedb"
+
+TARGET_CODES = [
+    "77046", "77047", "77048", "77049",
+    "77061", "77062", "77063", "77065", "77066", "77067",
+]
+
+N_PER_CODE = 100
+N_COVERED = 50
+N_NOT_COVERED = 50
 
 
 # -------------------------------------------------------------------
@@ -37,249 +44,7 @@ TOPIC_TO_CHECKLIST_TEXT = {
     "laterality": "Check laterality (left, right, unilateral, bilateral, one/both breasts).",
     "contrast": "Check whether contrast is required or whether with/without contrast matters.",
     "image_guidance": "Check imaging guidance modality if relevant.",
-    "lesion_target": "Check target lesion/site/localization details.",
-    "pregnancy_status": "Check pregnancy status if clinically required.",
-    "bleeding_history": "Check abnormal bleeding or related gynecologic history.",
-    "specimen_context": "Check specimen/sample context.",
-    "reflex_testing": "Check whether reflex/genotype/additional testing context applies.",
-    "visit_reason": "Check reason for the visit or encounter.",
-    "new_vs_established": "Check whether this is a new or established patient encounter.",
-    "pathology_linkage": "Check linkage to a biopsy, specimen, or source procedure.",
-    "functional_status": "Check functional limitation or exam reason.",
 }
-
-
-# -------------------------------------------------------------------
-# Synthetic attrs for eval generation
-# These support conversation simulation + gold label generation.
-# -------------------------------------------------------------------
-CATEGORY_ATTRS = {
-    "breast_screening_mammo": {
-        "age": [25, 30, 35, 39, 40, 45, 50, 55, 65],
-        "days_since_last_screening": [30, 90, 200, 300, 364, 365, 400, 800, None],
-        "high_risk": [True, False],
-        "brca_mutation": [True, False],
-        "family_history": [True, False],
-        "provider_ordered": [True, False],
-    },
-    "breast_screening_addon": {
-        "age": [25, 30, 35, 39, 40, 45, 50, 55, 65],
-        "days_since_last_screening": [30, 90, 200, 300, 364, 365, 400, 800, None],
-        "high_risk": [True, False],
-        "brca_mutation": [True, False],
-        "family_history": [True, False],
-        "includes_screening_context": [True, False],
-        "provider_ordered": [True, False],
-        "laterality": ["left", "right", "bilateral"],
-    },
-    "breast_diagnostic_imaging": {
-        "symptoms_present": [True, False],
-        "abnormal_result": [True, False],
-        "abnormal_screening_result": [True, False],
-        "laterality": ["left", "right", "bilateral", "unknown"],
-        "provider_ordered": [True, False],
-        "includes_screening_context": [True, False],
-    },
-    "breast_mri": {
-        "high_risk": [True, False],
-        "family_history": [True, False],
-        "brca_mutation": [True, False],
-        "symptoms_present": [True, False],
-        "abnormal_result": [True, False],
-        "provider_ordered": [True, False],
-        "contrast_needed": [True, False],
-        "laterality": ["left", "right", "bilateral", "unknown"],
-    },
-    "breast_biopsy_localization": {
-        "abnormal_result": [True, False],
-        "provider_ordered": [True, False],
-        "guidance_modality": ["ultrasound", "stereotactic", "mri", "unknown"],
-        "laterality": ["left", "right", "bilateral", "unknown"],
-    },
-    "breast_pathology_support": {
-        "linked_biopsy": [True, False],
-        "specimen_available": [True, False],
-    },
-    "cervical_colposcopy_biopsy": {
-        "abnormal_pap": [True, False],
-        "abnormal_hpv": [True, False],
-        "pregnant": [True, False],
-        "provider_ordered": [True, False],
-    },
-    "endometrial_sampling": {
-        "abnormal_bleeding": [True, False],
-        "postmenopausal": [True, False],
-        "pregnant": [True, False],
-        "provider_ordered": [True, False],
-    },
-    "hpv_testing": {
-        "abnormal_pap": [True, False],
-        "age": [21, 25, 30, 35, 40, 50, 65],
-        "reflex_testing": [True, False],
-        "provider_ordered": [True, False],
-    },
-    "cytology_pathology_lab": {
-        "specimen_available": [True, False],
-        "linked_screening_abnormality": [True, False],
-        "linked_biopsy": [True, False],
-    },
-    "pregnancy_test": {
-        "pregnant": [True, False],
-        "procedure_pending": [True, False],
-    },
-    "office_visit": {
-        "new_patient": [True, False],
-        "visit_reason": ["screening discussion", "follow-up", "abnormal result", "consult"],
-    },
-    "supply_misc": {
-        "linked_procedure": [True, False],
-    },
-    "functional_exam": {
-        "functional_limitation": [True, False],
-    },
-}
-
-
-def sample_attrs(category: str) -> Dict:
-    cfg = CATEGORY_ATTRS.get(category, {})
-    out = {}
-    for k, vals in cfg.items():
-        out[k] = random.choice(vals)
-    return out
-
-
-# -------------------------------------------------------------------
-# Gold label inference for synthetic eval rows
-# -------------------------------------------------------------------
-def infer_expected_label(code: str, category: str, attrs: Dict) -> str:
-    code = str(code).strip()
-
-    age = attrs.get("age")
-    days = attrs.get("days_since_last_screening")
-    high_risk = bool(attrs.get("high_risk", False))
-    brca = bool(attrs.get("brca_mutation", False))
-    family_history = bool(attrs.get("family_history", False))
-    provider = bool(attrs.get("provider_ordered", False))
-    includes = bool(attrs.get("includes_screening_context", False))
-    symptoms = bool(attrs.get("symptoms_present", False))
-    abnormal = bool(attrs.get("abnormal_result", False) or attrs.get("abnormal_screening_result", False))
-    laterality = str(attrs.get("laterality", "")).strip().lower()
-
-    # ------------------------------------------------------------
-    # Mammography / breast imaging rules for current eval scope
-    # ------------------------------------------------------------
-    if code == "77067":
-        # Screening mammogram, bilateral
-        if age is None or days is None:
-            return "not_covered"
-        if age >= 40 and days >= 365:
-            return "covered"
-        if days >= 365 and (high_risk or brca or family_history):
-            return "covered"
-        return "not_covered"
-
-    if code == "77063":
-        # DBT add-on screening
-        if age is None or days is None:
-            return "not_covered"
-        if not includes:
-            return "not_covered"
-        if age >= 40 and days >= 365:
-            return "covered"
-        if days >= 365 and (high_risk or brca or family_history):
-            return "covered"
-        return "not_covered"
-
-    if code == "77065":
-        # Diagnostic mammo unilateral
-        if not provider:
-            return "not_covered"
-        if laterality not in {"left", "right", "unknown", ""}:
-            return "not_covered"
-        return "covered" if (symptoms or abnormal) else "not_covered"
-
-    if code == "77066":
-        # Diagnostic mammo bilateral
-        if not provider:
-            return "not_covered"
-        if laterality not in {"bilateral", "unknown", ""}:
-            return "not_covered"
-        return "covered" if (symptoms or abnormal) else "not_covered"
-
-    if code == "77061":
-        # DBT add-on unilateral diagnostic
-        if not provider or not includes:
-            return "not_covered"
-        if laterality not in {"left", "right", "unknown", ""}:
-            return "not_covered"
-        return "covered" if (symptoms or abnormal) else "not_covered"
-
-    if code == "77062":
-        # DBT add-on bilateral diagnostic
-        if not provider or not includes:
-            return "not_covered"
-        if laterality not in {"bilateral", "unknown", ""}:
-            return "not_covered"
-        return "covered" if (symptoms or abnormal) else "not_covered"
-
-    if code == "77046":
-        # MRI without contrast, unilateral
-        if not provider:
-            return "not_covered"
-        if laterality not in {"left", "right", "unilateral", "unknown", ""}:
-            return "not_covered"
-        return "covered" if (high_risk or brca or family_history or symptoms or abnormal) else "not_covered"
-
-    if code == "77047":
-        # MRI without contrast, bilateral
-        if not provider:
-            return "not_covered"
-        if laterality not in {"bilateral", "unknown", ""}:
-            return "not_covered"
-        return "covered" if (high_risk or brca or family_history or symptoms or abnormal) else "not_covered"
-
-    if code == "77048":
-        # MRI with and without contrast, unilateral
-        if not provider:
-            return "not_covered"
-        if laterality not in {"left", "right", "unilateral", "unknown", ""}:
-            return "not_covered"
-        return "covered" if (high_risk or brca or family_history or symptoms or abnormal) else "not_covered"
-
-    if code == "77049":
-        # MRI with and without contrast, bilateral
-        if not provider:
-            return "not_covered"
-        if laterality not in {"bilateral", "unknown", ""}:
-            return "not_covered"
-        return "covered" if (high_risk or brca or family_history or symptoms or abnormal) else "not_covered"
-
-    # ------------------------------------------------------------
-    # Fallbacks for non-mammo categories
-    # Keep simple for now so the column is populated.
-    # ------------------------------------------------------------
-    if category in {"breast_biopsy_localization", "cervical_colposcopy_biopsy", "endometrial_sampling", "hpv_testing"}:
-        if provider:
-            return "covered"
-
-    if category in {"breast_pathology_support", "cytology_pathology_lab"}:
-        if bool(attrs.get("specimen_available", False)) or bool(attrs.get("linked_biopsy", False)):
-            return "covered"
-
-    if category == "pregnancy_test":
-        if bool(attrs.get("procedure_pending", False)):
-            return "covered"
-
-    if category == "office_visit":
-        return "covered"
-
-    if category == "supply_misc":
-        return "covered" if bool(attrs.get("linked_procedure", False)) else "not_covered"
-
-    if category == "functional_exam":
-        return "covered" if bool(attrs.get("functional_limitation", False)) else "not_covered"
-
-    return "not_covered"
 
 
 # -------------------------------------------------------------------
@@ -290,7 +55,7 @@ def load_code_metadata(meta_path: Path) -> Dict[str, Dict]:
         return {}
 
     df = pd.read_parquet(meta_path)
-    out = {}
+    out: Dict[str, Dict] = {}
 
     for _, row in df.iterrows():
         code = str(row.get("code", "")).strip()
@@ -311,7 +76,7 @@ def load_code_metadata(meta_path: Path) -> Dict[str, Dict]:
     return out
 
 
-def load_policy_context(project_root: Path) -> Dict[str, str]:
+def load_policy_context() -> Dict[str, str]:
     db_path = LANCEDB_PATH
     if not db_path.exists():
         return {}
@@ -327,7 +92,7 @@ def load_policy_context(project_root: Path) -> Dict[str, str]:
 
     context_map: Dict[str, str] = {}
 
-    for code in CODE_RULES.keys():
+    for code in TARGET_CODES:
         matches = df[df[text_col].astype(str).str.contains(code, na=False)]
         if len(matches) == 0:
             context_map[code] = ""
@@ -355,87 +120,1021 @@ def build_checklist(expected_topics: List[str]) -> str:
     return "\n".join(f"- {item}" for item in items)
 
 
-def normalize_query_text(query: str) -> str:
-    query = str(query).strip()
-    query = re.sub(r"\s+", " ", query)
-    return query
+# -------------------------------------------------------------------
+# Easier deterministic cases
+# 50 covered + 50 not_covered per CPT
+# -------------------------------------------------------------------
+def make_easy_case(code: str, label: str, idx: int) -> Dict:
+    code = str(code).strip()
+    variant = idx % 4
+
+    # ------------------------------------------------------------
+    # Screening mammography
+    # ------------------------------------------------------------
+    if code == "77067":
+        covered_cases = [
+            {
+                "age": 45,
+                "days_since_last_screening": 400,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "provider_ordered": True,
+            },
+            {
+                "age": 50,
+                "days_since_last_screening": 365,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "provider_ordered": True,
+            },
+            {
+                "age": 39,
+                "days_since_last_screening": 400,
+                "high_risk": True,
+                "brca_mutation": False,
+                "family_history": True,
+                "provider_ordered": True,
+            },
+            {
+                "age": 35,
+                "days_since_last_screening": 500,
+                "high_risk": False,
+                "brca_mutation": True,
+                "family_history": False,
+                "provider_ordered": True,
+            },
+        ]
+        not_covered_cases = [
+            {
+                "age": 35,
+                "days_since_last_screening": 180,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "provider_ordered": True,
+            },
+            {
+                "age": 39,
+                "days_since_last_screening": 200,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "provider_ordered": True,
+            },
+            {
+                "age": 30,
+                "days_since_last_screening": 364,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "provider_ordered": True,
+            },
+            {
+                "age": 38,
+                "days_since_last_screening": 300,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "provider_ordered": False,
+            },
+        ]
+        return covered_cases[variant] if label == "covered" else not_covered_cases[variant]
+
+    if code == "77063":
+        covered_cases = [
+            {
+                "age": 45,
+                "days_since_last_screening": 400,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "includes_screening_context": True,
+                "provider_ordered": True,
+                "laterality": "bilateral",
+            },
+            {
+                "age": 40,
+                "days_since_last_screening": 365,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "includes_screening_context": True,
+                "provider_ordered": True,
+                "laterality": "bilateral",
+            },
+            {
+                "age": 39,
+                "days_since_last_screening": 400,
+                "high_risk": True,
+                "brca_mutation": False,
+                "family_history": True,
+                "includes_screening_context": True,
+                "provider_ordered": True,
+                "laterality": "bilateral",
+            },
+            {
+                "age": 35,
+                "days_since_last_screening": 500,
+                "high_risk": False,
+                "brca_mutation": True,
+                "family_history": False,
+                "includes_screening_context": True,
+                "provider_ordered": True,
+                "laterality": "bilateral",
+            },
+        ]
+        not_covered_cases = [
+            {
+                "age": 35,
+                "days_since_last_screening": 180,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "includes_screening_context": False,
+                "provider_ordered": True,
+                "laterality": "bilateral",
+            },
+            {
+                "age": 39,
+                "days_since_last_screening": 200,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "includes_screening_context": True,
+                "provider_ordered": True,
+                "laterality": "bilateral",
+            },
+            {
+                "age": 30,
+                "days_since_last_screening": 364,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "includes_screening_context": True,
+                "provider_ordered": True,
+                "laterality": "bilateral",
+            },
+            {
+                "age": 38,
+                "days_since_last_screening": 300,
+                "high_risk": False,
+                "brca_mutation": False,
+                "family_history": False,
+                "includes_screening_context": False,
+                "provider_ordered": False,
+                "laterality": "bilateral",
+            },
+        ]
+        return covered_cases[variant] if label == "covered" else not_covered_cases[variant]
+
+    # ------------------------------------------------------------
+    # Diagnostic imaging
+    # ------------------------------------------------------------
+    if code == "77065":
+        covered_cases = [
+            {
+                "symptoms_present": True,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "left",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": True,
+                "abnormal_screening_result": False,
+                "laterality": "right",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": True,
+                "laterality": "left",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": True,
+                "abnormal_result": True,
+                "abnormal_screening_result": False,
+                "laterality": "right",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+        ]
+        not_covered_cases = [
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "left",
+                "provider_ordered": False,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "right",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "unknown",
+                "provider_ordered": False,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "left",
+                "provider_ordered": False,
+                "includes_screening_context": False,
+            },
+        ]
+        return covered_cases[variant] if label == "covered" else not_covered_cases[variant]
+
+    if code == "77066":
+        covered_cases = [
+            {
+                "symptoms_present": True,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": True,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": True,
+                "laterality": "bilateral",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": True,
+                "abnormal_result": True,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+        ]
+        not_covered_cases = [
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": False,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "unknown",
+                "provider_ordered": False,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": False,
+                "includes_screening_context": False,
+            },
+        ]
+        return covered_cases[variant] if label == "covered" else not_covered_cases[variant]
+
+    if code == "77061":
+        covered_cases = [
+            {
+                "symptoms_present": True,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "left",
+                "provider_ordered": True,
+                "includes_screening_context": True,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": True,
+                "abnormal_screening_result": False,
+                "laterality": "right",
+                "provider_ordered": True,
+                "includes_screening_context": True,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": True,
+                "laterality": "left",
+                "provider_ordered": True,
+                "includes_screening_context": True,
+            },
+            {
+                "symptoms_present": True,
+                "abnormal_result": True,
+                "abnormal_screening_result": False,
+                "laterality": "right",
+                "provider_ordered": True,
+                "includes_screening_context": True,
+            },
+        ]
+        not_covered_cases = [
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "left",
+                "provider_ordered": False,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "right",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "unknown",
+                "provider_ordered": False,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "left",
+                "provider_ordered": False,
+                "includes_screening_context": True,
+            },
+        ]
+        return covered_cases[variant] if label == "covered" else not_covered_cases[variant]
+
+    if code == "77062":
+        covered_cases = [
+            {
+                "symptoms_present": True,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": True,
+                "includes_screening_context": True,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": True,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": True,
+                "includes_screening_context": True,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": True,
+                "laterality": "bilateral",
+                "provider_ordered": True,
+                "includes_screening_context": True,
+            },
+            {
+                "symptoms_present": True,
+                "abnormal_result": True,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": True,
+                "includes_screening_context": True,
+            },
+        ]
+        not_covered_cases = [
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": False,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": True,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "unknown",
+                "provider_ordered": False,
+                "includes_screening_context": False,
+            },
+            {
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "abnormal_screening_result": False,
+                "laterality": "bilateral",
+                "provider_ordered": False,
+                "includes_screening_context": True,
+            },
+        ]
+        return covered_cases[variant] if label == "covered" else not_covered_cases[variant]
+
+    # ------------------------------------------------------------
+    # Breast MRI
+    # ------------------------------------------------------------
+    if code == "77046":
+        covered_cases = [
+            {
+                "high_risk": True,
+                "family_history": True,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": False,
+                "laterality": "left",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": True,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": False,
+                "laterality": "right",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": True,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": False,
+                "laterality": "left",
+            },
+            {
+                "high_risk": False,
+                "family_history": True,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": True,
+                "provider_ordered": True,
+                "contrast_needed": False,
+                "laterality": "right",
+            },
+        ]
+        not_covered_cases = [
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": False,
+                "laterality": "left",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": False,
+                "laterality": "left",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": False,
+                "laterality": "right",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": False,
+                "laterality": "left",
+            },
+        ]
+        return covered_cases[variant] if label == "covered" else not_covered_cases[variant]
+
+    if code == "77047":
+        covered_cases = [
+            {
+                "high_risk": True,
+                "family_history": True,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": False,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": True,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": False,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": True,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": False,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": True,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": True,
+                "provider_ordered": True,
+                "contrast_needed": False,
+                "laterality": "bilateral",
+            },
+        ]
+        not_covered_cases = [
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": False,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": False,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": False,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": False,
+                "laterality": "bilateral",
+            },
+        ]
+        return covered_cases[variant] if label == "covered" else not_covered_cases[variant]
+
+    if code == "77048":
+        covered_cases = [
+            {
+                "high_risk": True,
+                "family_history": True,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": True,
+                "laterality": "left",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": True,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": True,
+                "laterality": "right",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": True,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": True,
+                "laterality": "left",
+            },
+            {
+                "high_risk": False,
+                "family_history": True,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": True,
+                "provider_ordered": True,
+                "contrast_needed": True,
+                "laterality": "right",
+            },
+        ]
+        not_covered_cases = [
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": True,
+                "laterality": "left",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": True,
+                "laterality": "left",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": True,
+                "laterality": "right",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": True,
+                "laterality": "left",
+            },
+        ]
+        return covered_cases[variant] if label == "covered" else not_covered_cases[variant]
+
+    if code == "77049":
+        covered_cases = [
+            {
+                "high_risk": True,
+                "family_history": True,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": True,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": True,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": True,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": True,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": True,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": True,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": True,
+                "provider_ordered": True,
+                "contrast_needed": True,
+                "laterality": "bilateral",
+            },
+        ]
+        not_covered_cases = [
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": True,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": True,
+                "contrast_needed": True,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": True,
+                "laterality": "bilateral",
+            },
+            {
+                "high_risk": False,
+                "family_history": False,
+                "brca_mutation": False,
+                "symptoms_present": False,
+                "abnormal_result": False,
+                "provider_ordered": False,
+                "contrast_needed": True,
+                "laterality": "bilateral",
+            },
+        ]
+        return covered_cases[variant] if label == "covered" else not_covered_cases[variant]
+
+    raise ValueError(f"Unhandled code: {code}")
+
+
+def make_easy_query(code: str, label: str, idx: int) -> str:
+    query_templates = {
+        "77067": {
+            "covered": [
+                "Does Medi-Cal cover a routine screening mammogram?",
+                "Can I get a screening mammogram covered by Medi-Cal?",
+                "Is a screening mammogram covered by Medi-Cal?",
+                "Would Medi-Cal pay for a routine mammogram?",
+            ],
+            "not_covered": [
+                "Would Medi-Cal cover a screening mammogram for me right now?",
+                "Am I covered for a routine mammogram right now?",
+                "Can Medi-Cal pay for my screening mammogram now?",
+                "Is my screening mammogram covered right now?",
+            ],
+        },
+        "77063": {
+            "covered": [
+                "Does Medi-Cal cover 3D screening mammography?",
+                "Is screening digital breast tomosynthesis covered?",
+                "Can I get 3D screening mammography covered?",
+                "Would Medi-Cal pay for 3D screening breast imaging?",
+            ],
+            "not_covered": [
+                "Would Medi-Cal cover 3D screening breast imaging for me now?",
+                "Am I covered for 3D screening mammography right now?",
+                "Can Medi-Cal pay for 3D screening mammography now?",
+                "Is my 3D screening breast imaging covered right now?",
+            ],
+        },
+        "77065": {
+            "covered": [
+                "Does Medi-Cal cover a diagnostic mammogram for one breast?",
+                "Can I get a one-breast diagnostic mammogram covered?",
+                "Is a unilateral diagnostic mammogram covered?",
+                "Would Medi-Cal pay for a diagnostic mammogram of one breast?",
+            ],
+            "not_covered": [
+                "Would Medi-Cal cover a diagnostic mammogram for one breast?",
+                "Am I covered for a unilateral diagnostic mammogram?",
+                "Can Medi-Cal pay for a one-breast diagnostic mammogram?",
+                "Is my one-breast diagnostic mammogram covered?",
+            ],
+        },
+        "77066": {
+            "covered": [
+                "Does Medi-Cal cover a diagnostic mammogram for both breasts?",
+                "Can I get a bilateral diagnostic mammogram covered?",
+                "Is a bilateral diagnostic mammogram covered?",
+                "Would Medi-Cal pay for a diagnostic mammogram of both breasts?",
+            ],
+            "not_covered": [
+                "Would Medi-Cal cover a bilateral diagnostic mammogram?",
+                "Am I covered for a diagnostic mammogram of both breasts?",
+                "Can Medi-Cal pay for both-breast diagnostic mammography?",
+                "Is my bilateral diagnostic mammogram covered?",
+            ],
+        },
+        "77061": {
+            "covered": [
+                "Does Medi-Cal cover 3D diagnostic breast imaging for one breast?",
+                "Is unilateral diagnostic breast tomosynthesis covered?",
+                "Can I get one-breast 3D diagnostic imaging covered?",
+                "Would Medi-Cal pay for unilateral diagnostic tomosynthesis?",
+            ],
+            "not_covered": [
+                "Would Medi-Cal cover unilateral 3D diagnostic breast imaging?",
+                "Am I covered for one-breast diagnostic tomosynthesis?",
+                "Can Medi-Cal pay for one-breast 3D diagnostic imaging?",
+                "Is my unilateral diagnostic tomosynthesis covered?",
+            ],
+        },
+        "77062": {
+            "covered": [
+                "Does Medi-Cal cover 3D diagnostic breast imaging for both breasts?",
+                "Is bilateral diagnostic breast tomosynthesis covered?",
+                "Can I get both-breast 3D diagnostic imaging covered?",
+                "Would Medi-Cal pay for bilateral diagnostic tomosynthesis?",
+            ],
+            "not_covered": [
+                "Would Medi-Cal cover bilateral 3D diagnostic breast imaging?",
+                "Am I covered for both-breast diagnostic tomosynthesis?",
+                "Can Medi-Cal pay for bilateral 3D diagnostic imaging?",
+                "Is my bilateral diagnostic tomosynthesis covered?",
+            ],
+        },
+        "77046": {
+            "covered": [
+                "Does Medi-Cal cover a breast MRI without contrast for one breast?",
+                "Is unilateral breast MRI without contrast covered?",
+                "Can I get a one-breast MRI without contrast covered?",
+                "Would Medi-Cal pay for unilateral breast MRI without contrast?",
+            ],
+            "not_covered": [
+                "Would Medi-Cal cover a unilateral breast MRI without contrast?",
+                "Am I covered for one-breast MRI without contrast?",
+                "Can Medi-Cal pay for unilateral breast MRI without contrast?",
+                "Is my unilateral MRI without contrast covered?",
+            ],
+        },
+        "77047": {
+            "covered": [
+                "Does Medi-Cal cover a breast MRI without contrast for both breasts?",
+                "Is bilateral breast MRI without contrast covered?",
+                "Can I get a both-breast MRI without contrast covered?",
+                "Would Medi-Cal pay for bilateral breast MRI without contrast?",
+            ],
+            "not_covered": [
+                "Would Medi-Cal cover a bilateral breast MRI without contrast?",
+                "Am I covered for both-breast MRI without contrast?",
+                "Can Medi-Cal pay for bilateral breast MRI without contrast?",
+                "Is my bilateral MRI without contrast covered?",
+            ],
+        },
+        "77048": {
+            "covered": [
+                "Does Medi-Cal cover a breast MRI with and without contrast for one breast?",
+                "Is unilateral breast MRI with and without contrast covered?",
+                "Can I get a one-breast MRI with and without contrast covered?",
+                "Would Medi-Cal pay for unilateral breast MRI with and without contrast?",
+            ],
+            "not_covered": [
+                "Would Medi-Cal cover unilateral breast MRI with and without contrast?",
+                "Am I covered for one-breast MRI with and without contrast?",
+                "Can Medi-Cal pay for unilateral MRI with and without contrast?",
+                "Is my unilateral MRI with and without contrast covered?",
+            ],
+        },
+        "77049": {
+            "covered": [
+                "Does Medi-Cal cover a breast MRI with and without contrast for both breasts?",
+                "Is bilateral breast MRI with and without contrast covered?",
+                "Can I get a both-breast MRI with and without contrast covered?",
+                "Would Medi-Cal pay for bilateral breast MRI with and without contrast?",
+            ],
+            "not_covered": [
+                "Would Medi-Cal cover bilateral breast MRI with and without contrast?",
+                "Am I covered for both-breast MRI with and without contrast?",
+                "Can Medi-Cal pay for bilateral MRI with and without contrast?",
+                "Is my bilateral MRI with and without contrast covered?",
+            ],
+        },
+    }
+
+    pool = query_templates[code][label]
+    return pool[idx % len(pool)]
 
 
 # -------------------------------------------------------------------
 # Main builder
 # -------------------------------------------------------------------
 def build_testset(
-    query_df: pd.DataFrame,
     metadata: Dict[str, Dict],
     policy_context: Dict[str, str],
 ) -> pd.DataFrame:
     rows = []
+    case_id = 1
 
-    for i, row in enumerate(query_df.itertuples(index=False), start=1):
-        code = str(row.code).strip()
-        query = normalize_query_text(row.query)
-        verbosity = getattr(row, "verbosity", "")
-
+    for code in TARGET_CODES:
         if code not in CODE_RULES:
             continue
 
         category = category_for(code)
         expected_topics = expected_topics_for(code)
-        attrs = sample_attrs(category)
-        expected_label = infer_expected_label(code, category, attrs)
 
         meta = metadata.get(code, {})
         title = meta.get("title", "")
         description = meta.get("description", "")
         context = policy_context.get(code, "")
 
-        rows.append({
-            "case_id": i,
-            "expected_cpt": code,
-            "category": category,
-            "user_query": query,
-            "verbosity": verbosity,
-            "title": title,
-            "description": description,
-            "policy_context": context,
-            "expected_topics_json": json.dumps(expected_topics),
-            "expected_checklist": build_checklist(expected_topics),
-            "attrs_json": json.dumps(attrs),
-            "expected_label": expected_label,
-        })
+        for label, n_rows in [("covered", N_COVERED), ("not_covered", N_NOT_COVERED)]:
+            for i in range(n_rows):
+                attrs = make_easy_case(code, label, i)
+                query = make_easy_query(code, label, i)
+
+                rows.append({
+                    "case_id": case_id,
+                    "expected_cpt": code,
+                    "category": category,
+                    "user_query": query,
+                    "verbosity": "direct",
+                    "title": title,
+                    "description": description,
+                    "policy_context": context,
+                    "expected_topics_json": json.dumps(expected_topics),
+                    "expected_checklist": build_checklist(expected_topics),
+                    "attrs_json": json.dumps(attrs),
+                    "expected_label": label,
+                })
+                case_id += 1
 
     return pd.DataFrame(rows)
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Generate all-code EVwoman question-eval test set")
-    parser.add_argument("--infile", type=str, default=str(IN_PATH))
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Generate narrowed-scope EWC breast imaging eval test set")
     parser.add_argument("--outfile", type=str, default=str(OUT_PATH))
-    parser.add_argument("--seed", type=int, default=7)
     args = parser.parse_args()
 
-    random.seed(args.seed)
-
-    infile = Path(args.infile)
     outfile = Path(args.outfile)
 
-    if not infile.exists():
-        raise FileNotFoundError(
-            f"Input query file not found: {infile}\n"
-            f"Run your all-code query generator first."
-        )
-
-    query_df = pd.read_csv(infile)
-
-    required_cols = {"code", "query"}
-    missing = required_cols - set(query_df.columns)
-    if missing:
-        raise ValueError(f"Input file missing required columns: {missing}")
-
     metadata = load_code_metadata(META_PATH)
-    policy_context = load_policy_context(PROJECT_ROOT)
+    policy_context = load_policy_context()
 
-    out_df = build_testset(query_df=query_df, metadata=metadata, policy_context=policy_context)
+    out_df = build_testset(metadata=metadata, policy_context=policy_context)
 
     outfile.parent.mkdir(parents=True, exist_ok=True)
     out_df.to_csv(outfile, index=False)
@@ -443,17 +1142,21 @@ def main():
     print("\n---- GENERATED TEST SET ----")
     print(f"Rows: {len(out_df)}")
     print(f"Codes: {out_df['expected_cpt'].nunique() if len(out_df) else 0}")
+    print(f"Rows per code target: {N_PER_CODE}")
     print(f"Saved -> {outfile}")
 
     if len(out_df):
         print("\nExpected label counts:")
-        print(out_df["expected_label"].value_counts(dropna=False))
+        print(out_df["expected_label"].value_counts(dropna=False).sort_index())
+
+        print("\nRows by CPT:")
+        print(out_df["expected_cpt"].value_counts().sort_index())
 
         print("\nSample:")
         print(
             out_df[
                 ["expected_cpt", "category", "verbosity", "user_query", "expected_label"]
-            ].head(10).to_string(index=False)
+            ].head(20).to_string(index=False)
         )
 
 
