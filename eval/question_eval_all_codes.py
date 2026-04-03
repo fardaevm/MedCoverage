@@ -3,8 +3,9 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Set, Tuple
 
 import pandas as pd
 import requests
@@ -13,6 +14,10 @@ from eval.ewc_code_rules import CODE_RULES, TOPIC_PATTERNS, expected_topics_for
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+# Make backend importable so we can reuse the tree-walking logic
+sys.path.insert(0, str(PROJECT_ROOT / "backend"))
+from src.eligibility_evaluator import _eval_node, _pick_next_question  # noqa: E402
 
 IN_PATH = PROJECT_ROOT / "data" / "sample_data" / "eval" / "ewc_testset_all_codes.csv"
 OUT_PATH = PROJECT_ROOT / "eval" / "results" / "question_eval_all_codes.csv"
@@ -347,7 +352,7 @@ def run_full_conversation(
 
         current_question = (step.get("next_question") or "").strip()
 
-    return step, qa_so_far, all_questions
+    return step, qa_so_far, all_questions, logic_tree, question_map
 
 
 # ------------------------------------------------------------
@@ -377,11 +382,82 @@ def compute_f1(precision: float, recall: float) -> float:
 
 
 # ------------------------------------------------------------
+# Tree-based metrics
+# ------------------------------------------------------------
+
+def get_ground_truth_qids(
+    tree: Any,
+    attrs: Dict[str, Any],
+    question_map: Dict[str, str] | None,
+    expected_cpt: str,
+    max_turns: int = 20,
+) -> Set[str]:
+    """Simulate the correct tree walk using true patient attrs.
+
+    Returns the set of q_ids that a correct system must ask to reach a
+    valid coverage decision for this specific patient.
+    """
+    if not tree or not isinstance(tree, dict):
+        return set()
+
+    answers: Dict[str, bool] = {}
+    necessary: Set[str] = set()
+
+    for _ in range(max_turns):
+        if _eval_node(tree, answers) is not None:
+            break
+        next_q_id = _pick_next_question(tree, answers)
+        if not next_q_id:
+            break
+        # Convert q_id → human-readable question text so answer_question() can handle it
+        q_text = (question_map or {}).get(next_q_id, next_q_id)
+        answer = answer_question(q_text, attrs, expected_cpt)
+        necessary.add(next_q_id)
+        answers[next_q_id] = bool(answer)
+
+    return necessary
+
+
+def get_asked_qids(
+    qa_so_far: List[Dict[str, Any]],
+    question_map: Dict[str, str] | None,
+) -> Set[str]:
+    """Extract q_ids from the questions actually asked in the conversation."""
+    rev_map = {v: k for k, v in (question_map or {}).items()}
+    return {rev_map.get(item["q"], item["q"]) for item in qa_so_far}
+
+
+# ------------------------------------------------------------
 # Main evaluation
 # ------------------------------------------------------------
+def _stratified_sample(df: pd.DataFrame, n_per_code: int, seed: int = 42) -> pd.DataFrame:
+    """Sample n_per_code rows per CPT code, stratified by covered/not_covered and verbosity."""
+    frames = []
+    for code, group in df.groupby("expected_cpt"):
+        # Try to balance covered/not_covered within each verbosity level
+        sampled = (
+            group
+            .groupby(["expected_label", "verbosity"], group_keys=False)
+            .apply(lambda x: x.sample(min(len(x), max(1, n_per_code // 8)), random_state=seed))
+        )
+        # If we got fewer than n_per_code, top up randomly from the remainder
+        if len(sampled) < n_per_code:
+            remaining = group.drop(sampled.index)
+            extra_n = min(n_per_code - len(sampled), len(remaining))
+            if extra_n > 0:
+                sampled = pd.concat([sampled, remaining.sample(extra_n, random_state=seed)])
+        # If we got more than n_per_code, trim
+        if len(sampled) > n_per_code:
+            sampled = sampled.sample(n_per_code, random_state=seed)
+        frames.append(sampled)
+    return pd.concat(frames).reset_index(drop=True)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--mammo-only", action="store_true", help="Evaluate only mammography-related codes")
+    parser.add_argument("--sample", type=int, default=None,
+                        help="Sample N rows per CPT code (stratified). Omit for full run.")
     args = parser.parse_args()
     print("RUNNING REWRITTEN EVALUATOR V3", flush=True)
 
@@ -398,6 +474,10 @@ def main() -> None:
 
     if args.mammo_only:
         df = df[df["expected_cpt"].astype(str).isin(MAMMO_CODES)].copy()
+
+    if args.sample:
+        df = _stratified_sample(df, args.sample)
+        print(f"Sampled {len(df)} rows ({args.sample} per code, stratified)", flush=True)
 
     print(f"Testing on {len(df)} rows", flush=True)
 
@@ -471,7 +551,7 @@ def main() -> None:
 
             print("    MATCH SELECTED:", json.dumps(selected, indent=2, default=str), flush=True)
 
-            final_step, qa_so_far, all_questions = run_full_conversation(
+            final_step, qa_so_far, all_questions, logic_tree, question_map = run_full_conversation(
                 user_query=user_query,
                 selected=selected,
                 expected_cpt=expected_cpt,
@@ -480,12 +560,20 @@ def main() -> None:
                 max_turns=10,
             )
 
+            # Existing: category-level topic recall (regex-based)
             topic_hits = detect_topics(all_questions)
             found_topics = extract_found_topics(topic_hits)
 
             recall = compute_recall(expected_topics, found_topics)
             precision = compute_precision(expected_topics, found_topics)
             f1 = compute_f1(precision, recall)
+
+            # New: tree-based path recall (q_id-level)
+            ground_truth_qids = get_ground_truth_qids(logic_tree, attrs, question_map, expected_cpt)
+            asked_qids = get_asked_qids(qa_so_far, question_map)
+            tree_recall    = len(asked_qids & ground_truth_qids) / len(ground_truth_qids) if ground_truth_qids else 0.0
+            tree_precision = len(asked_qids & ground_truth_qids) / len(asked_qids) if asked_qids else 0.0
+            tree_f1        = compute_f1(tree_precision, tree_recall)
 
             coverage_decision = extract_coverage_decision(final_step)
             coverage_correct = bool(
@@ -512,6 +600,13 @@ def main() -> None:
             recall = 0.0
             precision = 0.0
             f1 = 0.0
+            ground_truth_qids = set()
+            asked_qids = set()
+            tree_recall = 0.0
+            tree_precision = 0.0
+            tree_f1 = 0.0
+            logic_tree = None
+            question_map = None
             coverage_decision = ""
             coverage_correct = False
             error = str(e)
@@ -539,6 +634,11 @@ def main() -> None:
             "topic_recall": recall,
             "topic_precision": precision,
             "topic_f1": f1,
+            "ground_truth_qids_json": json.dumps(sorted(ground_truth_qids)),
+            "asked_qids_json": json.dumps(sorted(asked_qids)),
+            "tree_recall": tree_recall,
+            "tree_precision": tree_precision,
+            "tree_f1": tree_f1,
             "error": error,
         })
 
@@ -551,6 +651,9 @@ def main() -> None:
     print(f"Avg topic recall:    {out['topic_recall'].mean():.3f}")
     print(f"Avg topic precision: {out['topic_precision'].mean():.3f}")
     print(f"Avg topic F1:        {out['topic_f1'].mean():.3f}")
+    print(f"Avg tree recall:     {out['tree_recall'].mean():.3f}")
+    print(f"Avg tree precision:  {out['tree_precision'].mean():.3f}")
+    print(f"Avg tree F1:         {out['tree_f1'].mean():.3f}")
     print(f"Selected CPT matches expected: {out['selected_matches_expected'].mean():.3%}")
 
     scored_cov = out[out["expected_coverage"].astype(str).str.len() > 0].copy()
@@ -566,7 +669,7 @@ def main() -> None:
         lambda c: CODE_RULES.get(str(c)).category if str(c) in CODE_RULES else "unknown"
     )
 
-    summary_cols = ["topic_recall", "topic_precision", "topic_f1", "selected_matches_expected"]
+    summary_cols = ["topic_recall", "topic_f1", "tree_recall", "tree_f1", "selected_matches_expected"]
     if len(scored_cov) > 0:
         summary_cols.append("coverage_correct")
 
