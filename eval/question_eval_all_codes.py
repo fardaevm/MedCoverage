@@ -4,6 +4,7 @@ import argparse
 import json
 import re
 import sys
+import time
 from pathlib import Path
 from typing import Any, Dict, List, Set, Tuple
 
@@ -31,6 +32,7 @@ MAMMO_CODES = {
     "77046", "77047", "77048", "77049",
     "77061", "77062", "77063", "77065", "77066", "77067",
 }
+
 
 # ------------------------------------------------------------
 # API helpers
@@ -65,6 +67,7 @@ def choose_selected(
         return selected, str(selected.get("code", "")).strip() == expected_cpt
 
     return None, False
+
 
 def call_eligibility_start(
     user_query: str,
@@ -290,9 +293,8 @@ def run_full_conversation(
     attrs: Dict[str, Any],
     top_k: int = 10,
     max_turns: int = 10,
-) -> Tuple[Dict[str, Any], List[Dict[str, Any]], List[str]]:
+) -> Tuple[Dict[str, Any], List[Dict[str, Any]], List[str], Any, Any]:
     step = call_eligibility_start(user_query, selected, top_k=top_k)
-    print("    START RESPONSE:", json.dumps(step, indent=2, default=str), flush=True)
 
     qa_so_far: List[Dict[str, Any]] = []
     all_questions: List[str] = flatten_questions(step)
@@ -320,7 +322,6 @@ def run_full_conversation(
         if not current_question or current_question.lower() == "no question generated.":
             break
 
-        print(f"    turn {turns}: answering -> {current_question}", flush=True)
         answer = answer_question(current_question, attrs, expected_cpt)
         qa_so_far.append({"q": current_question, "a": bool(answer)})
 
@@ -334,12 +335,6 @@ def run_full_conversation(
             logic_tree=logic_tree,
             logic_trees=logic_trees,
             question_map=question_map,
-        )
-
-        print("    NEXT RESPONSE:", json.dumps(step, indent=2, default=str), flush=True)
-        print(
-            f"    turn {turns}: got decision={step.get('decision')} next_question={step.get('next_question')}",
-            flush=True,
         )
 
         for q_item in flatten_questions(step):
@@ -384,7 +379,6 @@ def compute_f1(precision: float, recall: float) -> float:
 # ------------------------------------------------------------
 # Tree-based metrics
 # ------------------------------------------------------------
-
 def get_ground_truth_qids(
     tree: Any,
     attrs: Dict[str, Any],
@@ -392,11 +386,7 @@ def get_ground_truth_qids(
     expected_cpt: str,
     max_turns: int = 20,
 ) -> Set[str]:
-    """Simulate the correct tree walk using true patient attrs.
-
-    Returns the set of q_ids that a correct system must ask to reach a
-    valid coverage decision for this specific patient.
-    """
+    """Simulate the correct tree walk using true patient attrs."""
     if not tree or not isinstance(tree, dict):
         return set()
 
@@ -409,7 +399,6 @@ def get_ground_truth_qids(
         next_q_id = _pick_next_question(tree, answers)
         if not next_q_id:
             break
-        # Convert q_id → human-readable question text so answer_question() can handle it
         q_text = (question_map or {}).get(next_q_id, next_q_id)
         answer = answer_question(q_text, attrs, expected_cpt)
         necessary.add(next_q_id)
@@ -422,7 +411,6 @@ def get_asked_qids(
     qa_so_far: List[Dict[str, Any]],
     question_map: Dict[str, str] | None,
 ) -> Set[str]:
-    """Extract q_ids from the questions actually asked in the conversation."""
     rev_map = {v: k for k, v in (question_map or {}).items()}
     return {rev_map.get(item["q"], item["q"]) for item in qa_so_far}
 
@@ -434,19 +422,15 @@ def _stratified_sample(df: pd.DataFrame, n_per_code: int, seed: int = 42) -> pd.
     """Sample n_per_code rows per CPT code, stratified by covered/not_covered and verbosity."""
     frames = []
     for code, group in df.groupby("expected_cpt"):
-        # Try to balance covered/not_covered within each verbosity level
         sampled = (
-            group
-            .groupby(["expected_label", "verbosity"], group_keys=False)
+            group.groupby(["expected_label", "verbosity"], group_keys=False)
             .apply(lambda x: x.sample(min(len(x), max(1, n_per_code // 8)), random_state=seed))
         )
-        # If we got fewer than n_per_code, top up randomly from the remainder
         if len(sampled) < n_per_code:
             remaining = group.drop(sampled.index)
             extra_n = min(n_per_code - len(sampled), len(remaining))
             if extra_n > 0:
                 sampled = pd.concat([sampled, remaining.sample(extra_n, random_state=seed)])
-        # If we got more than n_per_code, trim
         if len(sampled) > n_per_code:
             sampled = sampled.sample(n_per_code, random_state=seed)
         frames.append(sampled)
@@ -456,16 +440,13 @@ def _stratified_sample(df: pd.DataFrame, n_per_code: int, seed: int = 42) -> pd.
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--mammo-only", action="store_true", help="Evaluate only mammography-related codes")
-    parser.add_argument("--sample", type=int, default=None,
-                        help="Sample N rows per CPT code (stratified). Omit for full run.")
+    parser.add_argument("--sample", type=int, default=None, help="Sample N rows per CPT code (stratified). Omit for full run.")
     args = parser.parse_args()
-    print("RUNNING REWRITTEN EVALUATOR V3", flush=True)
 
     if not IN_PATH.exists():
         raise FileNotFoundError(f"Input eval set not found: {IN_PATH}")
 
     df = pd.read_csv(IN_PATH)
-    print("Loaded columns:", df.columns.tolist(), flush=True)
 
     required_cols = {"expected_cpt", "user_query"}
     missing = required_cols - set(df.columns)
@@ -481,23 +462,16 @@ def main() -> None:
 
     print(f"Testing on {len(df)} rows", flush=True)
 
-    print("\nExpected label raw counts:", flush=True)
-    print(df["expected_label"].astype(str).str.strip().value_counts(dropna=False), flush=True)
-
-    print("\nExpected label normalized counts:", flush=True)
-    print(df["expected_label"].apply(normalize_expected_coverage).value_counts(dropna=False), flush=True)
-
-    print("\nSample rows:", flush=True)
-    print(
-        df[["expected_cpt", "user_query", "expected_label"]]
-        .head(20)
-        .to_string(index=False),
-        flush=True,
-    )
-
     rows: List[Dict[str, Any]] = []
+    total = len(df)
 
     for i, (_, r) in enumerate(df.iterrows(), start=1):
+        start_time = time.time()
+
+        print(f"[{i}/{total}] CPT={r['expected_cpt']} running...", flush=True)
+        if i % 25 == 0:
+            print(f"--- still running: {i}/{total} rows complete ---", flush=True)
+
         expected_cpt = str(r["expected_cpt"]).strip()
         user_query = str(r["user_query"]).strip()
         verbosity = str(r["verbosity"]).strip() if "verbosity" in df.columns and pd.notna(r.get("verbosity")) else ""
@@ -507,13 +481,6 @@ def main() -> None:
         expected_topics = expected_topics_for(expected_cpt) if expected_cpt in CODE_RULES else []
         raw_expected_label = r.get("expected_label", "")
         expected_coverage = normalize_expected_coverage(raw_expected_label)
-
-        print(f"[{i}/{len(df)}] evaluating CPT {expected_cpt}", flush=True)
-        print(
-            f"    gold expected_label={raw_expected_label!r} normalized={expected_coverage!r}",
-            flush=True,
-        )
-        print(f"    attrs={json.dumps(attrs, default=str)}", flush=True)
 
         if expected_cpt not in CODE_RULES:
             rows.append({
@@ -538,8 +505,15 @@ def main() -> None:
                 "topic_recall": 0.0,
                 "topic_precision": 0.0,
                 "topic_f1": 0.0,
+                "ground_truth_qids_json": "[]",
+                "asked_qids_json": "[]",
+                "tree_recall": 0.0,
+                "tree_precision": 0.0,
+                "tree_f1": 0.0,
                 "error": f"Missing CODE_RULES entry for {expected_cpt}",
             })
+            elapsed = time.time() - start_time
+            print(f"    finished row {i} in {elapsed:.2f}s", flush=True)
             continue
 
         try:
@@ -548,8 +522,6 @@ def main() -> None:
 
             if selected is None:
                 raise ValueError("No candidates returned from /match")
-
-            print("    MATCH SELECTED:", json.dumps(selected, indent=2, default=str), flush=True)
 
             final_step, qa_so_far, all_questions, logic_tree, question_map = run_full_conversation(
                 user_query=user_query,
@@ -560,32 +532,23 @@ def main() -> None:
                 max_turns=10,
             )
 
-            # Existing: category-level topic recall (regex-based)
+            # Keep topic metrics in CSV for debugging
             topic_hits = detect_topics(all_questions)
             found_topics = extract_found_topics(topic_hits)
+            topic_recall = compute_recall(expected_topics, found_topics)
+            topic_precision = compute_precision(expected_topics, found_topics)
+            topic_f1 = compute_f1(topic_precision, topic_recall)
 
-            recall = compute_recall(expected_topics, found_topics)
-            precision = compute_precision(expected_topics, found_topics)
-            f1 = compute_f1(precision, recall)
-
-            # New: tree-based path recall (q_id-level)
+            # Tree metrics = primary reported metrics
             ground_truth_qids = get_ground_truth_qids(logic_tree, attrs, question_map, expected_cpt)
             asked_qids = get_asked_qids(qa_so_far, question_map)
-            tree_recall    = len(asked_qids & ground_truth_qids) / len(ground_truth_qids) if ground_truth_qids else 0.0
+            tree_recall = len(asked_qids & ground_truth_qids) / len(ground_truth_qids) if ground_truth_qids else 0.0
             tree_precision = len(asked_qids & ground_truth_qids) / len(asked_qids) if asked_qids else 0.0
-            tree_f1        = compute_f1(tree_precision, tree_recall)
+            tree_f1 = compute_f1(tree_precision, tree_recall)
 
             coverage_decision = extract_coverage_decision(final_step)
             coverage_correct = bool(
                 expected_coverage and coverage_decision and expected_coverage == coverage_decision
-            )
-
-            print(
-                f"    selected_code={str(selected.get('code', '')).strip()!r} "
-                f"expected_coverage={expected_coverage!r} "
-                f"coverage_decision={coverage_decision!r} "
-                f"coverage_correct={coverage_correct}",
-                flush=True,
             )
 
             error = ""
@@ -597,20 +560,17 @@ def main() -> None:
             qa_so_far = []
             all_questions = []
             found_topics = []
-            recall = 0.0
-            precision = 0.0
-            f1 = 0.0
+            topic_recall = 0.0
+            topic_precision = 0.0
+            topic_f1 = 0.0
             ground_truth_qids = set()
             asked_qids = set()
             tree_recall = 0.0
             tree_precision = 0.0
             tree_f1 = 0.0
-            logic_tree = None
-            question_map = None
             coverage_decision = ""
             coverage_correct = False
             error = str(e)
-            print(f"    ERROR: {error}", flush=True)
 
         rows.append({
             "expected_cpt": expected_cpt,
@@ -631,9 +591,9 @@ def main() -> None:
             "expected_coverage": expected_coverage,
             "coverage_decision": coverage_decision,
             "coverage_correct": coverage_correct,
-            "topic_recall": recall,
-            "topic_precision": precision,
-            "topic_f1": f1,
+            "topic_recall": topic_recall,
+            "topic_precision": topic_precision,
+            "topic_f1": topic_f1,
             "ground_truth_qids_json": json.dumps(sorted(ground_truth_qids)),
             "asked_qids_json": json.dumps(sorted(asked_qids)),
             "tree_recall": tree_recall,
@@ -642,15 +602,15 @@ def main() -> None:
             "error": error,
         })
 
+        elapsed = time.time() - start_time
+        print(f"    finished row {i} in {elapsed:.2f}s", flush=True)
+
     out = pd.DataFrame(rows)
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(OUT_PATH, index=False)
 
     print("\n---- SUMMARY ----")
     print(f"Rows evaluated: {len(out)}")
-    print(f"Avg topic recall:    {out['topic_recall'].mean():.3f}")
-    print(f"Avg topic precision: {out['topic_precision'].mean():.3f}")
-    print(f"Avg topic F1:        {out['topic_f1'].mean():.3f}")
     print(f"Avg tree recall:     {out['tree_recall'].mean():.3f}")
     print(f"Avg tree precision:  {out['tree_precision'].mean():.3f}")
     print(f"Avg tree F1:         {out['tree_f1'].mean():.3f}")
@@ -669,14 +629,14 @@ def main() -> None:
         lambda c: CODE_RULES.get(str(c)).category if str(c) in CODE_RULES else "unknown"
     )
 
-    summary_cols = ["topic_recall", "topic_f1", "tree_recall", "tree_f1", "selected_matches_expected"]
+    summary_cols = ["tree_recall", "tree_precision", "tree_f1", "selected_matches_expected"]
     if len(scored_cov) > 0:
         summary_cols.append("coverage_correct")
 
     print(
         tmp.groupby("category")[summary_cols]
         .mean()
-        .sort_values("topic_f1", ascending=False)
+        .sort_values("tree_f1", ascending=False)
         .round(3)
     )
 
