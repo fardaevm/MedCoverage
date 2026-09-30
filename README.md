@@ -402,4 +402,11 @@ This project is for portfolio and educational purposes.
 
 ---
 
-*Built by Ali Fardaev, Umair Habib, Alec Hayde, Zia, David Carlson
+MedCoverage was built as a UC Berkeley MIDS capstone project.
+| Team member | Role & contributions |
+|---|---|
+| **Ali Fardaev** | • Developed the RAG system with LanceDB as the vector database<br>• Built hybrid FAISS + BM25 retrieval with Cohere reranking for the search engine<br>• Built the LLM question-planning agent for conversational intake<br>• Implemented the decision tree logic for deterministic eligibility decisions<br>• Merged sequential LLM calls to reduce latency and cost<br>• Implemented Redis caching<br>• Developed the frontend<br>• Handled full AWS deployment (Docker, EC2, ALB, ElastiCache Redis, CloudFormation, GitHub Actions CI/CD via SSM)<br>• Set up Git for version control and collaboration<br>• Contributed to presentations |
+| **David Carlson** | • Matching evaluation<br>• RAG retrieval evaluation<br>• Coverage decision evaluation<br>• Pricing evaluation<br>• Built multiple iterative test sets<br>• Conducted user survey<br>• Performed EDA<br>• Contributed to weekly updates, presentations, and weekly meetings<br>• Assisted with final demo scenarios |
+| **Zia Williams** | • Performed EDA<br>• Optimized match performance and capabilities, including keyword extraction<br>• Implemented and improved evaluation capabilities, including using the decision tree as ground truth<br>• Contributed to weekly meetings and presentations |
+| **Alec Heyde** | • Developed version 1 of the prototype<br>• Contributed to ideation of incremental product changes<br>• Served as subject matter expert and co-project manager<br>• Found the Medi-Cal documents needed for the project<br>• Minor slide creation; contributed to weekly meetings |
+| **Umair Habib** | • Performed EDA<br>• Found datasets and researched documentation for scoping<br>• Stress-tested the RAG model and tree logic to find gaps<br>• Created most slides for each presentation<br>• Contributed to weekly meetings |
