@@ -402,4 +402,4 @@ This project is for portfolio and educational purposes.
 
 ---
 
-*Built by [Your Name] — [your email] — [your linkedin]*
+*Built by Ali Fardaev
