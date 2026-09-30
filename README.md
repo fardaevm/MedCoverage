@@ -402,4 +402,4 @@ This project is for portfolio and educational purposes.
 
 ---
 
-*Built by Ali Fardaev
+*Built by Ali Fardaev, Umair Habib, Alec Hayde, Zia, David Carlson
